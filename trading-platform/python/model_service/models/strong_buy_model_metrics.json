@@ -1,0 +1,24 @@
+{
+  "rows": 39162,
+  "train_rows": 26531,
+  "valid_rows": 5950,
+  "test_rows": 6205,
+  "features": 38,
+  "positive_ratio": 0.3879781420765027,
+  "test_auc": 0.5950635247348313,
+  "test_average_precision": 0.4580238740085767,
+  "top_decile_lift": 1.2401206417267756,
+  "best_threshold": {
+    "threshold": 0.6400000000000001,
+    "precision": 0.4836795252225519,
+    "recall": 0.13623067279565398
+  },
+  "promotion_status": "SUPPORTING_SIGNAL_ONLY",
+  "label_policy": "PATH_AWARE_TARGET_FIRST_BEFORE_STOP_20D_BUY_LABEL",
+  "training_versions": {
+    "sklearn": "1.6.1",
+    "xgboost": "2.1.3",
+    "pandas": "2.2.3",
+    "numpy": "2.2.1"
+  }
+}

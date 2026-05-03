@@ -1,0 +1,13 @@
+{
+  "rows": 498054,
+  "train_rows": 338676,
+  "valid_rows": 74708,
+  "test_rows": 84670,
+  "features": 43,
+  "positive_ratio": 0.40931304637649735,
+  "test_auc": 0.9993744679724399,
+  "test_average_precision": 0.9989776232435361,
+  "promotion_status": "SUPPORTING_SIGNAL_ONLY",
+  "model_path": "C:\\ravish\\py_work\\IKBR\\predic\\trading-platform\\python\\model_service\\models\\xgb_model.joblib",
+  "feature_count": 43
+}
