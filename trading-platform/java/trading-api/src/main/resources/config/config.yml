@@ -1,0 +1,4457 @@
+project:
+  root: .
+  config_dir: configs
+  output_dir: outputs
+
+output:
+  file: outputs/predictions_tp_0503_1.xlsx
+  schema: configs/col.yml
+
+runtime:
+  ttl_minutes: 240
+  force_refresh: false
+  use_dl: true
+  use_ml: true
+  use_rl: true
+  symbol_limit: 0
+  rebuild_training_history_on_every_run: false
+  training_feature_file: python/model_service/training/raw_feature_history.csv
+  logic_files:
+    indicators: configs/indicators.yml
+    patterns: configs/patterns.yml
+    quant: configs/quant.yml
+    substages: configs/substages.yml
+    business_rules: configs/business-rules.yml
+    agent_config: configs/agent-config.yml
+    rank_config: configs/rank_config.json
+    strong_buy_thresholds: configs/strong_buy_thresholds.json
+    strong_buy_thresholds_proxy: configs/strong_buy_thresholds_15pct_45d_proxy.json
+ibkr:
+  cache_dir: cache
+  host: 127.0.0.1
+  port: 7496
+  client_id: 103
+  history_years: 10
+  incremental_overlap_days: 10
+  min_candles_for_healthy_cache: 252
+alpha_vantage:
+  enabled: true
+  api_key: R0CPMMZ44N4IJWAD
+  base_url: https://www.alphavantage.co/query
+  timeout_seconds: 10
+  enrich_fundamentals: true
+  enrich_news_sentiment: true
+  use_as_candle_fallback: true
+  enrich_only_top_n: 0
+labels:
+  signal_weights: null
+  macro_symbols: null
+  symbols: null
+  symbol_to_sector: null
+  sector_to_proxy: null
+  sector_map: null
+  symbol_to_industry: null
+  vix_adaptive_weights: null
+ml:
+  enabled: true
+  base_url: http://127.0.0.1:8000
+  timeout_seconds: 10
+  training-export-file: python/model_service/training/raw_feature_history.csv
+
+signal_weights:
+  upward:
+    smc: 0.05
+    mean_reversion: 0.03
+    bullish_engulfing: 0.03
+    hammer: 0.03
+    trend_strength: 0.01
+    buy_threshold: 0.08
+    min_signals: 2
+  rule_signal:
+    vwap_support: 0.15
+    ema_uptrend: 0.15
+    macd_cross: 0.1
+    rsi_state: 0.1
+    near_support: 0.1
+    volume_surge: 0.1
+    darvas_signal: 0.2
+    smc_breakout: 0.1
+macro_symbols:
+  VIX: VIX
+  RATE_10Y: TNX
+  QQQ: QQQ
+
+symbols:
+  - AAL
+  - AAPL
+  - ABT
+  - ACAD
+  - ACEL
+  - ACIW
+  - ACN
+  - ACHR
+  - ADBE
+  - ADMA
+  - ADP
+  - ADSK
+  - ADT
+  - AFRM
+  - AGX
+  - AI
+  - AIR
+  - AIT
+  - AIZ
+  - ALAB
+  - ALGN
+  - ALGT
+  - ALK
+  - ALKS
+  - ALNT
+  - ALRM
+  - AMAT
+  - AMBA
+  - AME
+  - AMD
+  - AMGN
+  - AMPL
+  - AMTM
+  - AMZN
+  - ANET
+  - ANGO
+  - ANIK
+  - ANIP
+  - AORT
+  - APP
+  - APPN
+  - APLD
+  - APTV
+  - ARKB
+  - ARKF
+  - ARKG
+  - ARGT
+  - ARKK
+  - ARKVX
+  - ARKUX
+  - ARKSX
+  - ARKQ
+  - ARKW
+  - ARKX
+  - ARM
+  - ARQQ
+  - ASA
+  - ASGN
+  - ASHR
+  - ASML
+  - ASTE
+  - ASTS
+  - ATAT
+  - ATEN
+  - ATLC
+  - AUPH
+  - AVAH
+  - AVAV
+  - AVGO
+  - AVNS
+  - AXP
+  - BA
+  - BAH
+  - BABA
+  - BB
+  - BBAI
+  - BBW
+  - BBY
+  - BCO
+  - BDC
+  - BE
+  - BHP
+  - BIDU
+  - BILI
+  - BITB
+  - BITO
+  - BITQ
+  - BITW
+  - BK
+  - BKNG
+  - BKSY
+  - BL
+  - BLX
+  - BMBL
+  - BMY
+  - BOTZ
+  - BPOP
+  - BR
+  - BSWGF
+  - BTBT
+  - BTDR
+  - BTMD
+  - BUG
+  - BWXT
+  - BY
+  - BYD
+  - BZ
+  - BZH
+  - C
+  - CACI
+  - CAJFF
+  - CASH
+  - CASS
+  - CBL
+  - CBOE
+  - CCBG
+  - CCJ
+  - CCK
+  - CCS
+  - CCSI
+  - CDNS
+  - CEG
+  - CELH
+  - CEVA
+  - CF
+  - CGNX
+  - CHH
+  - CHKP
+  - CI
+  - CIBR
+  - CIFR
+  - CL
+  - CLSK
+  - CMCSA
+  - CMRE
+  - CNC
+  - CNXN
+  - COIN
+  - COLL
+  - COMP
+  - CONI
+  - COR
+  - CORZ
+  - CPA
+  - CPAY
+  - CPER
+  - CPNG
+  - CQQQ
+  - CRDO
+  - CRC
+  - CRNC
+  - CRPT
+  - CRM
+  - CRS
+  - CRSP
+  - CRSR
+  - CRUS
+  - CRVL
+  - CRWD
+  - CSCO
+  - CSGS
+  - CSV
+  - CTEV
+  - CTLP
+  - CTVA
+  - CVCO
+  - CVLT
+  - CVS
+  - CVV
+  - CW
+  - CXM
+  - DAL
+  - DAPP
+  - DASH
+  - DCBO
+  - DCI
+  - DD
+  - DDD
+  - DDS
+  - DELL
+  - DES
+  - DFH
+  - DGII
+  - DHI
+  - DIS
+  - DJT
+  - DLR
+  - DLX
+  - DMAT
+  - DOMO
+  - DRI
+  - DRS
+  - DUK
+  - DXCM
+  - DXYZ
+  - EA
+  - EBAY
+  - EBF
+  - ECL
+  - EDU
+  - EEM
+  - EH
+  - EHAB
+  - ELMD
+  - EME
+  - EMR
+  - ENS
+  - ENTA
+  - EQIX
+  - ESCA
+  - ESLT
+  - ESPO
+  - ESTC
+  - ETD
+  - ETN
+  - ETSY
+  - EVGO
+  - EVTC
+  - EWJ
+  - EXLS
+  - EXOD
+  - EXPE
+  - EXPI
+  - F
+  - FBP
+  - FDIG
+  - FET
+  - FFIV
+  - FG
+  - FIS
+  - FIX
+  - FLXS
+  - FLYW
+  - FMC
+  - FOUR
+  - FRSH
+  - FSLR
+  - FTDR
+  - FTNT
+  - FTXL
+  - FUNC
+  - FUBO
+  - FXI
+  - GAMR
+  - GBTC
+  - GBTG
+  - GCBC
+  - GD
+  - GDDY
+  - GDX
+  - GDXJ
+  - GE
+  - GEN
+  - GENC
+  - GFF
+  - GFI
+  - GHC
+  - GILD
+  - GLBE
+  - GLD
+  - GM
+  - GMED
+  - GOOG
+  - GOOGL
+  - GOTU
+  - GPN
+  - GRAB
+  - GRBK
+  - GRC
+  - GRMN
+  - GRND
+  - GRPN
+  - GRRR
+  - GS
+  - GSAT
+  - GSK
+  - GTX
+  - GWRE
+  - GXO
+  - H
+  - HACK
+  - HAE
+  - HAL
+  - HAS
+  - HCAT
+  - HCKT
+  - HD
+  - HEI
+  - HERO
+  - HGV
+  - HIG
+  - HII
+  - HIMX
+  - HIVE
+  - HLIT
+  - HLT
+  - HON
+  - HOOD
+  - HOV
+  - HPE
+  - HPQ
+  - HRB
+  - HRMY
+  - HRTG
+  - HSTM
+  - HTHT
+  - HUBB
+  - HUBS
+  - HUYA
+  - HUT
+  - HWBK
+  - IBM
+  - IBEX
+  - IBIT
+  - ICE
+  - IDT
+  - IEX
+  - IJT
+  - III
+  - IMMR
+  - INDA
+  - INDS
+  - INFY
+  - INNV
+  - INOD
+  - INSE
+  - INTC
+  - INTU
+  - IONQ
+  - IPO
+  - IPGP
+  - IQ
+  - IREN
+  - IRDM
+  - IRMD
+  - IRTC
+  - ISRG
+  - IZRL
+  - IT
+  - IWM
+  - IYR
+  - JAKK
+  - JBL
+  - JBI
+  - JBLU
+  - JD
+  - JMIA
+  - JNJ
+  - JOBY
+  - JOYY
+  - KBH
+  - KBR
+  - KC
+  - KD
+  - KELYA
+  - KGC
+  - KLAC
+  - KMT
+  - KOPN
+  - KR
+  - KRNT
+  - KTOS
+  - KWEB
+  - LAUR
+  - LDOS
+  - LECO
+  - LEN
+  - LEU
+  - LEVI
+  - LGIH
+  - LGND
+  - LHX
+  - LI
+  - LIND
+  - LITE
+  - LIVN
+  - LKQ
+  - LMAT
+  - LMND
+  - LOGI
+  - LOPE
+  - LRCX
+  - LRN
+  - LMT
+  - LSPD
+  - LTBR
+  - LTRX
+  - LUNR
+  - LUV
+  - LVS
+  - M
+  - MA
+  - MAMA
+  - MANH
+  - MARA
+  - MASI
+  - MAT
+  - MAX
+  - MDB
+  - MD
+  - MDT
+  - MELI
+  - META
+  - MFIN
+  - MGEE
+  - MISL
+  - MLI
+  - MNDY
+  - MO
+  - MOMO
+  - MOV
+  - MP
+  - MPAA
+  - MRCY
+  - MRVL
+  - MS
+  - MSFT
+  - MSI
+  - MSTR
+  - MTCH
+  - MU
+  - MYE
+  - NAIL
+  - NATH
+  - NATR
+  - NBIS
+  - NCNO
+  - NDAQ
+  - NDSN
+  - NEE
+  - NEM
+  - NET
+  - NFLX
+  - NFG
+  - NGVT
+  - NHC
+  - NICE
+  - NIO
+  - NKE
+  - NLR
+  - NNI
+  - NNOX
+  - NOC
+  - NOVT
+  - NSANY
+  - NTAP
+  - NTCT
+  - NTES
+  - NTNX
+  - NU
+  - NUKZ
+  - NVR
+  - NVDA
+  - NVGS
+  - NVS
+  - NVVE
+  - NXPI
+  - NXST
+  - OBDC
+  - OC
+  - OFG
+  - OIS
+  - OKLO
+  - OKTA
+  - OMCL
+  - OPEN
+  - ORCL
+  - ORGO
+  - OSBC
+  - OSPN
+  - OTEX
+  - OUST
+  - OVLY
+  - OVV
+  - PAG
+  - PALL
+  - PANW
+  - PAPL
+  - PAR
+  - PATH
+  - PAY
+  - PAYO
+  - PBYI
+  - PCG
+  - PDD
+  - PEB
+  - PEBK
+  - PEGA
+  - PFE
+  - PHM
+  - PICK
+  - PINS
+  - PL
+  - PLTK
+  - PLTR
+  - PLUS
+  - PLUG
+  - PLXS
+  - PPLT
+  - PRDO
+  - PRGS
+  - PRLB
+  - PRVA
+  - PRNT
+  - PSN
+  - PSTG
+  - PTCT
+  - PXH
+  - PYPL
+  - QBTS
+  - QCOM
+  - QNTM
+  - QQQ
+  - QS
+  - QTUM
+  - QTWO
+  - QUBT
+  - QLYS
+  - RAMP
+  - RBCAA
+  - RBLX
+  - RBRK
+  - RBKB
+  - RCL
+  - RCAT
+  - RDNT
+  - RDVT
+  - RDW
+  - REKR
+  - REMX
+  - REPX
+  - RGTI
+  - RIGL
+  - RIO
+  - RIVN
+  - RIOT
+  - RKLB
+  - ROBO
+  - ROK
+  - ROKU
+  - RPAY
+  - RPD
+  - RR
+  - RRBI
+  - RRX
+  - RUM
+  - RVMD
+  - RXT
+  - RZLV
+  - RZV
+  - S
+  - SABR
+  - SAIC
+  - SAMG
+  - SATL
+  - SATS
+  - SCHA
+  - SCHD
+  - SCHH
+  - SCSC
+  - SDHC
+  - SE
+  - SERV
+  - SETM
+  - SFST
+  - SGC
+  - SH
+  - SHLD
+  - SHOP
+  - SIGA
+  - SIGI
+  - SIRI
+  - SLV
+  - SLYG
+  - SMLR
+  - SMCI
+  - SMR
+  - SNAP
+  - SNA
+  - SNCY
+  - SNOW
+  - SOFI
+  - SOHU
+  - SONY
+  - SOUN
+  - SPCE
+  - SPFI
+  - SPIR
+  - SPOT
+  - SPT
+  - SPY
+  - SSO
+  - SSNC
+  - STCE
+  - STNE
+  - STRT
+  - STT
+  - SUPN
+  - SWX
+  - SXC
+  - SYF
+  - SYK
+  - SYM
+  - SYNA
+  - T
+  - TAL
+  - TALO
+  - TBCH
+  - TBPH
+  - TCMD
+  - TCOM
+  - TDC
+  - TDOC
+  - TDY
+  - TEAM
+  - TECL
+  - TEM
+  - TENB
+  - TER
+  - THFF
+  - THNQ
+  - TIGO
+  - TK
+  - TME
+  - TMHC
+  - TMUS
+  - TNC
+  - TNDM
+  - TNK
+  - TOL
+  - TPH
+  - TRI
+  - TRIP
+  - TRU
+  - TSAT
+  - TSBK
+  - TSLA
+  - TSM
+  - TTMI
+  - TTWO
+  - U
+  - UAL
+  - ULCC
+  - UNH
+  - UNTY
+  - URA
+  - URNM
+  - USAR
+  - USCB
+  - USD
+  - UTHR
+  - UTMD
+  - UVE
+  - V
+  - VAC
+  - VALU
+  - VB
+  - VBK
+  - VEA
+  - VEEV
+  - VGK
+  - VICI
+  - VIPS
+  - VKTX
+  - VLRS
+  - VNDA
+  - VNT
+  - VRSK
+  - VRNS
+  - VRT
+  - VST
+  - VTEX
+  - VTWO
+  - VZ
+  - WAB
+  - WAY
+  - WB
+  - WCC
+  - WDAY
+  - WEYS
+  - WGMI
+  - WIT
+  - WIX
+  - WK
+  - WMT
+  - WRLD
+  - WSBF
+  - WTS
+  - WULF
+  - XME
+  - XMTR
+  - XNET
+  - XOVR
+  - XPER
+  - XPRO
+  - XRAY
+  - XYF
+  - YALA
+  - Z
+  - ZBRA
+  - ZEPP
+  - ZH
+  - ZM
+  - ZS
+  - ZTEK
+
+
+
+
+symbol_metadata:
+  AAL:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  AAPL:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  ABT:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  ACAD:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  ACEL:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  ACIW:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  ACN:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  ACHR:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  ADBE:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  ADMA:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  ADP:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  ADSK:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  ADT:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  AFRM:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  AGX:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  AI:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  AIZ:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  ALAB:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  ALGN:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  ALGT:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  ALK:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  ALKS:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  ALNT:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  ALRM:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  AME:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  AMAT:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  AMBA:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  AMGN:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  AMPL:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  AMTM:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  AMZN:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  ANIK:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  ANIP:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  AORT:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  APP:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  APPN:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  APLD:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  APTV:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  ARGT:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  ARKK:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  ARKQ:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  ARKX:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  ARM:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  ARQQ:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  ASA:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  ASGN:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  ASHR:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  ASTE:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  ASTS:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  ATAT:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  ATEN:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  ATLC:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  AUPH:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  AVAH:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  AVAV:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  AVGO:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  AVNS:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  AXP:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  BA:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  BAH:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  BABA:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  BB:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  BBAI:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  BBW:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  BBY:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  BCO:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  BDC:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  BIDU:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  BILI:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  BITB:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  BITO:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  BITQ:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  BITW:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  BK:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  BKNG:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  BKSY:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  BL:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  BLX:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  BMBL:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  BMY:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  BOTZ:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  BPOP:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  BR:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  BSWGF:
+    sec_type: STK
+    exchange: OTC
+    currency: USD
+  BTBT:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  BTDR:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  BTMD:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  BUG:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  BWXT:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  BY:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  BYD:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  BZ:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  BZH:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  C:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  CACI:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  CASH:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  CASS:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  CBL:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  CBOE:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  CCBG:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  CCJ:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  CCK:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  CCS:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  CCSI:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  CDNS:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  CEG:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  CELH:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  CEVA:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  CF:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  CFLT:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  CGNX:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  CHH:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  CHKP:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  CI:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  CIBR:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  CIFR:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  CL:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  CLSK:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  CMCSA:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  CMRE:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  CNC:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  CNXN:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  COIN:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  COLL:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  COMP:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  CONI:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  COR:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  CORZ:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  CPA:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  CPAY:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  CPER:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  CPNG:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  CQQQ:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  CRDO:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  CRC:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  CRNC:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  CRPT:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  CRM:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  CRS:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  CRSP:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  CRSR:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  CRUS:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  CRVL:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  CRWD:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  CSCO:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  CSGS:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  CSV:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  CTEV:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  CTLP:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  CTVA:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  CVCO:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  CVLT:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  CVS:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  CVV:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  CW:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  CXM:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  DAL:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  DAPP:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  DASH:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  DCBO:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  DCI:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  DDD:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  DD:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  DELL:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  DES:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  DFH:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  DGII:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  DHI:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  DIS:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  DJT:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  DLR:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  DLX:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  DMAT:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  DOMO:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  DRI:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  DRS:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  DUK:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  DXCM:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  DXYZ:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  EA:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  EBAY:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  EBF:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  ECL:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  EDU:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  EEM:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  EH:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  EHAB:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  ELMD:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  EMR:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  ENS:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  ENTA:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  EQIX:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  ESCA:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  ESLT:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  ESPO:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  ESTC:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  ETD:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  ETSY:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  EVGO:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  EVTC:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  EXLS:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  EXOD:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  EXPE:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  EXPI:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  F:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  FBP:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  FDIG:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  FET:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  FFIV:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  FG:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  FIS:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  FLXS:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  FLYW:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  FMC:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  FOUR:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  FRSH:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  FSLR:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  FTDR:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  FTNT:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  FTXL:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  FUNC:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  FUBO:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  GAMR:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  GBTC:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  GBTG:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  GCBC:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  GD:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  GDDY:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  GDX:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  GDXJ:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  GE:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  GEN:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  GENC:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  GFF:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  GFI:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  GHC:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  GILD:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  GLBE:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  GLD:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  GM:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  GOOG:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  GOOGL:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  GOTU:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  GPN:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  GRAB:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  GRBK:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  GRC:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  GRMN:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  GRND:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  GRPN:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  GRRR:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  GS:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  GSAT:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  GSK:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  GTX:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  GWRE:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  GXO:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  H:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  HACK:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  HAL:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  HAS:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  HCAT:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  HD:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  HEI:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  HERO:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  HGV:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  HIG:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  HII:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  HIMX:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  HIVE:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  HLIT:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  HLT:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  HON:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  HOOD:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  HOV:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  HPE:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  HPQ:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  HRB:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  HRMY:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  HRTG:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  HSTM:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  HUBS:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  HUYA:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  HUT:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  HWBK:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  IBM:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  IBEX:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  IBIT:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  ICE:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  IDT:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  IJT:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  III:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  IMMR:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  INDA:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  INDS:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  INFY:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  INNV:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  INOD:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  INSE:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  INTC:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  INTU:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  IONQ:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  IPO:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  IPGP:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  IQ:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  IREN:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  IRDM:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  IRMD:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  IRTC:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  ISRG:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  IT:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  IYR:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  JAKK:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  JBI:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  JBL:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  JBLU:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  JD:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  JMIA:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  JNJ:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  JOBY:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  JOYY:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  KBH:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  KBR:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  KC:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  KD:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  KELYA:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  KGC:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  KMT:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  KOPN:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  KR:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  KRNT:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  KTOS:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  KWEB:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  KLAC:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  LAUR:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  LDOS:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  LRCX:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  LECO:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  LEN:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  LEU:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  LEVI:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  LGIH:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  LGND:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  LHX:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  LI:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  LIND:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  LITE:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  LIVN:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  LKQ:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  LMAT:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  LOGI:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  LOPE:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  LRN:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  LMT:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  LSPD:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  LTBR:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  LUNR:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  LUV:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  LVS:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  M:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  MA:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  MAMA:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  MANH:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  MARA:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  MASI:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  MAT:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  MAX:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  MDB:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  MD:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  MDT:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  MELI:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  META:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  MFIN:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  MGEE:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  MISL:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  MLI:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  MNDY:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  MO:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  MOMO:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  MOV:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  MP:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  MPAA:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  MRCY:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  MRVL:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  MS:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  MSFT:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  MSI:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  MSTR:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  MU:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  MYE:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  NAIL:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  NATH:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  NATR:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  NBIS:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  NCNO:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  NDAQ:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  NDSN:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  NEE:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  NEM:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  NET:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  NFLX:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  NFG:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  NGVT:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  NHC:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  NICE:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  NIO:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  NKE:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  NLR:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  NNI:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  NNOX:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  NOC:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  NOVT:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  NSANY:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  NTAP:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  NTCT:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  NTES:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  NTNX:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  NU:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  NUKZ:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  NVDA:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  NVGS:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  NXST:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  OBDC:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  OC:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  OFG:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  OIS:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  OKLO:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  OKTA:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  OMCL:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  OPEN:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  ORCL:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  ORGO:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  OSBC:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  OSPN:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  OTEX:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  OUST:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  OVLY:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  OVV:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  PAG:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  PANW:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  PAR:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  PATH:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  PAY:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  PAYO:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  PBYI:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  PCG:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  PDD:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  PEB:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  PEBK:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  PEGA:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  PFE:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  PHM:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  PICK:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  PINS:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  PL:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  PLTK:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  PLTR:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  PLUS:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  PLUG:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  PLXS:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  PRDO:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  PRGS:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  PRLB:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  PRVA:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  PSN:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  PSTG:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  PTCT:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  PXH:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  PYPL:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  QBTS:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  QCOM:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  QNCCF:
+    sec_type: STK
+    exchange: OTC
+    currency: USD
+  QNTM:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  QS:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  QTUM:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  QTWO:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  QUBT:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  QLYS:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  RAMP:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  RBLX:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  RBRK:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  RBCAA:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  RBKB:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  RCL:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  RDNT:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  RDVT:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  RDW:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  REMX:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  REPX:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  RGTI:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  RIGL:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  RIVN:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  RIOT:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  RKLB:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  ROBO:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  ROKU:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  RPAY:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  RPD:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  RR:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  RRBI:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  RUM:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  RVMD:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  RXT:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  RZLV:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  RZV:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  S:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  SABR:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  SAIC:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  SAMG:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  SATL:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  SATS:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  SCHD:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  SCHH:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  SCHA:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  SCSC:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  SDHC:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  SE:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  SERV:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  SETM:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  SFST:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  SGC:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  SH:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  SHLD:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  SHOP:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  SIRI:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  SIGA:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  SIGI:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  SLV:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  SLYG:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  SMCI:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  SMLR:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  SMR:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  SNAP:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  SNOW:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  SNA:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  SNCY:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  SOFI:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  SOHU:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  SONY:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  SOUN:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  SPFI:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  SPIR:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  SPOT:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  SPT:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  SSNC:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  SSO:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  STCE:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  STNE:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  STRT:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  STT:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  SUPN:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  SWX:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  SXC:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  SYF:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  SYK:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  SYM:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  SYNA:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  T:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  TAL:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  TALO:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  TBCH:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  TBPH:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  TCMD:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  TDC:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  TDOC:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  TDY:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  TECL:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  TEM:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  TENB:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  TER:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  THFF:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  THNQ:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  TIGO:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  TK:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  TMHC:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  TME:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  TMUS:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  TNC:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  TNDM:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  TNK:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  TOL:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  TPH:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  TRI:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  TRIP:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  TRU:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  TSAT:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  TSBK:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  TSLA:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  TSM:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  TTMI:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  TTWO:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  UAL:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  U:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  ULCC:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  UNH:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  UNTY:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  URA:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  URNM:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  USAR:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  USCB:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  USD:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  UTHR:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  UTMD:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  UVE:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  V:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  VAC:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  VALU:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  VB:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  VBK:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  VEA:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  VEEV:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  VICI:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  VIPS:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  VKTX:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  VLRS:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  VNDA:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  VNT:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  VRSK:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  VRNS:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  VRT:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  VST:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  VTEX:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  VTWO:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  VZ:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  WAB:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  WAY:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  WB:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  WCC:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  WDAY:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  WEYS:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  WGMI:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  WIT:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  WIX:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  WK:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  WRLD:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  WSBF:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  WTS:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  WULF:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  XME:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  XMTR:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  XNET:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  XOVR:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  XPER:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  XPRO:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  XRAY:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  XYF:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  YALA:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  Z:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  ZBRA:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  ZEPP:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  ZH:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  ZM:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  ZS:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  ZTEK:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  BHP:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  RIO:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  DDS:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  HAE:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  MTCH:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  LMND:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  PPLT:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  PALL:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  FXI:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  EWJ:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  VGK:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  VIX:
+    sec_type: IND
+    exchange: CBOE
+    currency: USD
+  IWM:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  NVS:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  CAJFF:
+    sec_type: STK
+    exchange: OTC
+    currency: USD
+
+  AIR:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  ANGO:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  QQQ:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  SPY:
+    sec_type: ETF
+    exchange: ARCA
+    currency: USD
+  SPCE:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  NVVE:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  HCKT:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  ETN:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  PWR:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  EME:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  FIX:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  ROK:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  AIT:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  RRX:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  GMED:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  TCOM:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  HTHT:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  BSKY:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  RTX:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  EMBJ:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  MOG.A:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+    ibkr_symbol: MOG A
+  VSAT:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  NVR:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+
+  MTG:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  IEX:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  NOW:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  AEM:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  AES:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+  WMT:
+    sec_type: STK
+    exchange: SMART
+    currency: USD
+symbol_to_sector:
+  AAL: AirlinesTravel
+  AAPL: AIStock
+  ABT: BiotechHealthcare
+  ACAD: BiotechHealthcare
+  ACEL: Other
+  ACIW: CloudSoftware
+  ACN: Industrials
+  ACHR: AeroDefense
+  ADBE: AIStock
+  ADMA: BiotechHealthcare
+  ADP: CloudSoftware
+  ADSK: CloudSoftware
+  ADT: Industrials
+  AFRM: BrokerExchangeFintech
+  AGX: Industrials
+  AI: AIStock
+  AIZ: Other
+  ALAB: AIStock
+  ALGN: Other
+  ALGT: AirlinesTravel
+  ALK: AirlinesTravel
+  ALKS: BiotechHealthcare
+  ALNT: Industrials
+  ALRM: CloudSoftware
+  AME: Industrials
+  AMAT: Semiconductor
+  AMBA: Semiconductor
+  AMGN: BiotechHealthcare
+  AMPL: Other
+  AMTM: Other
+  AMZN: AIStock
+  ANIK: BiotechHealthcare
+  ANIP: BiotechHealthcare
+  AORT: BiotechHealthcare
+  APP: AIStock
+  APPN: CloudSoftware
+  APLD: Other
+  APTV: Industrials
+  ARGT: ArgentinaETF
+  ARKK: ThematicETF
+  ARKQ: ThematicETF
+  ARKX: ThematicETF
+  ARM: Semiconductor
+  ARQQ: Quantum
+  ASA: GoldSilverMetalETF
+  ASGN: Other
+  ASHR: ChinaETF
+  ASTE: Industrials
+  ASTS: SatelliteSpace
+  ATAT: ChinaAsia
+  ATEN: Industrials
+  ATLC: Other
+  AUPH: BiotechHealthcare
+  AVAH: BiotechHealthcare
+  AVAV: AeroDefense
+  AVGO: Semiconductor
+  AVNS: BiotechHealthcare
+  AXP: BrokerExchangeFintech
+  BA: AeroDefense
+  BAH: AeroDefense
+  BABA: ChinaAsia
+  BB: Other
+  BBAI: AIStock
+  BBW: ConsumerDiscretionary
+  BBY: ConsumerDiscretionary
+  BCO: Industrials
+  BDC: Industrials
+  BIDU: ChinaAsia
+  BILI: ChinaAsia
+  BITB: BitcoinETF
+  BITO: BitcoinETF
+  BITQ: CryptoETF
+  BITW: BitcoinETF
+  BK: Banks
+  BKNG: AirlinesTravel
+  BKSY: SatelliteSpace
+  BL: CloudSoftware
+  BLX: Banks
+  BMBL: ConsumerDiscretionary
+  BMY: BiotechHealthcare
+  BOTZ: ThematicETF
+  BPOP: Banks
+  BR: BrokerExchangeFintech
+  BSWGF: Graphene
+  BTBT: CryptoMining
+  BTDR: CryptoMining
+  BTMD: BiotechHealthcare
+  BUG: CybersecurityETF
+  BWXT: Nuclear
+  BY: ConsumerDiscretionary
+  BYD: ConsumerDiscretionary
+  BZ: ChinaAsia
+  BZH: HomebuildersHousing
+  C: Banks
+  CACI: AeroDefense
+  CASH: Banks
+  CASS: Industrials
+  CBL: RealEstateREIT
+  CBOE: BrokerExchangeFintech
+  CCBG: Banks
+  CCJ: Nuclear
+  CCK: Other
+  CCS: HomebuildersHousing
+  CCSI: Other
+  CDNS: Other
+  CEG: Nuclear
+  CELH: ConsumerStaples
+  CEVA: Semiconductor
+  CF: Materials
+  CFLT: Other
+  CGNX: Semiconductor
+  CHH: Industrials
+  CHKP: Cybersecurity
+  CI: BiotechHealthcare
+  CIBR: CybersecurityETF
+  CIFR: CryptoMining
+  CL: ConsumerStaples
+  CLSK: CryptoMining
+  CMCSA: CommunicationMedia
+  CMRE: Other
+  CNC: BiotechHealthcare
+  CNXN: Other
+  COIN: BrokerExchangeFintech
+  COLL: BiotechHealthcare
+  COMP: Other
+  CONI: CryptoETF
+  COR: BiotechHealthcare
+  CORZ: CryptoMining
+  CPA: Other
+  CPAY: Industrials
+  CPER: CopperETF
+  CPNG: Other
+  CQQQ: ChinaETF
+  CRDO: AIStock
+  CRC: Materials
+  CRNC: Other
+  CRPT: CryptoETF
+  CRM: AIStock
+  CRS: Other
+  CRSP: BiotechHealthcare
+  CRSR: Other
+  CRUS: Semiconductor
+  CRVL: Other
+  CRWD: Cybersecurity
+  CSCO: Other
+  CSGS: Tech
+  CSV: Other
+  CTEV: Other
+  CTLP: Industrials
+  CTVA: Materials
+  CVCO: HomebuildersHousing
+  CVLT: Other
+  CVS: BiotechHealthcare
+  CVV: Graphene
+  CW: Industrials
+  CXM: Other
+  DAL: AirlinesTravel
+  DAPP: CryptoETF
+  DASH: Other
+  DCBO: CloudSoftware
+  DCI: Industrials
+  DDD: Other
+  DD: Materials
+  DELL: Other
+  DES: Other
+  DFH: HomebuildersHousing
+  DGII: Other
+  DHI: HomebuildersHousing
+  DIS: CommunicationMedia
+  DJT: Other
+  DLR: RealEstateREIT
+  DLX: Industrials
+  DMAT: Graphene
+  DOMO: CloudSoftware
+  DRI: ConsumerDiscretionary
+  DRS: AeroDefense
+  DUK: EnergyUtilities
+  DXCM: BiotechHealthcare
+  DXYZ: ThematicETF
+  EA: CloudSoftware
+  EBAY: ConsumerDiscretionary
+  EBF: Other
+  ECL: Materials
+  EDU: ChinaAsia
+  EEM: EmergingMarketsETF
+  EH: ChinaAsia
+  EHAB: BiotechHealthcare
+  ELMD: BiotechHealthcare
+  EMR: Other
+  ENS: Industrials
+  ENTA: BiotechHealthcare
+  EQIX: RealEstateREIT
+  ESCA: Other
+  ESLT: AeroDefense
+  ESPO: GamingETF
+  ESTC: AIStock
+  ETD: ConsumerDiscretionary
+  ETSY: ConsumerDiscretionary
+  EVGO: Other
+  EVTC: Other
+  EXLS: Industrials
+  EXOD: Other
+  EXPE: AirlinesTravel
+  EXPI: Other
+  F: ConsumerDiscretionary
+  FBP: Banks
+  FDIG: CryptoETF
+  FET: EnergyUtilities
+  FFIV: CloudSoftware
+  FG: Industrials
+  FIS: BrokerExchangeFintech
+  FLXS: Industrials
+  FLYW: BrokerExchangeFintech
+  FMC: Materials
+  FOUR: BrokerExchangeFintech
+  FRSH: CloudSoftware
+  FSLR: Other
+  FTDR: Other
+  FTNT: Cybersecurity
+  FTXL: Other
+  FUNC: Industrials
+  FUBO: CommunicationMedia
+  GAMR: GamingETF
+  GBTC: BitcoinETF
+  GBTG: Other
+  GCBC: Banks
+  GD: AeroDefense
+  GDDY: CloudSoftware
+  GDX: GoldSilverMetalETF
+  GDXJ: GoldSilverMetalETF
+  GE: Other
+  GEN: Cybersecurity
+  GENC: Other
+  GFF: Industrials
+  GFI: Materials
+  GHC: Industrials
+  GILD: BiotechHealthcare
+  GLBE: CloudSoftware
+  GLD: GoldSilverMetalETF
+  GM: ConsumerDiscretionary
+  GOOG: AIStock
+  GOOGL: AIStock
+  GOTU: ChinaAsia
+  GPN: BrokerExchangeFintech
+  GRAB: Other
+  GRBK: Other
+  GRC: Industrials
+  GRMN: Other
+  GRND: CommunicationMedia
+  GRPN: CommunicationMedia
+  GRRR: Other
+  GS: Other
+  GSAT: SatelliteSpace
+  GSK: BiotechHealthcare
+  GTX: Industrials
+  GWRE: CloudSoftware
+  GXO: Industrials
+  H: AirlinesTravel
+  HACK: CybersecurityETF
+  HAL: EnergyUtilities
+  HAS: ConsumerDiscretionary
+  HCAT: BiotechHealthcare
+  HD: Other
+  HEI: AeroDefense
+  HERO: GamingETF
+  HGV: AirlinesTravel
+  HIG: Other
+  HII: AeroDefense
+  HIMX: Semiconductor
+  HIVE: CryptoMining
+  HLIT: Cybersecurity
+  HLT: AirlinesTravel
+  HON: AeroDefense
+  HOOD: BrokerExchangeFintech
+  HOV: HomebuildersHousing
+  HPE: Industrials
+  HPQ: Industrials
+  HRB: Industrials
+  HRMY: BiotechHealthcare
+  HRTG: Other
+  HSTM: BiotechHealthcare
+  HUBS: AIStock
+  HUYA: ChinaAsia
+  HUT: CryptoMining
+  HWBK: Banks
+  IBM: BigTech
+  IBEX: Industrials
+  IBIT: BitcoinETF
+  ICE: BrokerExchangeFintech
+  IDT: Industrials
+  IJT: TechnologyETF
+  III: Industrials
+  IMMR: Semiconductor
+  INDA: EmergingMarketsETF
+  INDS: REITETF
+  INFY: Other
+  INNV: BiotechHealthcare
+  INOD: Other
+  INSE: Other
+  INTC: Semiconductor
+  INTU: Other
+  IONQ: Quantum
+  IPO: InnovationETF
+  IPGP: Other
+  IQ: ChinaAsia
+  IREN: CryptoMining
+  IRDM: SatelliteSpace
+  IRMD: BiotechHealthcare
+  IRTC: BiotechHealthcare
+  ISRG: BiotechHealthcare
+  IT: Other
+  IYR: RealEstateREIT
+  JAKK: ConsumerDiscretionary
+  JBI: Industrials
+  JBL: Industrials
+  JBLU: AirlinesTravel
+  JD: ChinaAsia
+  JMIA: Other
+  JNJ: BiotechHealthcare
+  JOBY: AeroDefense
+  JOYY: Other
+  KBH: HomebuildersHousing
+  KBR: Industrials
+  KC: ChinaAsia
+  KD: Other
+  KELYA: Industrials
+  KGC: Materials
+  KMT: Industrials
+  KOPN: Semiconductor
+  KR: ConsumerStaples
+  KRNT: Other
+  KTOS: AeroDefense
+  KWEB: ChinaETF
+  KLAC: Semiconductor
+  LAUR: Other
+  LDOS: AeroDefense
+  LRCX: Semiconductor
+  LECO: Industrials
+  LEN: HomebuildersHousing
+  LEU: Nuclear
+  LEVI: ConsumerDiscretionary
+  LGIH: HomebuildersHousing
+  LGND: BiotechHealthcare
+  LHX: AeroDefense
+  LI: ChinaAsia
+  LIND: Industrials
+  LITE: Semiconductor
+  LIVN: BiotechHealthcare
+  LKQ: Industrials
+  LMAT: Industrials
+  LOGI: ConsumerDiscretionary
+  LOPE: Industrials
+  LRN: Industrials
+  LMT: AeroDefense
+  LSPD: Other
+  LTBR: Nuclear
+  LUNR: SatelliteSpace
+  LUV: AirlinesTravel
+  LVS: AirlinesTravel
+  M: ConsumerDiscretionary
+  MA: BrokerExchangeFintech
+  MAMA: ConsumerStaples
+  MANH: CloudSoftware
+  MARA: CryptoMining
+  MASI: Other
+  MAT: ConsumerDiscretionary
+  MAX: Tech
+  MDB: AIStock
+  MD: BiotechHealthcare
+  MDT: BiotechHealthcare
+  MELI: ConsumerDiscretionary
+  META: AIStock
+  MFIN: Banks
+  MGEE: Utilities
+  MISL: AeroDefenseETF
+  MLI: Industrials
+  MNDY: AIStock
+  MO: ConsumerStaples
+  MOMO: ChinaAsia
+  MOV: ConsumerDiscretionary
+  MP: RareEarth
+  MPAA: Industrials
+  MRCY: AeroDefense
+  MRVL: Semiconductor
+  MS: Other
+  MSFT: AIStock
+  MSI: Other
+  MSTR: Bitcoin
+  MU: Semiconductor
+  MYE: Industrials
+  NAIL: HomebuildersBull
+  NATH: ConsumerStaples
+  NATR: ConsumerStaples
+  NBIS: Other
+  NCNO: CloudSoftware
+  NDAQ: Banks
+  NDSN: Industrials
+  NEE: EnergyUtilities
+  NEM: Materials
+  NET: AIStock
+  NFLX: CommunicationMedia
+  NFG: EnergyUtilities
+  NGVT: Materials
+  NHC: BiotechHealthcare
+  NICE: BiotechHealthcare
+  NIO: ChinaAsia
+  NKE: ConsumerDiscretionary
+  NLR: NuclearETF
+  NNI: Other
+  NNOX: BiotechHealthcare
+  NOC: AeroDefense
+  NOVT: Industrials
+  NSANY: Other
+  NTAP: Other
+  NTCT: Other
+  NTES: ChinaAsia
+  NTNX: CloudSoftware
+  NU: Other
+  NUKZ: NuclearETF
+  NVDA: Semiconductor
+  NVGS: Other
+  NXST: Other
+  OBDC: RealEstateREIT
+  OC: Industrials
+  OFG: Banks
+  OIS: EnergyUtilities
+  OKLO: Nuclear
+  OKTA: CloudSoftware
+  OMCL: BiotechHealthcare
+  OPEN: Other
+  ORCL: Other
+  ORGO: BiotechHealthcare
+  OSBC: Banks
+  OSPN: CloudSoftware
+  OTEX: CloudSoftware
+  OUST: Other
+  OVLY: Banks
+  OVV: EnergyUtilities
+  PAG: ConsumerDiscretionary
+  PANW: Cybersecurity
+  PAR: CommunicationMedia
+  PATH: AIStock
+  PAY: BrokerExchangeFintech
+  PAYO: BrokerExchangeFintech
+  PBYI: BiotechHealthcare
+  PCG: EnergyUtilities
+  PDD: ChinaAsia
+  PEB: RealEstateREIT
+  PEBK: Banks
+  PEGA: CloudSoftware
+  PFE: BiotechHealthcare
+  PHM: HomebuildersHousing
+  PICK: GoldSilverMetalETF
+  PINS: CommunicationMedia
+  PL: SatelliteSpace
+  PLTK: Other
+  PLTR: AIStock
+  PLUS: Industrials
+  PLUG: Other
+  PLXS: Industrials
+  PRDO: Industrials
+  PRGS: CloudSoftware
+  PRLB: Industrials
+  PRVA: BiotechHealthcare
+  PSN: Industrials
+  PSTG: Other
+  PTCT: BiotechHealthcare
+  PXH: EmergingMarketsETF
+  PYPL: BrokerExchangeFintech
+  QBTS: Quantum
+  QCOM: Semiconductor
+  QNCCF: Other
+  QNTM: Quantum
+  QS: Battery
+  QTUM: ThematicETF
+  QTWO: Other
+  QUBT: Quantum
+  QLYS: CloudSoftware
+  RAMP: CloudSoftware
+  RBLX: CommunicationMedia
+  RBRK: AIStock
+  RBCAA: Banks
+  RBKB: Banks
+  RCL: AirlinesTravel
+  RDNT: BiotechHealthcare
+  RDVT: Other
+  RDW: SatelliteSpace
+  REMX: RareEarth
+  REPX: EnergyUtilities
+  RGTI: Quantum
+  RIGL: Other
+  RIVN: Other
+  RIOT: CryptoMining
+  RKLB: SatelliteSpace
+  ROBO: ThematicETF
+  ROKU: CommunicationMedia
+  RPAY: BrokerExchangeFintech
+  RPD: CloudSoftware
+  RR: Other
+  RRBI: Banks
+  RUM: CommunicationMedia
+  RVMD: BiotechHealthcare
+  RXT: CloudSoftware
+  RZLV: Other
+  RZV: ConsumerDiscretionary
+  S: Cybersecurity
+  SABR: AirlinesTravel
+  SAIC: AeroDefense
+  SAMG: Other
+  SATL: SatelliteSpace
+  SATS: SatelliteSpace
+  SCHD: BroadMarketETF
+  SCHH: RealEstateREIT
+  SCHA: BroadMarketETF
+  SCSC: Other
+  SDHC: HomebuildersHousing
+  SE: Other
+  SERV: Other
+  SETM: Graphene
+  SFST: Banks
+  SGC: Other
+  SH: SP500Bear
+  SHLD: DefenseETF
+  SHOP: CloudSoftware
+  SIRI: CommunicationMedia
+  SIGA: BiotechHealthcare
+  SIGI: Other
+  SLV: GoldSilverMetalETF
+  SLYG: TechnologyETF
+  SMCI: Semiconductor
+  SMLR: BiotechHealthcare
+  SMR: Nuclear
+  SNAP: CommunicationMedia
+  SNOW: AIStock
+  SNA: ConsumerDiscretionary
+  SNCY: AirlinesTravel
+  SOFI: BrokerExchangeFintech
+  SOHU: ChinaAsia
+  SONY: CommunicationMedia
+  SOUN: AIStock
+  SPFI: Banks
+  SPIR: SatelliteSpace
+  SPOT: CloudSoftware
+  SPT: CloudSoftware
+  SSNC: CloudSoftware
+  SSO: SP500Bull
+  STCE: Bitcoin
+  STNE: Other
+  STRT: Industrials
+  STT: Banks
+  SUPN: BiotechHealthcare
+  SWX: Industrials
+  SXC: Materials
+  SYF: BrokerExchangeFintech
+  SYK: BiotechHealthcare
+  SYM: AIStock
+  SYNA: Semiconductor
+  T: CommunicationMedia
+  TAL: ChinaAsia
+  TALO: EnergyUtilities
+  TBCH: Banks
+  TBPH: BiotechHealthcare
+  TCMD: BiotechHealthcare
+  TDC: CloudSoftware
+  TDOC: CloudSoftware
+  TDY: Industrials
+  TECL: TechnologyETF
+  TEM: AIStock
+  TENB: CloudSoftware
+  TER: Semiconductor
+  THFF: Banks
+  THNQ: ThematicETF
+  TIGO: Communications
+  TK: Other
+  TMHC: HomebuildersHousing
+  TME: ChinaAsia
+  TMUS: CommunicationMedia
+  TNC: Industrials
+  TNDM: BiotechHealthcare
+  TNK: EnergyUtilities
+  TOL: HomebuildersHousing
+  TPH: HomebuildersHousing
+  TRI: Other
+  TRIP: AirlinesTravel
+  TRU: ConsumerDiscretionary
+  TSAT: SatelliteSpace
+  TSBK: Banks
+  TSLA: ConsumerDiscretionary
+  TSM: Semiconductor
+  TTMI: Industrials
+  TTWO: CommunicationMedia
+  UAL: AirlinesTravel
+  U: CloudSoftware
+  ULCC: AirlinesTravel
+  UNH: BiotechHealthcare
+  UNTY: Industrials
+  URA: NuclearETF
+  URNM: NuclearETF
+  USAR: RareEarth
+  USCB: Banks
+  USD: TechnologyETF
+  UTHR: BiotechHealthcare
+  UTMD: BiotechHealthcare
+  UVE: Industrials
+  V: BrokerExchangeFintech
+  VAC: AirlinesTravel
+  VALU: ConsumerDiscretionary
+  VB: TechnologyETF
+  VBK: TechnologyETF
+  VEA: BroadMarketETF
+  VEEV: AIStock
+  VICI: RealEstateREIT
+  VIPS: ChinaAsia
+  VKTX: BiotechHealthcare
+  VLRS: AirlinesTravel
+  VNDA: BiotechHealthcare
+  VNT: Industrials
+  VRSK: Industrials
+  VRNS: Cybersecurity
+  VRT: Other
+  VST: Nuclear
+  VTEX: Other
+  VTWO: Other
+  VZ: CommunicationMedia
+  WAB: Industrials
+  WAY: ConsumerDiscretionary
+  WB: ChinaAsia
+  WCC: Industrials
+  WDAY: CloudSoftware
+  WEYS: ConsumerDiscretionary
+  WGMI: CryptoETF
+  WIT: Other
+  WIX: CloudSoftware
+  WK: CloudSoftware
+  WRLD: Other
+  WSBF: Banks
+  WTS: Industrials
+  WULF: CryptoMining
+  XME: GoldSilverMetalETF
+  XMTR: CloudSoftware
+  XNET: Other
+  XOVR: ThematicETF
+  XPER: Industrials
+  XPRO: Industrials
+  XRAY: BiotechHealthcare
+  XYF: ChinaAsia
+  YALA: ChinaAsia
+  Z: CloudSoftware
+  ZBRA: Other
+  ZEPP: ChinaAsia
+  ZH: ChinaAsia
+  ZM: CloudSoftware
+  ZS: Cybersecurity
+  ZTEK: Graphene
+  BHP: Materials
+  RIO: Materials
+  DDS: ConsumerDiscretionary
+  HAE: BiotechHealthcare
+  MTCH: CommunicationMedia
+  LMND: Other
+  PPLT: GoldSilverMetalETF
+  PALL: GoldSilverMetalETF
+  FXI: ChinaETF
+  EWJ: BroadMarketETF
+  VGK: BroadMarketETF
+  VIX: VolatilityIndex
+  IWM: BroadMarketETF
+  NVS: Other
+  CAJFF: Other
+  PENG: Other
+  AIR: AeroDefense
+  ANGO: Industrials
+  QQQ: TechnologyETF
+  SPY: BroadMarketETF
+  SPCE: SatelliteSpace
+  NVVE: Other
+  HCKT: Industrials
+  ETN: EnergyUtilities
+  PWR: EnergyUtilities
+  EME: EnergyUtilities
+  FIX: EnergyUtilities
+  QTS: Other
+  ROK: Other
+  AIT: Industrials
+  RRX: Industrials
+  GMED: BiotechHealthcare
+  TCOM: AirlinesTravel
+  HTHT: AirlinesTravel
+  BSKY: Other
+  RTX: AeroDefense
+  EMBJ: Other
+  MOG.A: Other
+  VSAT: SatelliteSpace
+  NVR: HomebuildersHousing
+  RDN: Banks
+  MTG: Banks
+  IEX: Industrials
+  NOW: AIStock
+  AEM: Materials
+  AES: EnergyUtilities
+  WMT: Other
+  CLS: AIStock
+  DDOG: CloudSoftware
+  FLEX: AIStock
+  GEV: EnergyUtilities
+  JCI: Industrials
+  MCHP: Semiconductor
+  MOD: Industrials
+  MPWR: Semiconductor
+  NRG: EnergyUtilities
+  NXPI: Semiconductor
+  ON: Semiconductor
+  SNPS: CloudSoftware
+  STX: AIStock
+  WDC: AIStock
+sector_etfs:
+  AIStock: QQQ
+  AIETF: QTUM
+  AeroDefense: ITA
+  AeroDefenseETF: ITA
+  AirlinesTravel: JETS
+  Banks: KBE
+  BiotechHealthcare: XLV
+  Bitcoin: IBIT
+  BitcoinETF: IBIT
+  BroadMarketETF: SPY
+  BrokerExchangeFintech: FINX
+  ChinaAsia: KWEB
+  ChinaETF: KWEB
+  CloudSoftware: IGV
+  CommunicationMedia: XLC
+  ConsumerDiscretionary: XLY
+  ConsumerStaples: XLP
+  CopperETF: CPER
+  CryptoETF: BITQ
+  CryptoMining: WGMI
+  Cybersecurity: HACK
+  CybersecurityETF: BUG
+  EmergingMarketsETF: EEM
+  EnergyUtilities: XLU
+  GamingETF: ESPO
+  GoldSilverMetalETF: GLD
+  Graphene: DMAT
+  HomebuildersHousing: XHB
+  Industrials: XLI
+  InnovationETF: ARKK
+  Materials: XLB
+  Nuclear: NUKZ
+  NuclearETF: NUKZ
+  Quantum: QTUM
+  RareEarth: REMX
+  RealEstateREIT: XLRE
+  SatelliteSpace: ARKX
+  Semiconductor: SOXX
+  TechnologyETF: QQQ
+  ThematicETF: DXYZ
+  VolatilityIndex: VIX
+  Other: SPY
+  Tech: XLK
+  AI: DXYZ
+  DefenseETF: PPA
+  GoldETF: GLD
+  SilverETF: SLV
+  SpaceETF: ARKX
+  REITETF: INDS
+  ArgentinaETF: ARGT
+  DisruptiveETF: XOVR
+  TravelTech: AWAY
+  TravelLeisure: PEJ
+  OilGas: XOP
+  OilServices: OIH
+  Insurtech: KIE
+  Battery: LIT
+  Aerospace: ITA
+  Exchange: IAI
+  Satellite: ARKX
+  HomebuildersBull: XHB
+  SemiconductorsBull: SOXX
+  TechnologyBull: QQQ
+  SP500Bull: SPY
+  SP500Bear: SPY
+  NasdaqBear: QQQ
+  SingleStock_NVDA_Bull: NVDA
+  SingleStock_COIN_Bull: COIN
+  SingleStock_COIN_Bear: COIN
+  SingleStock_MSFT_Bull: MSFT
+  MacroCurrency: UUP
+  BigTech: XLK
+  QuantumETF: QTUM
+  SpaceTech: UFO
+  SatCom: UFO
+  CyberSecurityETF: CIBR
+  GrapheneEquipment: SOXX
+  GrapheneETF: DMAT
+  Graphite: SETM
+  MetalETF: GDX
+  Utilities: XLU
+  Communications: XLC
+sector_map:
+  AIStock: tech
+  AIETF: etf
+  AeroDefense: industrial
+  AeroDefenseETF: etf
+  AirlinesTravel: consumer
+  Banks: finance
+  BiotechHealthcare: healthcare
+  Bitcoin: finance
+  BitcoinETF: etf
+  BroadMarketETF: etf
+  BrokerExchangeFintech: finance
+  ChinaAsia: international
+  ChinaETF: etf
+  CloudSoftware: tech
+  CommunicationMedia: communication
+  ConsumerDiscretionary: consumer
+  ConsumerStaples: consumer
+  CopperETF: commodity
+  CryptoETF: etf
+  CryptoMining: finance
+  Cybersecurity: tech
+  CybersecurityETF: etf
+  EmergingMarketsETF: etf
+  EnergyUtilities: energy
+  GamingETF: etf
+  GoldSilverMetalETF: commodity
+  Graphene: materials
+  HomebuildersHousing: consumer
+  Industrials: industrial
+  InnovationETF: etf
+  Materials: materials
+  Nuclear: energy
+  NuclearETF: etf
+  Quantum: tech
+  RareEarth: materials
+  RealEstateREIT: real_estate
+  SatelliteSpace: industrial
+  Semiconductor: tech
+  TechnologyETF: etf
+  ThematicETF: etf
+  VolatilityIndex: macro
+  Other: broad
+  TravelTech: consumer
+  AI: tech
+  TravelLeisure: consumer
+  Utilities: utilities
+  Communications: communication
+symbol_to_industry: {}
+vix_adaptive_weights:
+  LOW:
+    weight_mult: 1.0
+    buy_threshold_mult: 1.0
+    min_signals_add: 0
+  NORMAL:
+    weight_mult: 1.0
+    buy_threshold_mult: 1.0
+    min_signals_add: 0
+  MEDIUM:
+    weight_mult: 0.9
+    buy_threshold_mult: 1.1
+    min_signals_add: 0
+  HIGH:
+    weight_mult: 0.75
+    buy_threshold_mult: 1.2
+    min_signals_add: null
+child_substages: child_substages.yml
+
+

@@ -1,0 +1,86 @@
+rules:
+  strongBuy:
+    allowedStages:
+    - MARKUP
+    - ACCUMULATION
+    allowedSubstages:
+    - EARLY_TREND
+    - STRONG_TREND
+    - PRE_BREAKOUT
+    minProbability: 0.7
+    minRsi: 52
+    minVolumeRatio: 1.0
+    minRegimeQualityScore: 68
+    emaBullish: true
+    requireMacdCross: false
+    requireNearSupport: false
+    requireBreakout: false
+  buy:
+    allowedStages:
+    - MARKUP
+    - ACCUMULATION
+    blockedSubstages:
+    - EXHAUSTION
+    minProbability: 0.58
+    minRsi: 48
+    minVolumeRatio: 0.95
+    minRegimeQualityScore: 56
+    emaBullish: true
+  scaleIn:
+    allowedStages:
+    - MARKUP
+    - ACCUMULATION
+    allowedSubstages:
+    - EARLY_TREND
+    - ABSORPTION
+    - PRE_BREAKOUT
+    minProbability: 0.52
+    minRsi: 45
+    minVolumeRatio: 0.9
+    minRegimeQualityScore: 52
+    emaBullish: true
+    requireNearSupport: true
+  watch:
+    allowedStages:
+    - ACCUMULATION
+    - MARKUP
+    - DISTRIBUTION
+    minProbability: 0.35
+    minRegimeQualityScore: 40
+  sell:
+    allowedStages:
+    - DISTRIBUTION
+    - MARKDOWN
+    allowedSubstages:
+    - UPTHRUST
+    - FAILED_BREAKOUT
+    - STRONG_DOWNTREND
+    - CAPITULATION
+    minProbability: 0.4
+    minRegimeQualityScore: 45
+  avoid:
+    blockedStages: []
+    minProbability: 0.0
+    minRegimeQualityScore: 0.0
+execution:
+  strong_buy_min_confidence: 72
+  strong_buy_min_regime: 68
+  buy_min_confidence: 58
+  buy_min_regime: 55
+risk_filters:
+  max_buy_rsi: 78
+  min_trade_regime_quality: 52
+
+decision_mapping:
+  STRONG_BUY:
+    defaultExecutionAction: ENTER_FULL
+  BUY:
+    defaultExecutionAction: ENTER_PARTIAL
+  SCALE_IN:
+    defaultExecutionAction: ENTER_ON_PULLBACK
+  WATCH:
+    defaultExecutionAction: WATCHLIST
+  SELL:
+    defaultExecutionAction: EXIT_OR_REDUCE
+  AVOID:
+    defaultExecutionAction: NO_TRADE

@@ -1,0 +1,1806 @@
+version: 2
+description: Grouped column schema aligned with col_pre.yml metadata while preserving
+  all existing columns and Excel headers
+rename_map:
+  market_stage: Market Stage
+  market_substage: Market Sub-Stage
+  substage_confidence: Substage Confidence
+  confidence_score: Confidence Score
+  signal_score: Signal Score
+  institutional_score: Institutional Score
+  volume_weight: Volume Weight
+  regime_quality_score: Regime Quality Score
+  rule_recommendation: Rule Recommendation
+  execution_action: Final_Action
+  primary_entry_price: Primary_Entry_Price
+  primary_entry_source: Primary_Entry_Source
+  add_on_dip_price: Add_On_Dip_Price
+  invalidation_level: Invalidation_Level
+  atr_trailing_stop: Atr Trailing Stop
+  exit_reasons: Exit Reasons
+  sector_correlation: Sector Correlation
+  news_sentiment_score: News Sentiment Score
+  news_positive_ratio: News Positive Ratio
+  news_article_count: News Article Count
+  sector: Sector
+  industry: Industry
+  beta: Beta
+  relative_strength_vs_spy: Relative Strength vs SPY
+  gap_percent: Gap Percent
+  volatility_score: Volatility Score
+  earnings_date: Earnings Date
+  trade_direction: Trade Direction
+  entry_quality_score: Entry Quality Score
+  aggressive_entry: Aggressive Entry
+  balanced_entry: Balanced Entry
+  conservative_entry: Conservative Entry
+  stop_loss_level: Stop Loss Level
+  coil_strength: Coil Strength
+  entry_confidence_score: Entry Confidence Score
+  entry_mode: Entry Mode
+  risk_level: Risk Level
+  primary_reason: Primary Reason
+  bid_ask_spread_pct: Bid Ask Spread Pct
+  order_book_imbalance: Order Book Imbalance
+  depth_support_score: Depth Support Score
+  final_score: Final Score
+  bullish_child_score: Bullish Child Score
+  bearish_child_score: Bearish Child Score
+  neutral_child_score: Neutral Child Score
+  contradictory_child_score: Contradictory Child Score
+  child_contradiction_penalty: Child Contradiction Penalty
+  best_child_confidence: Best Child Confidence
+  ranked_child_confidence_map: Ranked Child Confidence Map
+  child_conflict_summary: Child Conflict Summary
+  evaluated_stage_count: Evaluated Stage Count
+  evaluated_substage_count: Evaluated Substage Count
+  evaluated_child_substage_count: Evaluated Child Substage Count
+  stage_score_map: Stage Score Map
+  substage_score_map: Substage Score Map
+  child_substage_score_map: Child Substage Score Map
+  all_child_substage_score_map: All Child Substage Score Map
+  ranked_substage_score_map: Ranked Substage Score Map
+  ranked_all_child_substage_score_map: Ranked All Child Substage Score Map
+  top3_substages: Top 3 Substages
+  top3_child_substages: Top 3 Child Substages
+  selected_child_qualified_key: Selected Child Qualified Key
+  child_promotion_reason: Child Promotion Reason
+  adjusted_all_child_substage_score_map: Adjusted All Child Substage Score Map
+  child_scoring_version: Child Scoring Version
+required_columns:
+- Child Substage Confidence
+- Child Substage
+- Substage Confidence
+- Stage Directional Bias
+- Stage Label
+- Market Stage
+- Market Sub-Stage
+- Confidence Score
+- Institutional Score
+groups:
+  core:
+    description: Core market, indicator, stage, and regime fields
+    count: 99
+  ml:
+    description: Model predictions, fundamentals, and sentiment fields
+    count: 36
+  execution:
+    description: Decision, entry, exit, risk/reward, and trade action fields
+    count: 65
+  analytics:
+    description: Scoring, diagnostics, and post-processing analytics fields
+    count: 16
+  stage:
+    description: Stage fields
+    count: 17
+  ranking:
+    description: Ranking fields
+    count: 2
+columns:
+- name: Symbol
+  header: Symbol
+  key: symbol
+  type: string
+  layer: core
+  required: true
+  default: ''
+- name: Current Price
+  header: Current Price
+  key: current_price
+  type: float
+  layer: core
+  required: true
+  default: 0.0
+- name: Sector
+  header: Sector
+  key: sector
+  type: string
+  layer: core
+  required: false
+  default: ''
+- name: Industry
+  header: Industry
+  key: industry
+  type: string
+  layer: core
+  required: false
+  default: ''
+- name: Beta
+  header: Beta
+  key: beta
+  type: float
+  layer: core
+  required: false
+  default: 0.0
+- name: Relative Strength vs SPY
+  header: Relative Strength vs SPY
+  key: relative_strength_vs_spy
+  type: float
+  layer: core
+  required: false
+  default: 0.0
+- name: Gap Percent
+  header: Gap Percent
+  key: gap_percent
+  type: float
+  layer: core
+  required: false
+  default: 0.0
+- name: Volatility Score
+  header: Volatility Score
+  key: volatility_score
+  type: float
+  layer: core
+  required: false
+  default: 0.0
+- name: Market Stage
+  header: Market Stage
+  key: market_stage
+  type: string
+  layer: core
+  required: true
+  default: ''
+- name: Market Sub-Stage
+  header: Market Sub-Stage
+  key: market_substage
+  type: string
+  layer: core
+  required: true
+  default: ''
+- name: Substage Confidence
+  header: Substage Confidence
+  key: substage_confidence
+  type: float
+  layer: core
+  required: false
+  default: 0.0
+- name: Stage Label
+  header: Stage Label
+  key: stage_label
+  type: string
+  layer: core
+  required: false
+  default: ''
+- name: Stage Directional Bias
+  header: Stage Directional Bias
+  key: stage_directional_bias
+  type: string
+  layer: core
+  required: false
+  default: ''
+- name: Stage Description
+  header: Stage Description
+  key: stage_description
+  type: string
+  layer: core
+  required: false
+  default: ''
+- name: Substage Bias
+  header: Substage Bias
+  key: substage_bias
+  type: string
+  layer: core
+  required: false
+  default: ''
+- name: Entry Style
+  header: Entry Style
+  key: entry_style
+  type: string
+  layer: core
+  required: false
+  default: ''
+- name: Setup Maturity
+  header: Setup Maturity
+  key: setup_maturity
+  type: string
+  layer: core
+  required: false
+  default: ''
+- name: Risk Profile
+  header: Risk Profile
+  key: risk_profile
+  type: string
+  layer: core
+  required: false
+  default: ''
+- name: Confirmation Needed
+  header: Confirmation Needed
+  key: confirmation_needed
+  type: boolean
+  layer: core
+  required: false
+  default: false
+- name: Preferred Trigger
+  header: Preferred Trigger
+  key: preferred_trigger
+  type: string
+  layer: core
+  required: false
+  default: ''
+- name: Directional Bias
+  header: Directional Bias
+  key: directional_bias
+  type: string
+  layer: core
+  required: false
+  default: ''
+- name: Substage Description
+  header: Substage Description
+  key: substage_description
+  type: string
+  layer: core
+  required: false
+  default: ''
+- name: Child Substage
+  header: Child Substage
+  key: child_substage
+  type: string
+  layer: core
+  required: false
+  default: ''
+- name: Child Substage Confidence
+  header: Child Substage Confidence
+  key: child_substage_confidence
+  type: float
+  layer: core
+  required: false
+  default: 0.0
+- name: Child Substage Family
+  header: Child Substage Family
+  key: child_substage_family
+  type: string
+  layer: core
+  required: false
+  default: ''
+- name: Child Substage Action Bias
+  header: Child Substage Action Bias
+  key: child_substage_action_bias
+  type: string
+  layer: core
+  required: false
+  default: ''
+- name: Child Substage Risk Profile
+  header: Child Substage Risk Profile
+  key: child_substage_risk_profile
+  type: string
+  layer: core
+  required: false
+  default: ''
+- name: Child Substage Description
+  header: Child Substage Description
+  key: child_substage_description
+  type: string
+  layer: core
+  required: false
+  default: ''
+- name: Bullish Child Score
+  header: Bullish Child Score
+  key: bullish_child_score
+  type: float
+  layer: core
+  required: false
+  default: 0.0
+- name: Bearish Child Score
+  header: Bearish Child Score
+  key: bearish_child_score
+  type: float
+  layer: core
+  required: false
+  default: 0.0
+- name: Neutral Child Score
+  header: Neutral Child Score
+  key: neutral_child_score
+  type: float
+  layer: core
+  required: false
+  default: 0.0
+- name: Contradictory Child Score
+  header: Contradictory Child Score
+  key: contradictory_child_score
+  type: float
+  layer: core
+  required: false
+  default: 0.0
+- name: Child Contradiction Penalty
+  header: Child Contradiction Penalty
+  key: child_contradiction_penalty
+  type: float
+  layer: core
+  required: false
+  default: 0.0
+- name: Best Child Confidence
+  header: Best Child Confidence
+  key: best_child_confidence
+  type: float
+  layer: core
+  required: false
+  default: 0.0
+- name: Ranked Child Confidence Map
+  header: Ranked Child Confidence Map
+  key: ranked_child_confidence_map
+  type: string
+  layer: analytics
+  required: false
+  default: ''
+- name: Child Conflict Summary
+  header: Child Conflict Summary
+  key: child_conflict_summary
+  type: string
+  layer: analytics
+  required: false
+  default: ''
+- name: Regime Quality Score
+  header: Regime Quality Score
+  key: regime_quality_score
+  type: float
+  layer: core
+  required: false
+  default: 0.0
+- name: Trend
+  header: Trend
+  key: trend
+  type: string
+  layer: core
+  required: false
+  default: ''
+- name: VWAP Support
+  header: VWAP Support
+  key: vwap_support
+  type: float
+  layer: core
+  required: false
+  default: 0.0
+- name: VWAP
+  header: VWAP
+  key: vwap
+  type: float
+  layer: core
+  required: false
+  default: 0.0
+- name: VWAP_DISTANCE_PCT
+  header: VWAP_DISTANCE_PCT
+  key: vwap_distance_pct
+  type: float
+  layer: core
+  required: false
+  default: 0.0
+- name: ADX
+  header: ADX
+  key: adx
+  type: float
+  layer: core
+  required: false
+  default: 0.0
+- name: ADX Strength
+  header: ADX Strength
+  key: adx_strength
+  type: float
+  layer: core
+  required: false
+  default: 0.0
+- name: EMA Uptrend
+  header: EMA Uptrend
+  key: ema_uptrend
+  type: float
+  layer: core
+  required: false
+  default: 0.0
+- name: EMA21 Slope
+  header: EMA21 Slope
+  key: ema21_slope
+  type: float
+  layer: core
+  required: false
+  default: 0.0
+- name: MACD Cross
+  header: MACD Cross
+  key: macd_cross
+  type: bool
+  layer: core
+  required: false
+  default: false
+- name: MACD_SIGNAL
+  header: MACD_SIGNAL
+  key: macd_signal
+  type: string
+  layer: core
+  required: false
+  default: ''
+- name: MACD_HIST
+  header: MACD_HIST
+  key: macd_hist
+  type: string
+  layer: core
+  required: false
+  default: ''
+- name: RSI
+  header: RSI
+  key: rsi
+  type: float
+  layer: core
+  required: false
+  default: 0.0
+- name: RSI State
+  header: RSI State
+  key: rsi_state
+  type: float
+  layer: core
+  required: false
+  default: 0.0
+- name: OBV Trend
+  header: OBV Trend
+  key: obv_trend
+  type: string
+  layer: core
+  required: false
+  default: ''
+- name: ATR14
+  header: ATR14
+  key: atr14
+  type: float
+  layer: core
+  required: false
+  default: 0.0
+- name: ATR14_PCT
+  header: ATR14_PCT
+  key: atr14_pct
+  type: float
+  layer: core
+  required: false
+  default: 0.0
+- name: Volume Surge
+  header: Volume Surge
+  key: volume_surge
+  type: float
+  layer: core
+  required: false
+  default: 0.0
+- name: VOL_SURGE_RATIO
+  header: VOL_SURGE_RATIO
+  key: vol_surge_ratio
+  type: float
+  layer: core
+  required: false
+  default: 0.0
+- name: VOL_TODAY
+  header: VOL_TODAY
+  key: vol_today
+  type: string
+  layer: core
+  required: false
+  default: ''
+- name: AVG_VOL_20D
+  header: AVG_VOL_20D
+  key: avg_vol_20d
+  type: string
+  layer: core
+  required: false
+  default: ''
+- name: VOL_TREND_5D
+  header: VOL_TREND_5D
+  key: vol_trend_5d
+  type: string
+  layer: core
+  required: false
+  default: ''
+- name: Volume Pressure
+  header: Volume Pressure
+  key: volume_pressure
+  type: float
+  layer: core
+  required: false
+  default: 0.0
+- name: LIQUIDITY_SCORE
+  header: LIQUIDITY_SCORE
+  key: liquidity_score
+  type: float
+  layer: core
+  required: false
+  default: 0.0
+- name: BID_ASK_SPREAD_PCT
+  header: BID_ASK_SPREAD_PCT
+  key: bid_ask_spread_pct
+  type: float
+  layer: core
+  required: false
+  default: 0.0
+- name: Price Reversal
+  header: Price Reversal
+  key: price_reversal
+  type: float
+  layer: core
+  required: false
+  default: 0.0
+- name: Bullish_Engulfing
+  header: Bullish_Engulfing
+  key: bullish_engulfing
+  type: bool
+  layer: core
+  required: false
+  default: false
+- name: Hammer
+  header: Hammer
+  key: hammer
+  type: bool
+  layer: core
+  required: false
+  default: false
+- name: Breakout
+  header: Breakout
+  key: breakout
+  type: bool
+  layer: core
+  required: false
+  default: false
+- name: Pattern Detected
+  header: Pattern Detected
+  key: pattern_detected
+  type: string
+  layer: core
+  required: false
+  default: ''
+- name: DipReclaim
+  header: DipReclaim
+  key: dipreclaim
+  type: bool
+  layer: core
+  required: false
+  default: false
+- name: SMC_Breakout
+  header: SMC_Breakout
+  key: smc_breakout
+  type: bool
+  layer: core
+  required: false
+  default: false
+- name: Mean_Reversion
+  header: Mean_Reversion
+  key: mean_reversion
+  type: float
+  layer: core
+  required: false
+  default: 0.0
+- name: Trend_Strength
+  header: Trend_Strength
+  key: trend_strength
+  type: float
+  layer: core
+  required: false
+  default: 0.0
+- name: Darvas Breakout %
+  header: Darvas Breakout %
+  key: darvas_breakout
+  type: float
+  layer: core
+  required: false
+  default: 0.0
+- name: Darvas Signal
+  header: Darvas Signal
+  key: darvas_signal
+  type: string
+  layer: core
+  required: false
+  default: ''
+- name: Near Support
+  header: Near Support
+  key: near_support
+  type: bool
+  layer: core
+  required: false
+  default: false
+- name: At BB Lower
+  header: At BB Lower
+  key: at_bb_lower
+  type: bool
+  layer: core
+  required: false
+  default: false
+- name: Sym Vol Regime
+  header: Sym Vol Regime
+  key: sym_vol_regime
+  type: string
+  layer: core
+  required: false
+  default: ''
+- name: VIX Vol Regime
+  header: VIX Vol Regime
+  key: vix_vol_regime
+  type: string
+  layer: core
+  required: false
+  default: ''
+- name: DMA20
+  header: DMA20
+  key: dma20
+  type: float
+  layer: core
+  required: false
+  default: 0.0
+- name: DMA50
+  header: DMA50
+  key: dma50
+  type: float
+  layer: core
+  required: false
+  default: 0.0
+- name: DMA100
+  header: DMA100
+  key: dma100
+  type: float
+  layer: core
+  required: false
+  default: 0.0
+- name: DMA150
+  header: DMA150
+  key: dma150
+  type: float
+  layer: core
+  required: false
+  default: 0.0
+- name: DMA200
+  header: DMA200
+  key: dma200
+  type: float
+  layer: core
+  required: false
+  default: 0.0
+- name: PCT_FROM_DMA20
+  header: PCT_FROM_DMA20
+  key: pct_from_dma20
+  type: float
+  layer: core
+  required: false
+  default: 0.0
+- name: PCT_FROM_DMA50
+  header: PCT_FROM_DMA50
+  key: pct_from_dma50
+  type: float
+  layer: core
+  required: false
+  default: 0.0
+- name: PCT_FROM_DMA200
+  header: PCT_FROM_DMA200
+  key: pct_from_dma200
+  type: float
+  layer: core
+  required: false
+  default: 0.0
+- name: DMA_STACK
+  header: DMA_STACK
+  key: dma_stack
+  type: float
+  layer: core
+  required: false
+  default: 0.0
+- name: ABOVE_DMA20
+  header: ABOVE_DMA20
+  key: above_dma20
+  type: float
+  layer: core
+  required: false
+  default: 0.0
+- name: ABOVE_DMA50
+  header: ABOVE_DMA50
+  key: above_dma50
+  type: float
+  layer: core
+  required: false
+  default: 0.0
+- name: GAP_PCT
+  header: GAP_PCT
+  key: gap_pct
+  type: float
+  layer: core
+  required: false
+  default: 0.0
+- name: REL_STRENGTH_20D_VS_QQQ
+  header: REL_STRENGTH_20D_VS_QQQ
+  key: rel_strength_20d_vs_qqq
+  type: float
+  layer: core
+  required: false
+  default: 0.0
+- name: DISTRIBUTION_DAYS_20D
+  header: DISTRIBUTION_DAYS_20D
+  key: distribution_days_20d
+  type: float
+  layer: core
+  required: false
+  default: 0.0
+- name: ACCUMULATION_DAYS_20D
+  header: ACCUMULATION_DAYS_20D
+  key: accumulation_days_20d
+  type: float
+  layer: core
+  required: false
+  default: 0.0
+- name: Sector Correlation
+  header: Sector Correlation
+  key: sector_correlation
+  type: float
+  layer: core
+  required: false
+  default: 0.0
+- name: Whether the current DMA is greater than 50 DMA.
+  header: Whether the current DMA is greater than 50 DMA.
+  key: whether_the_current_dma_is_greater_than_50_dma
+  type: float
+  layer: core
+  required: false
+  default: 0.0
+- name: Whether the current DMA is greater than 100 DMA.
+  header: Whether the current DMA is greater than 100 DMA.
+  key: whether_the_current_dma_is_greater_than_100_dma
+  type: float
+  layer: core
+  required: false
+  default: 0.0
+- name: Whether the current DMA is greater than 150 DMA.
+  header: Whether the current DMA is greater than 150 DMA.
+  key: whether_the_current_dma_is_greater_than_150_dma
+  type: float
+  layer: core
+  required: false
+  default: 0.0
+- name: Whether the current DMA is greater than 200.
+  header: Whether the current DMA is greater than 200.
+  key: whether_the_current_dma_is_greater_than_200
+  type: float
+  layer: core
+  required: false
+  default: 0.0
+- name: Whether Weekly chart has got higher up wicks volume.
+  header: Whether Weekly chart has got higher up wicks volume.
+  key: whether_weekly_chart_has_got_higher_up_wicks_volume
+  type: bool
+  layer: core
+  required: false
+  default: false
+- name: How much % high Weekly chart is from previous lower volume.
+  header: How much % high Weekly chart is from previous lower volume.
+  key: how_much_high_weekly_chart_is_from_previous_lower_volume
+  type: float
+  layer: core
+  required: false
+  default: 0.0
+- name: DATA_SOURCE
+  header: DATA_SOURCE
+  key: data_source
+  type: string
+  layer: core
+  required: false
+  default: ''
+- name: ASOF_DATE
+  header: ASOF_DATE
+  key: asof_date
+  type: string
+  layer: core
+  required: false
+  default: ''
+- name: ASSET_TYPE
+  header: ASSET_TYPE
+  key: asset_type
+  type: string
+  layer: core
+  required: false
+  default: ''
+- name: Model Probability
+  header: Model Probability
+  key: model_probability
+  type: float
+  layer: ml
+  required: false
+  default: 0.0
+- name: Model-Driven Buy
+  header: Model-Driven Buy
+  key: model_driven_buy
+  type: bool
+  layer: ml
+  required: false
+  default: false
+- name: Model-Driven Strong Buy
+  header: Model-Driven Strong Buy
+  key: model_driven_strong_buy
+  type: bool
+  layer: ml
+  required: false
+  default: false
+- name: ML Entry Target
+  header: ML Entry Target
+  key: ml_entry_target
+  type: float
+  layer: ml
+  required: false
+  default: 0.0
+- name: ML Entry Mode
+  header: ML Entry Mode
+  key: ml_entry_mode
+  type: string
+  layer: ml
+  required: false
+  default: ''
+- name: ML Entry Bias ATR
+  header: ML Entry Bias ATR
+  key: ml_entry_bias_atr
+  type: float
+  layer: ml
+  required: false
+  default: 0.0
+- name: Confidence Band
+  header: Confidence Band
+  key: confidence_band
+  type: float
+  layer: ml
+  required: false
+  default: 0.0
+- name: Tech Fallback Score
+  header: Tech Fallback Score
+  key: tech_fallback_score
+  type: float
+  layer: ml
+  required: false
+  default: 0.0
+- name: EPS_AVAILABLE
+  header: EPS_AVAILABLE
+  key: eps_available
+  type: string
+  layer: ml
+  required: false
+  default: ''
+- name: EPS Increase 2Q
+  header: EPS Increase 2Q
+  key: eps_increase_2q
+  type: string
+  layer: ml
+  required: false
+  default: ''
+- name: EPS Increase 3Q
+  header: EPS Increase 3Q
+  key: eps_increase_3q
+  type: string
+  layer: ml
+  required: false
+  default: ''
+- name: EPS Increase 4Q
+  header: EPS Increase 4Q
+  key: eps_increase_4q
+  type: string
+  layer: ml
+  required: false
+  default: ''
+- name: eps_growth_qoq
+  header: eps_growth_qoq
+  key: eps_growth_qoq
+  type: string
+  layer: ml
+  required: false
+  default: ''
+- name: eps_surprise_pct_last
+  header: eps_surprise_pct_last
+  key: eps_surprise_pct_last
+  type: float
+  layer: ml
+  required: false
+  default: 0.0
+- name: eps_quality_score
+  header: eps_quality_score
+  key: eps_quality_score
+  type: float
+  layer: ml
+  required: false
+  default: 0.0
+- name: ETF_PROXY_GROWTH_SCORE
+  header: ETF_PROXY_GROWTH_SCORE
+  key: etf_proxy_growth_score
+  type: float
+  layer: ml
+  required: false
+  default: 0.0
+- name: FUNDAMENTAL_BOOST
+  header: FUNDAMENTAL_BOOST
+  key: fundamental_boost
+  type: string
+  layer: ml
+  required: false
+  default: ''
+- name: Sentiment Label
+  header: Sentiment Label
+  key: sentiment_label
+  type: string
+  layer: ml
+  required: false
+  default: ''
+- name: News Sentiment Score
+  header: News Sentiment Score
+  key: news_sentiment_score
+  type: float
+  layer: ml
+  required: false
+  default: 0.0
+- name: News Positive Ratio
+  header: News Positive Ratio
+  key: news_positive_ratio
+  type: float
+  layer: ml
+  required: false
+  default: 0.0
+- name: News Article Count
+  header: News Article Count
+  key: news_article_count
+  type: float
+  layer: ml
+  required: false
+  default: 0.0
+- name: Earnings Date
+  header: Earnings Date
+  key: earnings_date
+  type: string
+  layer: ml
+  required: false
+  default: ''
+- name: Sentiment Confidence
+  header: Sentiment Confidence
+  key: sentiment_confidence
+  type: float
+  layer: ml
+  required: false
+  default: 0.0
+- name: Rule Recommendation
+  header: Rule Recommendation
+  key: rule_recommendation
+  type: string
+  layer: execution
+  required: false
+  default: ''
+- name: Trade Direction
+  header: Trade Direction
+  key: trade_direction
+  type: string
+  layer: execution
+  required: false
+  default: WATCH
+- name: Entry Quality Score
+  header: Entry Quality Score
+  key: entry_quality_score
+  type: float
+  layer: execution
+  required: false
+  default: 0.0
+- name: Risk Level
+  header: Risk Level
+  key: risk_level
+  type: string
+  layer: execution
+  required: false
+  default: MEDIUM
+- name: Primary Reason
+  header: Primary Reason
+  key: primary_reason
+  type: string
+  layer: execution
+  required: false
+  default: ''
+- name: Order Book Imbalance
+  header: Order Book Imbalance
+  key: order_book_imbalance
+  type: float
+  layer: execution
+  required: false
+  default: 0.0
+- name: Depth Support Score
+  header: Depth Support Score
+  key: depth_support_score
+  type: float
+  layer: execution
+  required: false
+  default: 0.0
+- name: Recommendation
+  header: Recommendation
+  key: recommendation
+  type: string
+  layer: execution
+  required: false
+  default: ''
+- name: Final_Action
+  header: Execution Action
+  key: execution_action
+  type: string
+  layer: execution
+  required: false
+  default: ''
+- name: Final Action
+  header: Final Action
+  key: final_action
+  type: string
+  layer: execution
+  required: false
+  default: ''
+- name: Decision Reason
+  header: Decision Reason
+  key: decision_reason
+  type: string
+  layer: execution
+  required: false
+  default: ''
+- name: Rule-Based Buy
+  header: Rule-Based Buy
+  key: rule_based_buy
+  type: bool
+  layer: execution
+  required: false
+  default: false
+- name: Signal
+  header: Signal
+  key: signal
+  type: string
+  layer: execution
+  required: false
+  default: ''
+- name: Refined Buy Price
+  header: Refined Buy Price
+  key: refined_buy_price
+  type: float
+  layer: execution
+  required: false
+  default: 0.0
+- name: Primary_Entry_Price
+  header: Primary_Entry_Price
+  key: primary_entry_price
+  type: float
+  layer: execution
+  required: false
+  default: 0.0
+- name: Primary_Entry_Source
+  header: Primary_Entry_Source
+  key: primary_entry_source
+  type: string
+  layer: execution
+  required: false
+  default: ''
+- name: Invalidation_Level
+  header: Invalidation_Level
+  key: invalidation_level
+  type: float
+  layer: execution
+  required: false
+  default: 0.0
+- name: Candle Entry 2w
+  header: Candle Entry 2w
+  key: candle_entry_2w
+  type: float
+  layer: execution
+  required: false
+  default: 0.0
+- name: Candle Entry 4w
+  header: Candle Entry 4w
+  key: candle_entry_4w
+  type: float
+  layer: execution
+  required: false
+  default: 0.0
+- name: Candle Entry 6w
+  header: Candle Entry 6w
+  key: candle_entry_6w
+  type: float
+  layer: execution
+  required: false
+  default: 0.0
+- name: Candle Entry 8w
+  header: Candle Entry 8w
+  key: candle_entry_8w
+  type: float
+  layer: execution
+  required: false
+  default: 0.0
+- name: Candle Entry 12w
+  header: Candle Entry 12w
+  key: candle_entry_12w
+  type: float
+  layer: execution
+  required: false
+  default: 0.0
+- name: Candle Entry 18w
+  header: Candle Entry 18w
+  key: candle_entry_18w
+  type: float
+  layer: execution
+  required: false
+  default: 0.0
+- name: Candle Entry 30w
+  header: Candle Entry 30w
+  key: candle_entry_30w
+  type: float
+  layer: execution
+  required: false
+  default: 0.0
+- name: Add_On_Dip_Price
+  header: Add_On_Dip_Price
+  key: add_on_dip_price
+  type: float
+  layer: execution
+  required: false
+  default: 0.0
+- name: Aggressive Entry
+  header: Aggressive Entry
+  key: aggressive_entry
+  type: float
+  layer: execution
+  required: false
+  default: 0.0
+- name: Balanced Entry
+  header: Balanced Entry
+  key: balanced_entry
+  type: float
+  layer: execution
+  required: false
+  default: 0.0
+- name: Conservative Entry
+  header: Conservative Entry
+  key: conservative_entry
+  type: float
+  layer: execution
+  required: false
+  default: 0.0
+- name: Stop Loss Level
+  header: Stop Loss Level
+  key: stop_loss_level
+  type: float
+  layer: execution
+  required: false
+  default: 0.0
+- name: Coil Strength
+  header: Coil Strength
+  key: coil_strength
+  type: float
+  layer: execution
+  required: false
+  default: 0.0
+- name: Entry Confidence Score
+  header: Entry Confidence Score
+  key: entry_confidence_score
+  type: float
+  layer: execution
+  required: false
+  default: 0.0
+- name: Entry Mode
+  header: Entry Mode
+  key: entry_mode
+  type: string
+  layer: execution
+  required: false
+  default: ''
+- name: Risk_%
+  header: Risk_%
+  key: risk
+  type: float
+  layer: execution
+  required: false
+  default: 0.0
+- name: Reward_%
+  header: Reward_%
+  key: reward
+  type: float
+  layer: execution
+  required: false
+  default: 0.0
+- name: Best_Risk_Reward
+  header: Best_Risk_Reward
+  key: best_risk_reward
+  type: float
+  layer: execution
+  required: false
+  default: 0.0
+- name: Buy_Window_Status
+  header: Buy_Window_Status
+  key: buy_window_status
+  type: float
+  layer: execution
+  required: false
+  default: 0.0
+- name: Position_Size_Class
+  header: Position_Size_Class
+  key: position_size_class
+  type: string
+  layer: execution
+  required: false
+  default: ''
+- name: Exit Now
+  header: Exit Now
+  key: exit_now
+  type: bool
+  layer: execution
+  required: false
+  default: false
+- name: Atr Trailing Stop
+  header: Atr Trailing Stop
+  key: atr_trailing_stop
+  type: float
+  layer: execution
+  required: false
+  default: 0.0
+- name: Exit Reasons
+  header: Exit Reasons
+  key: exit_reasons
+  type: string
+  layer: execution
+  required: false
+  default: ''
+- name: LONG_SCORE
+  header: LONG_SCORE
+  key: long_score
+  type: float
+  layer: execution
+  required: false
+  default: 0.0
+- name: LONG_SETUP_TAG
+  header: LONG_SETUP_TAG
+  key: long_setup_tag
+  type: string
+  layer: execution
+  required: false
+  default: ''
+- name: LONG_VERDICT
+  header: LONG_VERDICT
+  key: long_verdict
+  type: string
+  layer: execution
+  required: false
+  default: ''
+- name: LONG_ENTRY_ZONE
+  header: LONG_ENTRY_ZONE
+  key: long_entry_zone
+  type: string
+  layer: execution
+  required: false
+  default: ''
+- name: LONG_ENTRY_ZONE_LOW
+  header: LONG_ENTRY_ZONE_LOW
+  key: long_entry_zone_low
+  type: string
+  layer: execution
+  required: false
+  default: ''
+- name: LONG_ENTRY_ZONE_HIGH
+  header: LONG_ENTRY_ZONE_HIGH
+  key: long_entry_zone_high
+  type: string
+  layer: execution
+  required: false
+  default: ''
+- name: LONG_INVALIDATION
+  header: LONG_INVALIDATION
+  key: long_invalidation
+  type: string
+  layer: execution
+  required: false
+  default: ''
+- name: LONG_TARGET_1
+  header: LONG_TARGET_1
+  key: long_target_1
+  type: float
+  layer: execution
+  required: false
+  default: 0.0
+- name: LONG_TARGET_2
+  header: LONG_TARGET_2
+  key: long_target_2
+  type: float
+  layer: execution
+  required: false
+  default: 0.0
+- name: LONG_RR_RATIO
+  header: LONG_RR_RATIO
+  key: long_rr_ratio
+  type: float
+  layer: execution
+  required: false
+  default: 0.0
+- name: SHORT_SCORE
+  header: SHORT_SCORE
+  key: short_score
+  type: float
+  layer: execution
+  required: false
+  default: 0.0
+- name: SHORT_SETUP_TAG
+  header: SHORT_SETUP_TAG
+  key: short_setup_tag
+  type: string
+  layer: execution
+  required: false
+  default: ''
+- name: SHORT_VERDICT
+  header: SHORT_VERDICT
+  key: short_verdict
+  type: string
+  layer: execution
+  required: false
+  default: ''
+- name: SHORT_ENTRY_ZONE
+  header: SHORT_ENTRY_ZONE
+  key: short_entry_zone
+  type: string
+  layer: execution
+  required: false
+  default: ''
+- name: SHORT_ENTRY_ZONE_LOW
+  header: SHORT_ENTRY_ZONE_LOW
+  key: short_entry_zone_low
+  type: string
+  layer: execution
+  required: false
+  default: ''
+- name: SHORT_ENTRY_ZONE_HIGH
+  header: SHORT_ENTRY_ZONE_HIGH
+  key: short_entry_zone_high
+  type: string
+  layer: execution
+  required: false
+  default: ''
+- name: SHORT_INVALIDATION
+  header: SHORT_INVALIDATION
+  key: short_invalidation
+  type: string
+  layer: execution
+  required: false
+  default: ''
+- name: SHORT_TARGET_1
+  header: SHORT_TARGET_1
+  key: short_target_1
+  type: float
+  layer: execution
+  required: false
+  default: 0.0
+- name: SHORT_TARGET_2
+  header: SHORT_TARGET_2
+  key: short_target_2
+  type: float
+  layer: execution
+  required: false
+  default: 0.0
+- name: SHORT_RR_RATIO
+  header: SHORT_RR_RATIO
+  key: short_rr_ratio
+  type: float
+  layer: execution
+  required: false
+  default: 0.0
+- name: SHORT_FEASIBILITY
+  header: SHORT_FEASIBILITY
+  key: short_feasibility
+  type: string
+  layer: execution
+  required: false
+  default: ''
+- name: SHORTABLE_FLAG
+  header: SHORTABLE_FLAG
+  key: shortable_flag
+  type: bool
+  layer: execution
+  required: false
+  default: false
+- name: BORROW_FEE_PCT
+  header: BORROW_FEE_PCT
+  key: borrow_fee_pct
+  type: float
+  layer: execution
+  required: false
+  default: 0.0
+- name: SPIKE_DRIVER
+  header: SPIKE_DRIVER
+  key: spike_driver
+  type: string
+  layer: execution
+  required: false
+  default: ''
+- name: DROP_DRIVER
+  header: DROP_DRIVER
+  key: drop_driver
+  type: string
+  layer: execution
+  required: false
+  default: ''
+- name: Confidence Score
+  header: Confidence Score
+  key: confidence_score
+  type: float
+  layer: analytics
+  required: true
+  default: 0.0
+- name: Signal Score
+  header: Signal Score
+  key: signal_score
+  type: float
+  layer: analytics
+  required: false
+  default: 0.0
+- name: Institutional Score
+  header: Institutional Score
+  key: institutional_score
+  type: float
+  layer: analytics
+  required: true
+  default: 0.0
+- name: Volume Weight
+  header: Volume Weight
+  key: volume_weight
+  type: string
+  layer: analytics
+  required: false
+  default: ''
+- name: Confidence Grade
+  header: Confidence Grade
+  key: confidence_grade
+  type: float
+  layer: analytics
+  required: false
+  default: 0.0
+- name: 90D Hit
+  header: 90D Hit
+  key: 90d_hit
+  type: string
+  layer: analytics
+  required: false
+  default: ''
+- name: 90D Gain (%)
+  header: 90D Gain (%)
+  key: 90d_gain
+  type: float
+  layer: analytics
+  required: false
+  default: 0.0
+- name: Days to Peak
+  header: Days to Peak
+  key: days_to_peak
+  type: float
+  layer: analytics
+  required: false
+  default: null
+- name: Expected Holding Period
+  header: Expected Holding Period
+  key: expected_holding_period
+  type: string
+  layer: analytics
+  required: false
+  default: ''
+- name: Momentum Recommendation
+  header: Momentum Recommendation
+  key: momentum_recommendation
+  type: string
+  layer: analytics
+  required: false
+  default: ''
+- name: Momentum Decision Reason
+  header: Momentum Decision Reason
+  key: momentum_decision_reason
+  type: string
+  layer: analytics
+  required: false
+  default: ''
+- name: Momentum Confidence Grade
+  header: Momentum Confidence Grade
+  key: momentum_confidence_grade
+  type: float
+  layer: analytics
+  required: false
+  default: 0.0
+- name: Momentum Expected Holding Period
+  header: Momentum Expected Holding Period
+  key: momentum_expected_holding_period
+  type: string
+  layer: analytics
+  required: false
+  default: ''
+- name: Final Score
+  header: Final Score
+  key: final_score
+  type: float
+  layer: analytics
+  required: false
+  default: 0.0
+- name: Alpha Vantage Company Name
+  key: av_company_name
+  type: string
+  default: ''
+  required: false
+  layer: ml
+- name: Alpha Vantage Sector
+  key: av_sector
+  type: string
+  default: ''
+  required: false
+  layer: ml
+- name: Alpha Vantage Industry
+  key: av_industry
+  type: string
+  default: ''
+  required: false
+  layer: ml
+- name: Alpha Vantage Market Cap
+  key: av_market_cap
+  type: number
+  default: 0
+  required: false
+  layer: ml
+- name: Alpha Vantage PE Ratio
+  key: av_pe_ratio
+  type: number
+  default: 0
+  required: false
+  layer: ml
+- name: Alpha Vantage PEG Ratio
+  key: av_peg_ratio
+  type: number
+  default: 0
+  required: false
+  layer: ml
+- name: Alpha Vantage EPS
+  key: av_eps
+  type: number
+  default: 0
+  required: false
+  layer: ml
+- name: Alpha Vantage Beta
+  key: av_beta
+  type: number
+  default: 0
+  required: false
+  layer: ml
+- name: Alpha Vantage Profit Margin
+  key: av_profit_margin
+  type: number
+  default: 0
+  required: false
+  layer: ml
+- name: Alpha Vantage Operating Margin TTM
+  key: av_operating_margin_ttm
+  type: number
+  default: 0
+  required: false
+  layer: ml
+- name: Alpha Vantage Revenue TTM
+  key: av_revenue_ttm
+  type: number
+  default: 0
+  required: false
+  layer: ml
+- name: Alpha Vantage Analyst Target Price
+  key: av_analyst_target_price
+  type: number
+  default: 0
+  required: false
+  layer: ml
+- name: Alpha Vantage News Source
+  key: av_news_source
+  type: string
+  default: ''
+  required: false
+  layer: ml
+- name: Stage Key
+  key: stage_key
+  type: string
+  default: ''
+  required: false
+  layer: stage
+- name: Substage Key
+  key: substage_key
+  type: string
+  default: ''
+  required: false
+  layer: stage
+- name: Child Substage Key
+  key: child_substage_key
+  type: string
+  default: ''
+  required: false
+  layer: stage
+- name: Stage Alignment Score
+  key: stage_alignment_score
+  type: number
+  default: 0
+  required: false
+  layer: stage
+- name: Rank
+  header: Rank
+  key: rank
+  type: integer
+  layer: ranking
+  required: false
+  default: 999
+- name: Rank Bucket
+  header: Rank Bucket
+  key: rank_bucket
+  type: string
+  layer: ranking
+  required: false
+  default: OTHER
+- name: Evaluated Stage Count
+  header: Evaluated Stage Count
+  key: evaluated_stage_count
+  type: integer
+  layer: stage
+  required: false
+  default: 0
+- name: Evaluated Substage Count
+  header: Evaluated Substage Count
+  key: evaluated_substage_count
+  type: integer
+  layer: stage
+  required: false
+  default: 0
+- name: Evaluated Child Substage Count
+  header: Evaluated Child Substage Count
+  key: evaluated_child_substage_count
+  type: integer
+  layer: stage
+  required: false
+  default: 0
+- name: Stage Score Map
+  header: Stage Score Map
+  key: stage_score_map
+  type: string
+  layer: stage
+  required: false
+  default: ''
+- name: Substage Score Map
+  header: Substage Score Map
+  key: substage_score_map
+  type: string
+  layer: stage
+  required: false
+  default: ''
+- name: Child Substage Score Map
+  header: Child Substage Score Map
+  key: child_substage_score_map
+  type: string
+  layer: stage
+  required: false
+  default: ''
+- name: All Child Substage Score Map
+  header: All Child Substage Score Map
+  key: all_child_substage_score_map
+  type: string
+  layer: stage
+  required: false
+  default: ''
+- name: Ranked Substage Score Map
+  header: Ranked Substage Score Map
+  key: ranked_substage_score_map
+  type: string
+  layer: stage
+  required: false
+  default: ''
+- name: Ranked All Child Substage Score Map
+  header: Ranked All Child Substage Score Map
+  key: ranked_all_child_substage_score_map
+  type: string
+  layer: stage
+  required: false
+  default: ''
+- name: Top 3 Substages
+  header: Top 3 Substages
+  key: top3_substages
+  type: string
+  layer: stage
+  required: false
+  default: ''
+- name: Top 3 Child Substages
+  header: Top 3 Child Substages
+  key: top3_child_substages
+  type: string
+  layer: stage
+  required: false
+  default: ''
+- name: Selected Child Qualified Key
+  header: Selected Child Qualified Key
+  key: selected_child_qualified_key
+  type: string
+  layer: stage
+  required: false
+  default: ''
+- name: Child Promotion Reason
+  header: Child Promotion Reason
+  key: child_promotion_reason
+  type: string
+  layer: stage
+  required: false
+  default: ''
+- name: Qualified Child Key
+  header: Qualified Child Key
+  key: qualified_child_key
+  type: string
+  layer: stage
+  required: false
+  default: ''
+- name: Stage Substage Key
+  header: Stage Substage Key
+  key: stage_substage_key
+  type: string
+  layer: stage
+  required: false
+  default: ''
+- name: Stage Substage Child Key
+  header: Stage Substage Child Key
+  key: stage_substage_child_key
+  type: string
+  layer: stage
+  required: false
+  default: ''
+- name: Adjusted All Child Substage Score Map
+  header: Adjusted All Child Substage Score Map
+  key: adjusted_all_child_substage_score_map
+  type: string
+  layer: stage
+  required: false
+  default: ''
+- name: Child Scoring Version
+  header: Child Scoring Version
+  key: child_scoring_version
+  type: string
+  layer: stage
+  required: false
+  default: ''
+
+
+- name: Target Hit Before Stop 90D
+  header: Target Hit Before Stop 90D
+  key: target_hit_before_stop_90d
+  type: int
+  layer: analytics
+  required: false
+  default: 0
+- name: Forward Max Gain Pct 90D
+  header: Forward Max Gain Pct 90D
+  key: forward_max_gain_pct_90d
+  type: float
+  layer: analytics
+  required: false
+  default: 0.0
+- name: Forward Min Drawdown Pct 90D
+  header: Forward Min Drawdown Pct 90D
+  key: forward_min_drawdown_pct_90d
+  type: float
+  layer: analytics
+  required: false
+  default: 0.0
+- name: Days To Target 90D
+  header: Days To Target 90D
+  key: days_to_target_90d
+  type: int
+  layer: analytics
+  required: false
+  default: 0
+- name: Days To Stop 90D
+  header: Days To Stop 90D
+  key: days_to_stop_90d
+  type: int
+  layer: analytics
+  required: false
+  default: 0
+- name: Label Quality
+  header: Label Quality
+  key: label_quality
+  type: string
+  layer: analytics
+  required: false
+  default: ''

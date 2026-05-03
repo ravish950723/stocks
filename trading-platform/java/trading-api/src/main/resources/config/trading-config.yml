@@ -1,0 +1,22 @@
+short-selling:
+  atr-invalidation-buffer: 0.35
+  weak-short-threshold: 0.55
+  short-threshold: 0.68
+  strong-short-threshold: 0.78
+  min-rr-ratio: 1.50
+  min-feasibility: 0.50
+  medium-borrow-fee-pct: 5.0
+  high-borrow-fee-pct: 10.0
+  max-borrow-fee-pct: 25.0
+  high-short-interest-pct: 20.0
+  squeeze-relative-volume-threshold: 2.5
+  min-dollar-volume: 5000000
+  good-dollar-volume: 25000000
+  excellent-dollar-volume: 100000000
+  weights:
+    stage: 0.30
+    substage: 0.20
+    volume: 0.15
+    l2: 0.15
+    borrow: 0.10
+    sentiment: 0.10

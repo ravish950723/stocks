@@ -1,0 +1,30 @@
+indicators:
+  ema:
+  - 20
+  - 50
+  - 200
+  rsi:
+    period: 14
+  macd:
+    fast: 12
+    slow: 26
+    signal: 9
+  adx:
+    period: 14
+  vwap:
+    enabled: true
+
+derived_features:
+  dma_periods: [20, 50, 100, 150, 200]
+  atr_period: 14
+  breakout_lookback: 20
+  avg_volume_periods:
+    short: 5
+    long: 20
+
+feature_flags:
+  darvas: true
+  obv: true
+  bollinger: true
+  mean_reversion: true
+  distribution_accumulation_days: true

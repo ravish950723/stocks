@@ -1,0 +1,1618 @@
+metadata_defaults:
+  entry_style: CONFIRMATION
+  maturity: DEVELOPING
+  risk_profile: MEDIUM
+  confirmation_needed: true
+  preferred_trigger: BREAKOUT_RETEST
+  directional_bias: NEUTRAL
+stage_boosts:
+  MARKUP:
+    bull_stack: 18
+    price_above_vwap: 10
+    rsi_bull: 8
+stage_thresholds:
+  compression_range_max_pct: 0.08
+  tight_compression_range_max_pct: 0.04
+  adx_trend_min: 18
+  adx_strong_trend_min: 25
+  adx_extreme_trend_min: 40
+  rsi_bull_min: 55
+  rsi_bear_max: 45
+  rsi_exhaustion_high: 72
+  rsi_exhaustion_low: 28
+  rsi_climax_high: 80
+  rsi_panic_low: 24
+  strong_volume_surge_min: 1.6
+  capitulation_volume_min: 2.0
+confidence_weights:
+  trend_alignment: 22
+  structure_quality: 22
+  volume_confirmation: 18
+  momentum_confirmation: 14
+  support_resistance_context: 14
+  candle_confirmation: 10
+market_stages:
+  ACCUMULATION:
+    label: Accumulation
+    directional_bias: BULLISH_REVERSAL
+    description: Volatility contracts near support while supply is absorbed before an upside expansion.
+    substages:
+      BASE_BUILDING:
+        bias: EARLY_BULLISH
+        entry_style: ANTICIPATORY
+        maturity: EARLY
+        risk_profile: MEDIUM
+        confirmation_needed: true
+        preferred_trigger: SUPPORT_HOLD
+        directional_bias: BULLISH
+        granular_classification:
+          family: BASE_FORMATION
+          sequence_rank: 1
+          intent: Build a durable floor with improving price stability.
+        description: Price compresses in a base with improving stability.
+        institutional_trade_policy:
+          long_action: WATCH_ACCUMULATE_SMALL
+          long_weight: 7
+          sell_action: WAIT
+          sell_weight: 2
+          short_action: NO_SHORT
+          short_weight: 0
+          ranking_bucket: SAFE_BUY_WATCH
+      LOW_VOL_CONSOLIDATION:
+        bias: EARLY_BULLISH
+        entry_style: ANTICIPATORY
+        maturity: EARLY
+        risk_profile: MEDIUM
+        confirmation_needed: false
+        preferred_trigger: TIGHT_RANGE
+        directional_bias: BULLISH
+        granular_classification:
+          family: BASE_FORMATION
+          sequence_rank: 2
+          intent: Quiet consolidation with limited downside expansion.
+        description: Very low volatility range where selling pressure dries up.
+        institutional_trade_policy:
+          long_action: WATCH_ACCUMULATE_SMALL
+          long_weight: 7
+          sell_action: WAIT
+          sell_weight: 2
+          short_action: NO_SHORT
+          short_weight: 0
+          ranking_bucket: SAFE_BUY_WATCH
+      RANGE_BOUND:
+        bias: NEUTRAL_TO_BULLISH
+        entry_style: WAIT
+        maturity: EARLY
+        risk_profile: MEDIUM
+        confirmation_needed: false
+        preferred_trigger: RANGE_RESOLUTION
+        directional_bias: NEUTRAL
+        granular_classification:
+          family: BASE_FORMATION
+          sequence_rank: 3
+          intent: Define the range edges for later directional resolution.
+        description: Price oscillates inside a well-defined accumulation box.
+        institutional_trade_policy:
+          long_action: WATCH_ACCUMULATE_SMALL
+          long_weight: 7
+          sell_action: WAIT
+          sell_weight: 2
+          short_action: NO_SHORT
+          short_weight: 0
+          ranking_bucket: SAFE_BUY_WATCH
+      VOLATILITY_COMPRESSION:
+        bias: BULLISH_SETUP
+        entry_style: ANTICIPATORY
+        maturity: DEVELOPING
+        risk_profile: MEDIUM
+        confirmation_needed: true
+        preferred_trigger: RANGE_EXPANSION
+        directional_bias: BULLISH
+        granular_classification:
+          family: BASE_FORMATION
+          sequence_rank: 4
+          intent: Prepare for expansion after compression.
+        description: Range tightens further and energy builds for a directional move.
+        institutional_trade_policy:
+          long_action: WATCH_ACCUMULATE_SMALL
+          long_weight: 7
+          sell_action: WAIT
+          sell_weight: 2
+          short_action: NO_SHORT
+          short_weight: 0
+          ranking_bucket: SAFE_BUY_WATCH
+      STOP_HUNT:
+        bias: CONTRARIAN_BULLISH
+        entry_style: ANTICIPATORY
+        maturity: DEVELOPING
+        risk_profile: HIGH
+        confirmation_needed: true
+        preferred_trigger: RECLAIM_OF_SUPPORT
+        directional_bias: BULLISH
+        granular_classification:
+          family: LIQUIDITY_EVENT
+          sequence_rank: 5
+          intent: Flush weak holders below support before recovery.
+        description: Price briefly breaks support to trigger stops and then stabilizes.
+        institutional_trade_policy:
+          long_action: EARLY_REVERSAL_BUY
+          long_weight: 8
+          sell_action: WAIT_CONFIRMATION
+          sell_weight: 3
+          short_action: NO_SHORT
+          short_weight: 1
+          ranking_bucket: REVERSAL_FROM_FALL
+      SPRING:
+        bias: CONTRARIAN_BULLISH
+        entry_style: EARLY
+        maturity: DEVELOPING
+        risk_profile: HIGH
+        confirmation_needed: true
+        preferred_trigger: SPRING_OR_RECLAIM
+        directional_bias: BULLISH
+        granular_classification:
+          family: LIQUIDITY_EVENT
+          sequence_rank: 6
+          intent: Wyckoff-style spring that reverses back into the range.
+        description: False downside breakdown that quickly recovers into the base.
+        institutional_trade_policy:
+          long_action: EARLY_REVERSAL_BUY
+          long_weight: 8
+          sell_action: WAIT_CONFIRMATION
+          sell_weight: 3
+          short_action: NO_SHORT
+          short_weight: 1
+          ranking_bucket: REVERSAL_FROM_FALL
+      FALSE_BREAKDOWN:
+        bias: BULLISH_REVERSAL
+        entry_style: EARLY
+        maturity: DEVELOPING
+        risk_profile: HIGH
+        confirmation_needed: true
+        preferred_trigger: RANGE_REENTRY
+        directional_bias: BULLISH
+        granular_classification:
+          family: LIQUIDITY_EVENT
+          sequence_rank: 7
+          intent: Confirm that downside continuation failed.
+        description: Breakdown attempt fails and price re-enters prior support structure.
+        institutional_trade_policy:
+          long_action: EARLY_REVERSAL_BUY
+          long_weight: 8
+          sell_action: WAIT_CONFIRMATION
+          sell_weight: 3
+          short_action: NO_SHORT
+          short_weight: 1
+          ranking_bucket: REVERSAL_FROM_FALL
+      LIQUIDITY_GRAB_LOW:
+        bias: BULLISH_REVERSAL
+        entry_style: EARLY
+        maturity: DEVELOPING
+        risk_profile: HIGH
+        confirmation_needed: true
+        preferred_trigger: DEMAND_RESPONSE
+        directional_bias: BULLISH
+        granular_classification:
+          family: LIQUIDITY_EVENT
+          sequence_rank: 8
+          intent: Absorb supply after a sweep below obvious support.
+        description: Sharp dip below support captures liquidity and then demand responds.
+        institutional_trade_policy:
+          long_action: EARLY_REVERSAL_BUY
+          long_weight: 8
+          sell_action: WAIT_CONFIRMATION
+          sell_weight: 3
+          short_action: NO_SHORT
+          short_weight: 1
+          ranking_bucket: REVERSAL_FROM_FALL
+      ABSORPTION:
+        bias: BULLISH
+        entry_style: EARLY
+        maturity: DEVELOPING
+        risk_profile: MEDIUM
+        confirmation_needed: true
+        preferred_trigger: SPRING_OR_RECLAIM
+        directional_bias: BULLISH
+        granular_classification:
+          family: ABSORPTION
+          sequence_rank: 9
+          intent: Repeated tests hold while supply gets absorbed.
+        description: Support holds while demand absorbs repeated supply.
+        institutional_trade_policy:
+          long_action: BUY_SETUP
+          long_weight: 9
+          sell_action: HOLD_OR_WAIT
+          sell_weight: 2
+          short_action: NO_SHORT
+          short_weight: 0
+          ranking_bucket: HIDDEN_ACCUMULATION
+      REVERSAL_ATTEMPT:
+        bias: BULLISH_REVERSAL
+        entry_style: EARLY
+        maturity: DEVELOPING
+        risk_profile: MEDIUM
+        confirmation_needed: true
+        preferred_trigger: FIRST_HIGHER_LOW
+        directional_bias: BULLISH
+        granular_classification:
+          family: EARLY_REVERSAL
+          sequence_rank: 10
+          intent: Start the transition from base to uptrend.
+        description: First signs that control is shifting from sellers to buyers.
+        institutional_trade_policy:
+          long_action: WATCH_ACCUMULATE_SMALL
+          long_weight: 7
+          sell_action: WAIT
+          sell_weight: 2
+          short_action: NO_SHORT
+          short_weight: 0
+          ranking_bucket: SAFE_BUY_WATCH
+      HIGHER_LOW_FORMATION:
+        bias: BULLISH
+        entry_style: PULLBACK
+        maturity: DEVELOPING
+        risk_profile: MEDIUM
+        confirmation_needed: true
+        preferred_trigger: HIGHER_LOW_HOLD
+        directional_bias: BULLISH
+        granular_classification:
+          family: EARLY_REVERSAL
+          sequence_rank: 11
+          intent: Confirm improving demand with a higher low.
+        description: Pullbacks begin to hold above prior lows.
+        institutional_trade_policy:
+          long_action: BUY_SETUP
+          long_weight: 9
+          sell_action: HOLD_OR_WAIT
+          sell_weight: 2
+          short_action: NO_SHORT
+          short_weight: 0
+          ranking_bucket: HIDDEN_ACCUMULATION
+      DEMAND_EMERGENCE:
+        bias: BULLISH
+        entry_style: CONFIRMATION
+        maturity: DEVELOPING
+        risk_profile: MEDIUM
+        confirmation_needed: true
+        preferred_trigger: DEMAND_CANDLE
+        directional_bias: BULLISH
+        granular_classification:
+          family: EARLY_REVERSAL
+          sequence_rank: 12
+          intent: Detect stronger buyer initiative at support.
+        description: Buyers begin to respond faster and with better follow-through.
+        institutional_trade_policy:
+          long_action: BUY_SETUP
+          long_weight: 9
+          sell_action: HOLD_OR_WAIT
+          sell_weight: 2
+          short_action: NO_SHORT
+          short_weight: 0
+          ranking_bucket: HIDDEN_ACCUMULATION
+      VOLUME_ACCUMULATION:
+        bias: BULLISH
+        entry_style: CONFIRMATION
+        maturity: LATE
+        risk_profile: MEDIUM
+        confirmation_needed: true
+        preferred_trigger: VOLUME_EXPANSION
+        directional_bias: BULLISH
+        granular_classification:
+          family: PRE_MOVE
+          sequence_rank: 13
+          intent: Increasing participation ahead of an upside move.
+        description: Constructive volume behavior appears while price remains controlled.
+        institutional_trade_policy:
+          long_action: BUY_SETUP
+          long_weight: 9
+          sell_action: HOLD_OR_WAIT
+          sell_weight: 2
+          short_action: NO_SHORT
+          short_weight: 0
+          ranking_bucket: HIDDEN_ACCUMULATION
+      RANGE_TIGHTENING:
+        bias: BULLISH_SETUP
+        entry_style: CONFIRMATION
+        maturity: LATE
+        risk_profile: MEDIUM
+        confirmation_needed: true
+        preferred_trigger: RANGE_BREAK
+        directional_bias: BULLISH
+        granular_classification:
+          family: PRE_MOVE
+          sequence_rank: 14
+          intent: Narrow the launch structure before breakout.
+        description: The base tightens into a cleaner breakout-ready structure.
+        institutional_trade_policy:
+          long_action: BUY_SETUP
+          long_weight: 9
+          sell_action: HOLD_OR_WAIT
+          sell_weight: 2
+          short_action: NO_SHORT
+          short_weight: 0
+          ranking_bucket: HIDDEN_ACCUMULATION
+      PRE_BREAKOUT:
+        bias: BULLISH
+        entry_style: CONFIRMATION
+        maturity: LATE
+        risk_profile: MEDIUM
+        confirmation_needed: true
+        preferred_trigger: RANGE_BREAK
+        directional_bias: BULLISH
+        granular_classification:
+          family: PRE_MOVE
+          sequence_rank: 15
+          intent: Finish accumulation and transition into markup.
+        description: Base is nearly complete and momentum is building ahead of breakout.
+        institutional_trade_policy:
+          long_action: BUY_SETUP
+          long_weight: 9
+          sell_action: HOLD_OR_WAIT
+          sell_weight: 2
+          short_action: NO_SHORT
+          short_weight: 0
+          ranking_bucket: HIDDEN_ACCUMULATION
+  MARKUP:
+    label: Markup
+    directional_bias: BULLISH
+    description: Price is trending above major moving averages with positive structure.
+    substages:
+      BREAKOUT:
+        bias: BULLISH
+        entry_style: MOMENTUM
+        maturity: EARLY
+        risk_profile: MEDIUM
+        confirmation_needed: true
+        preferred_trigger: RANGE_BREAK
+        directional_bias: BULLISH
+        granular_classification:
+          family: INITIATION
+          sequence_rank: 1
+          intent: Launch out of accumulation or base.
+        description: Price breaks decisively above the range or pivot.
+        institutional_trade_policy:
+          long_action: BUY_OR_ADD
+          long_weight: 9
+          sell_action: HOLD
+          sell_weight: 2
+          short_action: NO_SHORT
+          short_weight: 0
+          ranking_bucket: TREND_BUY
+      RETEST:
+        bias: BULLISH
+        entry_style: PULLBACK
+        maturity: EARLY
+        risk_profile: LOW_TO_MEDIUM
+        confirmation_needed: true
+        preferred_trigger: BREAKOUT_RETEST
+        directional_bias: BULLISH
+        granular_classification:
+          family: INITIATION
+          sequence_rank: 2
+          intent: Confirm breakout quality with a successful retest.
+        description: Price retests prior resistance as support after breakout.
+        institutional_trade_policy:
+          long_action: BUY_OR_ADD
+          long_weight: 9
+          sell_action: HOLD
+          sell_weight: 2
+          short_action: NO_SHORT
+          short_weight: 0
+          ranking_bucket: TREND_BUY
+      EARLY_TREND:
+        bias: BULLISH
+        entry_style: PULLBACK
+        maturity: EARLY
+        risk_profile: LOW_TO_MEDIUM
+        confirmation_needed: true
+        preferred_trigger: PULLBACK_TO_DMA20
+        directional_bias: BULLISH
+        granular_classification:
+          family: INITIATION
+          sequence_rank: 3
+          intent: Establish the initial sustainable uptrend.
+        description: Fresh uptrend with room before exhaustion.
+        institutional_trade_policy:
+          long_action: BUY_OR_ADD
+          long_weight: 9
+          sell_action: HOLD
+          sell_weight: 2
+          short_action: NO_SHORT
+          short_weight: 0
+          ranking_bucket: TREND_BUY
+      TREND_CONTINUATION:
+        bias: BULLISH
+        entry_style: PULLBACK
+        maturity: MID
+        risk_profile: MEDIUM
+        confirmation_needed: true
+        preferred_trigger: HIGHER_LOW_RESUME
+        directional_bias: BULLISH
+        granular_classification:
+          family: TREND
+          sequence_rank: 4
+          intent: Continue participating in the established uptrend.
+        description: Trend remains healthy with consistent higher highs and higher lows.
+        institutional_trade_policy:
+          long_action: BUY_OR_ADD
+          long_weight: 9
+          sell_action: HOLD
+          sell_weight: 2
+          short_action: NO_SHORT
+          short_weight: 0
+          ranking_bucket: TREND_BUY
+      PULLBACK:
+        bias: BULLISH
+        entry_style: PULLBACK
+        maturity: MID
+        risk_profile: LOW_TO_MEDIUM
+        confirmation_needed: true
+        preferred_trigger: SUPPORT_RECLAIM
+        directional_bias: BULLISH
+        granular_classification:
+          family: TREND
+          sequence_rank: 5
+          intent: Buy controlled weakness within a healthy trend.
+        description: Temporary dip into support during a broader uptrend.
+        institutional_trade_policy:
+          long_action: BUY_OR_ADD
+          long_weight: 9
+          sell_action: HOLD
+          sell_weight: 2
+          short_action: NO_SHORT
+          short_weight: 0
+          ranking_bucket: TREND_BUY
+      HIGHER_HIGH:
+        bias: BULLISH
+        entry_style: MOMENTUM
+        maturity: MID
+        risk_profile: MEDIUM
+        confirmation_needed: true
+        preferred_trigger: PIVOT_BREAK
+        directional_bias: BULLISH
+        granular_classification:
+          family: TREND
+          sequence_rank: 6
+          intent: Confirm demand persistence with new highs.
+        description: Price extends into a new high while structure stays intact.
+        institutional_trade_policy:
+          long_action: WATCH_TREND
+          long_weight: 6
+          sell_action: HOLD
+          sell_weight: 3
+          short_action: NO_SHORT
+          short_weight: 0
+          ranking_bucket: AGGRESSIVE_BUY
+      HIGHER_LOW:
+        bias: BULLISH
+        entry_style: PULLBACK
+        maturity: MID
+        risk_profile: LOW_TO_MEDIUM
+        confirmation_needed: true
+        preferred_trigger: HIGHER_LOW_HOLD
+        directional_bias: BULLISH
+        granular_classification:
+          family: TREND
+          sequence_rank: 7
+          intent: Confirm strong trend support.
+        description: Pullback holds above prior swing support, preserving trend quality.
+        institutional_trade_policy:
+          long_action: BUY_OR_ADD
+          long_weight: 9
+          sell_action: HOLD
+          sell_weight: 2
+          short_action: NO_SHORT
+          short_weight: 0
+          ranking_bucket: TREND_BUY
+      STRONG_TREND:
+        bias: BULLISH
+        entry_style: MOMENTUM
+        maturity: MID
+        risk_profile: MEDIUM
+        confirmation_needed: true
+        preferred_trigger: BREAKOUT_CONTINUATION
+        directional_bias: BULLISH
+        granular_classification:
+          family: TREND
+          sequence_rank: 8
+          intent: Participate in strong persistent upside momentum.
+        description: Trend is established and confirmed by momentum and volume.
+        institutional_trade_policy:
+          long_action: BUY_OR_ADD
+          long_weight: 9
+          sell_action: HOLD
+          sell_weight: 2
+          short_action: NO_SHORT
+          short_weight: 0
+          ranking_bucket: TREND_BUY
+      RANGE_EXPANSION:
+        bias: BULLISH
+        entry_style: MOMENTUM
+        maturity: MID
+        risk_profile: MEDIUM
+        confirmation_needed: true
+        preferred_trigger: VOLATILITY_EXPANSION
+        directional_bias: BULLISH
+        granular_classification:
+          family: EXPANSION
+          sequence_rank: 9
+          intent: Capture expansion after tight consolidation within trend.
+        description: Price range widens in the direction of trend.
+        institutional_trade_policy:
+          long_action: WATCH_TREND
+          long_weight: 6
+          sell_action: HOLD
+          sell_weight: 3
+          short_action: NO_SHORT
+          short_weight: 0
+          ranking_bucket: AGGRESSIVE_BUY
+      MOMENTUM_SURGE:
+        bias: BULLISH
+        entry_style: TACTICAL
+        maturity: MID_TO_LATE
+        risk_profile: HIGH
+        confirmation_needed: true
+        preferred_trigger: HIGH_VOLUME_BREAK
+        directional_bias: BULLISH
+        granular_classification:
+          family: EXPANSION
+          sequence_rank: 10
+          intent: Identify powerful upside momentum bursts.
+        description: Rapid upside acceleration supported by strong momentum and volume.
+        institutional_trade_policy:
+          long_action: WATCH_TREND
+          long_weight: 6
+          sell_action: HOLD
+          sell_weight: 3
+          short_action: NO_SHORT
+          short_weight: 0
+          ranking_bucket: AGGRESSIVE_BUY
+      ACCELERATION:
+        bias: LATE_BULLISH
+        entry_style: TACTICAL
+        maturity: LATE
+        risk_profile: HIGH
+        confirmation_needed: true
+        preferred_trigger: MOMENTUM_CONTINUATION
+        directional_bias: BULLISH
+        granular_classification:
+          family: EXPANSION
+          sequence_rank: 11
+          intent: Ride the final powerful leg while monitoring exhaustion.
+        description: Trend steepens and becomes more extended.
+        institutional_trade_policy:
+          long_action: WATCH_TREND
+          long_weight: 6
+          sell_action: HOLD
+          sell_weight: 3
+          short_action: NO_SHORT
+          short_weight: 0
+          ranking_bucket: AGGRESSIVE_BUY
+      CLIMAX_RUN:
+        bias: LATE_BULLISH
+        entry_style: TACTICAL
+        maturity: LATE
+        risk_profile: HIGH
+        confirmation_needed: true
+        preferred_trigger: ONLY_ON_RETEST
+        directional_bias: BULLISH
+        granular_classification:
+          family: LATE_STAGE
+          sequence_rank: 12
+          intent: Recognize late-stage upside acceleration.
+        description: Strong upside acceleration but increasing exhaustion risk.
+        institutional_trade_policy:
+          long_action: DO_NOT_CHASE
+          long_weight: 2
+          sell_action: TAKE_PROFIT_OR_AVOID
+          sell_weight: 8
+          short_action: WAIT_FOR_BREAKDOWN
+          short_weight: 4
+          ranking_bucket: AVOID_TRAP
+      OVEREXTENSION:
+        bias: NEUTRAL_TO_BEARISH
+        entry_style: AVOID_CHASE
+        maturity: VERY_LATE
+        risk_profile: HIGH
+        confirmation_needed: false
+        preferred_trigger: NONE
+        directional_bias: NEUTRAL
+        granular_classification:
+          family: LATE_STAGE
+          sequence_rank: 13
+          intent: Avoid initiating poor risk-reward longs.
+        description: Price is materially stretched above trend support and vulnerable to mean reversion.
+        institutional_trade_policy:
+          long_action: DO_NOT_CHASE
+          long_weight: 2
+          sell_action: TAKE_PROFIT_OR_AVOID
+          sell_weight: 8
+          short_action: WAIT_FOR_BREAKDOWN
+          short_weight: 4
+          ranking_bucket: AVOID_TRAP
+      EXHAUSTION:
+        bias: NEUTRAL_TO_BEARISH
+        entry_style: AVOID_CHASE
+        maturity: VERY_LATE
+        risk_profile: HIGH
+        confirmation_needed: false
+        preferred_trigger: NONE
+        directional_bias: NEUTRAL
+        granular_classification:
+          family: LATE_STAGE
+          sequence_rank: 14
+          intent: Flag poor reward relative to risk for fresh longs.
+        description: Trend is stretched and risk/reward is poor for fresh longs.
+        institutional_trade_policy:
+          long_action: DO_NOT_CHASE
+          long_weight: 2
+          sell_action: TAKE_PROFIT_OR_AVOID
+          sell_weight: 8
+          short_action: WAIT_FOR_BREAKDOWN
+          short_weight: 4
+          ranking_bucket: AVOID_TRAP
+  DISTRIBUTION:
+    label: Distribution
+    directional_bias: BEARISH_REVERSAL
+    description: Uptrend stalls as supply emerges and upside follow-through weakens.
+    substages:
+      TIGHT_RANGE_TOP:
+        bias: NEUTRAL_TO_BEARISH
+        entry_style: WAIT
+        maturity: EARLY
+        risk_profile: MEDIUM
+        confirmation_needed: true
+        preferred_trigger: BREAK_OF_SUPPORT
+        directional_bias: BEARISH
+        granular_classification:
+          family: TOPPING
+          sequence_rank: 1
+          intent: Detect a compact top after a prolonged uptrend.
+        description: Price stalls in a tight range near highs as upside progress fades.
+        institutional_trade_policy:
+          long_action: AVOID_LONG
+          long_weight: 1
+          sell_action: SELL_OR_TRIM
+          sell_weight: 9
+          short_action: SHORT_ON_CONFIRMATION
+          short_weight: 7
+          ranking_bucket: AVOID_TRAP
+      SIDEWAYS_TOPPING:
+        bias: NEUTRAL_TO_BEARISH
+        entry_style: WAIT
+        maturity: EARLY
+        risk_profile: MEDIUM
+        confirmation_needed: true
+        preferred_trigger: RANGE_BREAK_DOWN
+        directional_bias: BEARISH
+        granular_classification:
+          family: TOPPING
+          sequence_rank: 2
+          intent: Recognize a broad topping shelf.
+        description: Price drifts sideways near highs with deteriorating advance quality.
+        institutional_trade_policy:
+          long_action: AVOID_LONG
+          long_weight: 1
+          sell_action: SELL_OR_TRIM
+          sell_weight: 9
+          short_action: SHORT_ON_CONFIRMATION
+          short_weight: 7
+          ranking_bucket: AVOID_TRAP
+      VOLUME_DISTRIBUTION:
+        bias: NEUTRAL_TO_BEARISH
+        entry_style: DEFENSIVE
+        maturity: DEVELOPING
+        risk_profile: MEDIUM
+        confirmation_needed: true
+        preferred_trigger: HIGH_VOLUME_STALL
+        directional_bias: BEARISH
+        granular_classification:
+          family: TOPPING
+          sequence_rank: 3
+          intent: Spot supply emergence before breakdown.
+        description: Elevated volume appears without meaningful upside follow-through.
+        institutional_trade_policy:
+          long_action: AVOID_LONG
+          long_weight: 1
+          sell_action: SELL_OR_TRIM
+          sell_weight: 9
+          short_action: SHORT_ON_CONFIRMATION
+          short_weight: 7
+          ranking_bucket: AVOID_TRAP
+      TOP_FORMATION:
+        bias: NEUTRAL_TO_BEARISH
+        entry_style: WAIT
+        maturity: EARLY
+        risk_profile: MEDIUM
+        confirmation_needed: true
+        preferred_trigger: BREAK_OF_SUPPORT
+        directional_bias: BEARISH
+        granular_classification:
+          family: TOPPING
+          sequence_rank: 4
+          intent: Confirm top-building structure.
+        description: Market is forming a top with deteriorating quality.
+        institutional_trade_policy:
+          long_action: AVOID_LONG
+          long_weight: 1
+          sell_action: SELL_OR_TRIM
+          sell_weight: 9
+          short_action: SHORT_ON_CONFIRMATION
+          short_weight: 7
+          ranking_bucket: AVOID_TRAP
+      UPTHRUST:
+        bias: BEARISH
+        entry_style: FADE_STRENGTH
+        maturity: MID
+        risk_profile: HIGH
+        confirmation_needed: true
+        preferred_trigger: FAILED_BREAKOUT
+        directional_bias: BEARISH
+        granular_classification:
+          family: TRAP
+          sequence_rank: 5
+          intent: Fade failed strength above resistance.
+        description: Price spikes into resistance or exhaustion and fails.
+        institutional_trade_policy:
+          long_action: AVOID_LONG
+          long_weight: 1
+          sell_action: SELL_OR_TRIM
+          sell_weight: 9
+          short_action: SHORT_ON_CONFIRMATION
+          short_weight: 7
+          ranking_bucket: AVOID_TRAP
+      FALSE_BREAKOUT:
+        bias: BEARISH
+        entry_style: FADE_STRENGTH
+        maturity: MID
+        risk_profile: HIGH
+        confirmation_needed: true
+        preferred_trigger: RANGE_REENTRY
+        directional_bias: BEARISH
+        granular_classification:
+          family: TRAP
+          sequence_rank: 6
+          intent: Detect failed expansion above the top.
+        description: Breakout above resistance fails and price returns into the range.
+        institutional_trade_policy:
+          long_action: AVOID_LONG
+          long_weight: 1
+          sell_action: SELL_OR_TRIM
+          sell_weight: 9
+          short_action: SHORT_ON_CONFIRMATION
+          short_weight: 7
+          ranking_bucket: AVOID_TRAP
+      LIQUIDITY_GRAB_HIGH:
+        bias: BEARISH
+        entry_style: FADE_STRENGTH
+        maturity: MID
+        risk_profile: HIGH
+        confirmation_needed: true
+        preferred_trigger: REJECTION_AT_HIGH
+        directional_bias: BEARISH
+        granular_classification:
+          family: TRAP
+          sequence_rank: 7
+          intent: Identify stop-sweeps above obvious highs.
+        description: Price sweeps highs, captures liquidity, and then loses momentum.
+        institutional_trade_policy:
+          long_action: AVOID_LONG
+          long_weight: 1
+          sell_action: SELL_OR_TRIM
+          sell_weight: 9
+          short_action: SHORT_ON_CONFIRMATION
+          short_weight: 7
+          ranking_bucket: AVOID_TRAP
+      EXHAUSTION:
+        bias: BEARISH_REVERSAL
+        entry_style: DEFENSIVE
+        maturity: MID_TO_LATE
+        risk_profile: HIGH
+        confirmation_needed: true
+        preferred_trigger: MOMENTUM_FAILURE
+        directional_bias: BEARISH
+        granular_classification:
+          family: WEAKNESS
+          sequence_rank: 8
+          intent: Flag late-stage upside fatigue.
+        description: Uptrend is extended and losing efficient upside follow-through.
+        institutional_trade_policy:
+          long_action: AVOID_LONG
+          long_weight: 1
+          sell_action: SELL_OR_TRIM
+          sell_weight: 9
+          short_action: SHORT_ON_CONFIRMATION
+          short_weight: 7
+          ranking_bucket: AVOID_TRAP
+      LOWER_HIGH_FORMATION:
+        bias: BEARISH
+        entry_style: RALLY_FADE
+        maturity: DEVELOPING
+        risk_profile: MEDIUM_TO_HIGH
+        confirmation_needed: true
+        preferred_trigger: LOWER_HIGH_CONFIRMATION
+        directional_bias: BEARISH
+        granular_classification:
+          family: WEAKNESS
+          sequence_rank: 9
+          intent: Confirm the first real deterioration in trend structure.
+        description: Rally fails below prior high and structure begins to roll over.
+        institutional_trade_policy:
+          long_action: AVOID_LONG
+          long_weight: 1
+          sell_action: SELL_OR_TRIM
+          sell_weight: 9
+          short_action: SHORT_ON_CONFIRMATION
+          short_weight: 7
+          ranking_bucket: AVOID_TRAP
+      MOMENTUM_LOSS:
+        bias: NEUTRAL_TO_BEARISH
+        entry_style: DEFENSIVE
+        maturity: DEVELOPING
+        risk_profile: MEDIUM
+        confirmation_needed: true
+        preferred_trigger: TREND_DECELERATION
+        directional_bias: BEARISH
+        granular_classification:
+          family: WEAKNESS
+          sequence_rank: 10
+          intent: Spot weakening impulse before full reversal.
+        description: Momentum indicators soften while price struggles near highs.
+        institutional_trade_policy:
+          long_action: AVOID_LONG
+          long_weight: 1
+          sell_action: SELL_OR_TRIM
+          sell_weight: 9
+          short_action: SHORT_ON_CONFIRMATION
+          short_weight: 7
+          ranking_bucket: AVOID_TRAP
+      REVERSAL_SIGNAL:
+        bias: BEARISH
+        entry_style: CONFIRMATION
+        maturity: LATE
+        risk_profile: HIGH
+        confirmation_needed: true
+        preferred_trigger: SUPPORT_BREAK
+        directional_bias: BEARISH
+        granular_classification:
+          family: REVERSAL
+          sequence_rank: 11
+          intent: Transition from topping to downtrend.
+        description: Structure and momentum shift enough to favor a bearish reversal.
+        institutional_trade_policy:
+          long_action: AVOID_LONG
+          long_weight: 1
+          sell_action: SELL_OR_TRIM
+          sell_weight: 9
+          short_action: SHORT_ON_CONFIRMATION
+          short_weight: 7
+          ranking_bucket: AVOID_TRAP
+      FAILED_BREAKOUT:
+        bias: BEARISH
+        entry_style: DEFENSIVE
+        maturity: MID
+        risk_profile: HIGH
+        confirmation_needed: true
+        preferred_trigger: LOSS_OF_RANGE_HIGH
+        directional_bias: BEARISH
+        granular_classification:
+          family: REVERSAL
+          sequence_rank: 12
+          intent: Confirm that continuation has failed.
+        description: Breakout attempt fails and distribution becomes obvious.
+        institutional_trade_policy:
+          long_action: AVOID_LONG
+          long_weight: 1
+          sell_action: SELL_OR_TRIM
+          sell_weight: 9
+          short_action: SHORT_ON_CONFIRMATION
+          short_weight: 7
+          ranking_bucket: AVOID_TRAP
+      TOPPING_STRUCTURE:
+        bias: BEARISH_REVERSAL
+        entry_style: WAIT
+        maturity: LATE
+        risk_profile: HIGH
+        confirmation_needed: true
+        preferred_trigger: LOWER_HIGH_AND_SUPPORT_BREAK
+        directional_bias: BEARISH
+        granular_classification:
+          family: REVERSAL
+          sequence_rank: 13
+          intent: Complete distribution before markdown.
+        description: Multi-swing topping pattern with weakening rallies and fragile support.
+        institutional_trade_policy:
+          long_action: AVOID_LONG
+          long_weight: 1
+          sell_action: SELL_OR_TRIM
+          sell_weight: 9
+          short_action: SHORT_ON_CONFIRMATION
+          short_weight: 7
+          ranking_bucket: AVOID_TRAP
+  MARKDOWN:
+    label: Markdown
+    directional_bias: BEARISH
+    description: Price is trending lower with weak structure and negative momentum.
+    substages:
+      BREAKDOWN:
+        bias: BEARISH
+        entry_style: MOMENTUM
+        maturity: EARLY
+        risk_profile: HIGH
+        confirmation_needed: true
+        preferred_trigger: SUPPORT_BREAK
+        directional_bias: BEARISH
+        granular_classification:
+          family: BREAKDOWN
+          sequence_rank: 1
+          intent: Start the downside leg with a clean support failure.
+        description: Support breaks and downside control becomes visible.
+        institutional_trade_policy:
+          long_action: AVOID_LONG
+          long_weight: 0
+          sell_action: SELL_AVOID
+          sell_weight: 10
+          short_action: SHORT_RETEST
+          short_weight: 9
+          ranking_bucket: SHORT_CANDIDATE
+      SUPPORT_FAILURE:
+        bias: BEARISH
+        entry_style: MOMENTUM
+        maturity: EARLY
+        risk_profile: HIGH
+        confirmation_needed: true
+        preferred_trigger: FAILED_SUPPORT_HOLD
+        directional_bias: BEARISH
+        granular_classification:
+          family: BREAKDOWN
+          sequence_rank: 2
+          intent: Confirm that a support zone no longer holds.
+        description: Previously reliable support fails and selling pressure persists.
+        institutional_trade_policy:
+          long_action: AVOID_LONG
+          long_weight: 0
+          sell_action: SELL_AVOID
+          sell_weight: 10
+          short_action: SHORT_RETEST
+          short_weight: 9
+          ranking_bucket: SHORT_CANDIDATE
+      WEAK_BOUNCE:
+        bias: BEARISH
+        entry_style: AVOID_LONG
+        maturity: EARLY
+        risk_profile: HIGH
+        confirmation_needed: false
+        preferred_trigger: NONE
+        directional_bias: BEARISH
+        granular_classification:
+          family: TREND
+          sequence_rank: 3
+          intent: Avoid mistaking weak rebounds for durable reversals.
+        description: Counter-trend bounce inside a weak tape.
+        institutional_trade_policy:
+          long_action: AVOID_LONG
+          long_weight: 0
+          sell_action: SELL_AVOID
+          sell_weight: 10
+          short_action: SHORT_RETEST
+          short_weight: 9
+          ranking_bucket: SHORT_CANDIDATE
+      TREND_CONTINUATION:
+        bias: BEARISH
+        entry_style: RALLY_SELL
+        maturity: MID
+        risk_profile: HIGH
+        confirmation_needed: true
+        preferred_trigger: FAILED_RECLAIM
+        directional_bias: BEARISH
+        granular_classification:
+          family: TREND
+          sequence_rank: 4
+          intent: Continue participating in the downtrend.
+        description: Downtrend remains intact with persistent lower highs and lower lows.
+        institutional_trade_policy:
+          long_action: AVOID_LONG
+          long_weight: 0
+          sell_action: SELL_AVOID
+          sell_weight: 10
+          short_action: SHORT_RETEST
+          short_weight: 9
+          ranking_bucket: SHORT_CANDIDATE
+      LOWER_LOW:
+        bias: BEARISH
+        entry_style: MOMENTUM
+        maturity: MID
+        risk_profile: HIGH
+        confirmation_needed: true
+        preferred_trigger: SWING_LOW_BREAK
+        directional_bias: BEARISH
+        granular_classification:
+          family: TREND
+          sequence_rank: 5
+          intent: Confirm ongoing downside expansion.
+        description: Price makes a fresh downside swing low.
+        institutional_trade_policy:
+          long_action: AVOID_LONG
+          long_weight: 0
+          sell_action: SELL_AVOID
+          sell_weight: 10
+          short_action: SHORT_RETEST
+          short_weight: 9
+          ranking_bucket: SHORT_CANDIDATE
+      LOWER_HIGH:
+        bias: BEARISH
+        entry_style: RALLY_SELL
+        maturity: MID
+        risk_profile: HIGH
+        confirmation_needed: true
+        preferred_trigger: LOWER_HIGH_REJECTION
+        directional_bias: BEARISH
+        granular_classification:
+          family: TREND
+          sequence_rank: 6
+          intent: Sell weaker rallies within the downtrend.
+        description: Relief rally fails below prior resistance and resumes lower.
+        institutional_trade_policy:
+          long_action: AVOID_LONG
+          long_weight: 0
+          sell_action: SELL_AVOID
+          sell_weight: 10
+          short_action: SHORT_RETEST
+          short_weight: 9
+          ranking_bucket: SHORT_CANDIDATE
+      STRONG_DOWNTREND:
+        bias: BEARISH
+        entry_style: RALLY_SELL
+        maturity: MID
+        risk_profile: HIGH
+        confirmation_needed: true
+        preferred_trigger: FAILED_RECLAIM
+        directional_bias: BEARISH
+        granular_classification:
+          family: TREND
+          sequence_rank: 7
+          intent: Identify firmly established downside structure.
+        description: Downtrend is structurally strong and rallies are likely sold.
+        institutional_trade_policy:
+          long_action: AVOID_LONG
+          long_weight: 0
+          sell_action: SELL_AVOID
+          sell_weight: 10
+          short_action: SHORT_RETEST
+          short_weight: 9
+          ranking_bucket: SHORT_CANDIDATE
+      ACCELERATION:
+        bias: BEARISH
+        entry_style: MOMENTUM
+        maturity: MID_TO_LATE
+        risk_profile: VERY_HIGH
+        confirmation_needed: true
+        preferred_trigger: RANGE_BREAK_DOWN
+        directional_bias: BEARISH
+        granular_classification:
+          family: ACCELERATION
+          sequence_rank: 8
+          intent: Detect intensified downside momentum.
+        description: Downside trend steepens and expands quickly.
+        institutional_trade_policy:
+          long_action: AVOID_LONG
+          long_weight: 0
+          sell_action: SELL_AVOID
+          sell_weight: 10
+          short_action: SHORT_RETEST
+          short_weight: 9
+          ranking_bucket: SHORT_CANDIDATE
+      MOMENTUM_DROP:
+        bias: BEARISH
+        entry_style: MOMENTUM
+        maturity: MID_TO_LATE
+        risk_profile: VERY_HIGH
+        confirmation_needed: true
+        preferred_trigger: HIGH_VELOCITY_SELLING
+        directional_bias: BEARISH
+        granular_classification:
+          family: ACCELERATION
+          sequence_rank: 9
+          intent: Capture velocity-driven downside moves.
+        description: Selling becomes faster and more aggressive than prior legs.
+        institutional_trade_policy:
+          long_action: AVOID_LONG
+          long_weight: 0
+          sell_action: SELL_AVOID
+          sell_weight: 10
+          short_action: SHORT_RETEST
+          short_weight: 9
+          ranking_bucket: SHORT_CANDIDATE
+      PANIC_SELL:
+        bias: PANIC
+        entry_style: AVOID_FRESH_SHORT
+        maturity: LATE
+        risk_profile: VERY_HIGH
+        confirmation_needed: false
+        preferred_trigger: NONE
+        directional_bias: BEARISH
+        granular_classification:
+          family: PANIC
+          sequence_rank: 10
+          intent: Identify emotional liquidation risk.
+        description: Fear-driven selling expands rapidly and can become unstable.
+        institutional_trade_policy:
+          long_action: AVOID_LONG
+          long_weight: 0
+          sell_action: SELL_AVOID
+          sell_weight: 10
+          short_action: SHORT_RETEST
+          short_weight: 9
+          ranking_bucket: SHORT_CANDIDATE
+      CAPITULATION:
+        bias: PANIC
+        entry_style: AVOID_FRESH_SHORT
+        maturity: LATE
+        risk_profile: VERY_HIGH
+        confirmation_needed: false
+        preferred_trigger: NONE
+        directional_bias: BEARISH
+        granular_classification:
+          family: PANIC
+          sequence_rank: 11
+          intent: Flag washed-out downside conditions.
+        description: Panic selling and extreme downside extension.
+        institutional_trade_policy:
+          long_action: WAIT_FOR_BASE
+          long_weight: 2
+          sell_action: AVOID
+          sell_weight: 8
+          short_action: DO_NOT_SHORT_LATE
+          short_weight: 3
+          ranking_bucket: REVERSAL_WATCH
+      DEAD_CAT_BOUNCE:
+        bias: BEARISH
+        entry_style: DEFENSIVE
+        maturity: LATE
+        risk_profile: HIGH
+        confirmation_needed: true
+        preferred_trigger: WEAK_REBOUND_FAIL
+        directional_bias: BEARISH
+        granular_classification:
+          family: BOTTOMING
+          sequence_rank: 12
+          intent: Avoid confusing a weak rebound with a true bottom.
+        description: Short-lived rebound inside a larger bearish structure.
+        institutional_trade_policy:
+          long_action: AVOID_LONG
+          long_weight: 0
+          sell_action: SELL_AVOID
+          sell_weight: 10
+          short_action: SHORT_RETEST
+          short_weight: 9
+          ranking_bucket: SHORT_CANDIDATE
+      BOTTOMING:
+        bias: NEUTRAL_TO_BULLISH
+        entry_style: WAIT
+        maturity: VERY_LATE
+        risk_profile: MEDIUM
+        confirmation_needed: true
+        preferred_trigger: BASE_FORMATION
+        directional_bias: NEUTRAL
+        granular_classification:
+          family: BOTTOMING
+          sequence_rank: 13
+          intent: Detect stabilization after markdown.
+        description: Selling pressure fades and a possible floor begins to form.
+        institutional_trade_policy:
+          long_action: WAIT_FOR_BASE
+          long_weight: 2
+          sell_action: AVOID
+          sell_weight: 8
+          short_action: DO_NOT_SHORT_LATE
+          short_weight: 3
+          ranking_bucket: REVERSAL_WATCH
+      RANGE_FORMING:
+        bias: NEUTRAL
+        entry_style: WAIT
+        maturity: VERY_LATE
+        risk_profile: MEDIUM
+        confirmation_needed: true
+        preferred_trigger: RANGE_RESOLUTION
+        directional_bias: NEUTRAL
+        granular_classification:
+          family: BOTTOMING
+          sequence_rank: 14
+          intent: Build the next transition range after markdown.
+        description: Market begins to carve a sideways range after the decline.
+        institutional_trade_policy:
+          long_action: WAIT_FOR_BASE
+          long_weight: 2
+          sell_action: AVOID
+          sell_weight: 8
+          short_action: DO_NOT_SHORT_LATE
+          short_weight: 3
+          ranking_bucket: REVERSAL_WATCH
+stage_rules:
+  ACCUMULATION:
+    BASE_BUILDING:
+      signals:
+        compression:
+          weight: 12
+        near_support:
+          weight: 8
+    PRE_BREAKOUT:
+      signals:
+        pre_breakout_compression:
+          weight: 14
+        coil_strength_gte: 70
+        volume_dry_up_gte: 1.2
+        price_above_vwap:
+          weight: 6
+        macd_cross:
+          weight: 8
+        volume_surge:
+          weight: 6
+        breakout:
+          weight: 4
+  MARKUP:
+    EARLY_TREND:
+      signals:
+        bull_stack:
+          weight: 12
+        price_above_vwap:
+          weight: 8
+        rsi:
+          min: 50
+          max: 64
+          weight: 6
+    STRONG_TREND:
+      signals:
+        bull_stack:
+          weight: 12
+        breakout:
+          weight: 10
+        volume_surge:
+          weight: 8
+    EXHAUSTION:
+      signals:
+        rsi_exhaustion_high:
+          weight: 12
+        strong_volume:
+          weight: 6
+  DISTRIBUTION:
+    UPTHRUST:
+      signals:
+        failed_break_above_resistance:
+          weight: 12
+        rsi_exhaustion_high:
+          weight: 8
+    FAILED_BREAKOUT:
+      signals:
+        failed_breakout:
+          weight: 12
+        price_below_vwap:
+          weight: 6
+  MARKDOWN:
+    STRONG_DOWNTREND:
+      signals:
+        bear_stack:
+          weight: 12
+        rsi_bear:
+          weight: 8
+        adx_trend:
+          weight: 6
+    CAPITULATION:
+      signals:
+        rsi_exhaustion_low:
+          weight: 12
+        strong_volume:
+          weight: 8
+substage_rules:
+  ACCUMULATION:
+    BASE_BUILDING:
+      signals:
+        compression:
+          weight: 12
+        near_support:
+          weight: 8
+    PRE_BREAKOUT:
+      signals:
+        pre_breakout_compression:
+          weight: 14
+        coil_strength_gte: 70
+        volume_dry_up_gte: 1.2
+        price_above_vwap:
+          weight: 6
+        macd_cross:
+          weight: 8
+        volume_surge:
+          weight: 6
+        breakout:
+          weight: 4
+  MARKUP:
+    EARLY_TREND:
+      signals:
+        bull_stack:
+          weight: 12
+        price_above_vwap:
+          weight: 8
+        rsi:
+          min: 50
+          max: 64
+          weight: 6
+        breakout_eq: true
+        vol_gte: 1.1
+    STRONG_TREND:
+      signals:
+        bull_stack:
+          weight: 12
+        breakout:
+          weight: 10
+        volume_surge:
+          weight: 8
+    EXHAUSTION:
+      signals:
+        rsi_exhaustion_high:
+          weight: 12
+        strong_volume:
+          weight: 6
+  DISTRIBUTION:
+    UPTHRUST:
+      signals:
+        failed_break_above_resistance:
+          weight: 12
+        rsi_exhaustion_high:
+          weight: 8
+    TIGHT_RANGE_TOP:
+      signals:
+        range20_lte: 0.05
+        rsi_gte: 60
+    LOW_VOL_CONSOLIDATION:
+      signals:
+        range20_lte: 0.06
+        adx_lte: 18
+        vol_lte: 1.0
+    RANGE_BOUND:
+      signals:
+        range20_lte: 0.1
+        nearSupport_eq: true
+    VOLATILITY_COMPRESSION:
+      signals:
+        range20_lte: 0.04
+        adx_lte: 20
+    STOP_HUNT:
+      signals:
+        falseBreakdown_eq: true
+        vol_gte: 1.1
+    SPRING:
+      signals:
+        spring_eq: true
+        nearSupport_eq: true
+        vol_gte: 1.0
+    FALSE_BREAKDOWN:
+      signals:
+        falseBreakdown_eq: true
+        priceAboveVwap_eq: false
+    LIQUIDITY_GRAB_LOW:
+      signals:
+        liquidityGrabLow_eq: true
+        nearSupport_eq: true
+    ABSORPTION:
+      signals:
+        nearSupport_eq: true
+        vol_gte: 1.0
+    REVERSAL_ATTEMPT:
+      signals:
+        priceReversal_eq: true
+        rsi_between:
+        - 38
+        - 55
+    HIGHER_LOW_FORMATION:
+      signals:
+        higherLow_eq: true
+        nearSupport_eq: true
+    DEMAND_EMERGENCE:
+      signals:
+        demandCandle_eq: true
+        vol_gte: 1.05
+    VOLUME_ACCUMULATION:
+      signals:
+        vol_gte: 1.15
+        nearSupport_eq: true
+    RANGE_TIGHTENING:
+      signals:
+        range20_lte: 0.05
+        breakout_eq: false
+    PRE_BREAKOUT:
+      signals:
+        priceAboveVwap_eq: true
+        macdCross_eq: true
+    RETEST:
+      signals:
+        breakoutRetest_eq: true
+        priceAboveVwap_eq: true
+    EARLY_TREND:
+      signals:
+        bullStack_eq: true
+        rsi_between:
+        - 50
+        - 64
+    TREND_CONTINUATION:
+      signals:
+        bullStack_eq: true
+        higherLow_eq: true
+        adx_gte: 20
+    PULLBACK:
+      signals:
+        pullback_eq: true
+        bullStack_eq: true
+    HIGHER_HIGH:
+      signals:
+        higherHigh_eq: true
+        bullStack_eq: true
+    HIGHER_LOW:
+      signals:
+        higherLow_eq: true
+        priceAboveVwap_eq: true
+    STRONG_TREND:
+      signals:
+        bullStack_eq: true
+        breakout_eq: true
+        rsi_between:
+        - 60
+        - 72
+    RANGE_EXPANSION:
+      signals:
+        rangeExpansion_eq: true
+        adx_gte: 22
+    MOMENTUM_SURGE:
+      signals:
+        momentumSurge_eq: true
+        vol_gte: 1.2
+    ACCELERATION:
+      signals:
+        rsi_gte: 68
+        adx_gte: 30
+        vol_gte: 1.15
+    CLIMAX_RUN:
+      signals:
+        rsi_gte: 72
+        adx_gte: 35
+        vol_gte: 1.2
+    OVEREXTENSION:
+      signals:
+        rsi_gte: 78
+        adx_gte: 35
+    SIDEWAYS_TOPPING:
+      signals:
+        range20_lte: 0.08
+        priceAboveVwap_eq: true
+    VOLUME_DISTRIBUTION:
+      signals:
+        vol_gte: 1.15
+        breakout_eq: false
+    TOP_FORMATION:
+      signals:
+        rsi_gte: 60
+    FALSE_BREAKOUT:
+      signals:
+        falseBreakout_eq: true
+        rsi_gte: 68
+    LIQUIDITY_GRAB_HIGH:
+      signals:
+        liquidityGrabHigh_eq: true
+        rsi_gte: 68
+    EXHAUSTION:
+      signals:
+        rsi_gte: 75
+        adx_gte: 35
+    LOWER_HIGH_FORMATION:
+      signals:
+        lowerHigh_eq: true
+        rsi_gte: 55
+    MOMENTUM_LOSS:
+      signals:
+        momentumLoss_eq: true
+        adx_lte: 25
+    REVERSAL_SIGNAL:
+      signals:
+        priceReversal_eq: true
+        priceAboveVwap_eq: false
+    FAILED_BREAKOUT:
+      signals:
+        breakout_eq: false
+        priceAboveVwap_eq: false
+    TOPPING_STRUCTURE:
+      signals:
+        lowerHigh_eq: true
+        breakout_eq: false
+  MARKDOWN:
+    BREAKDOWN:
+      signals:
+        breakdown_eq: true
+        vol_gte: 1.1
+    SUPPORT_FAILURE:
+      signals:
+        supportFailure_eq: true
+        priceBelowVwap_eq: true
+    WEAK_BOUNCE:
+      signals:
+        rsi_between:
+        - 28
+        - 45
+    TREND_CONTINUATION:
+      signals:
+        bearStack_eq: true
+        adx_gte: 18
+        rsi_lte: 45
+    LOWER_LOW:
+      signals:
+        lowerLow_eq: true
+        bearStack_eq: true
+    LOWER_HIGH:
+      signals:
+        lowerHigh_eq: true
+        priceBelowVwap_eq: true
+    STRONG_DOWNTREND:
+      signals:
+        bearStack_eq: true
+        adx_gte: 18
+        rsi_lte: 42
+    ACCELERATION:
+      signals:
+        adx_gte: 28
+        vol_gte: 1.2
+        priceBelowVwap_eq: true
+    MOMENTUM_DROP:
+      signals:
+        momentumDrop_eq: true
+        vol_gte: 1.3
+    PANIC_SELL:
+      signals:
+        rsi_lte: 26
+        vol_gte: 1.8
+    CAPITULATION:
+      signals:
+        rsi_lte: 24
+        vol_gte: 2.0
+    DEAD_CAT_BOUNCE:
+      signals:
+        deadCatBounce_eq: true
+        bearStack_eq: true
+    BOTTOMING:
+      signals:
+        bottoming_eq: true
+        rsi_between:
+        - 24
+        - 40
+    RANGE_FORMING:
+      signals:
+        range20_lte: 0.08
+        adx_lte: 18
+institutional_ranking_weights:
+  stage_score: 25
+  substage_score: 20
+  child_score: 20
+  eps_growth: 10
+  relative_strength: 10
+  sentiment: 5
+  risk_reward: 5
+  volume_surge: 5
+institutional_best_buy_zones:
+- ACCUMULATION.PRE_BREAKOUT.COILED_BREAKOUT_SETUP
+- ACCUMULATION.PRE_BREAKOUT.PRE_BREAKOUT_STRONG
+- ACCUMULATION.ABSORPTION.ABSORPTION_CONFIRMED
+- ACCUMULATION.SPRING.SPRING_RECLAIM
+- MARKUP.BREAKOUT.CLEAN_BREAKOUT
+- MARKUP.RETEST.SUCCESSFUL_RETEST
+- MARKUP.PULLBACK.PULLBACK_TO_TREND
+- MARKUP.PULLBACK.SHALLOW_PULLBACK
+- MARKUP.HIGHER_LOW.HL_LOW_RISK_ENTRY
+- MARKUP.STRONG_TREND.TREND_ACCELERATION
+institutional_best_sell_zones:
+- DISTRIBUTION.FALSE_BREAKOUT.FAILED_BREAKOUT_REJECTION
+- DISTRIBUTION.TOP_FORMATION.DOUBLE_TOP_ZONE
+- DISTRIBUTION.LOWER_HIGH_FORMATION.LOWER_HIGH_REJECTION
+- DISTRIBUTION.FAILED_BREAKOUT.FAILED_BREAKOUT_CONFIRMED
+- MARKDOWN.BREAKDOWN.CLEAN_BREAKDOWN
+- MARKDOWN.SUPPORT_FAILURE.SUPPORT_LOST
+- MARKDOWN.WEAK_BOUNCE.VWAP_REJECTION_BOUNCE
+- MARKDOWN.DEAD_CAT_BOUNCE.DEAD_CAT_REJECTION
+- MARKUP.OVEREXTENSION.RSI_OVEREXTENSION
+- MARKUP.EXHAUSTION.DISTRIBUTION_EXHAUSTION_REVERSAL

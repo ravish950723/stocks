@@ -1,0 +1,42 @@
+analyst:
+  thresholds:
+    bullishScore: 65
+    bearishScore: 35
+    highModelProbability: 0.7
+    adxTrendConfirmed: 20
+    highSectorStrength: 70
+    highInstitutionalFlow: 65
+    volumeSurgeMultiplier: 1.2
+  weights:
+    priceAbove50Ema: 15
+    adxTrendConfirmed: 12
+    volumeSurge: 10
+    modelProbabilityHigh: 18
+    stageSupportive: 10
+    sectorOutperformance: 8
+    institutionalFlowSupportive: 8
+    breakoutPattern: 10
+    pullbackPattern: 8
+    warningPenalty: 5
+risk:
+  thresholds:
+    minRiskReward: 1.8
+    minSubstageConfidence: 0.6
+    highVolatilityAtrPct: 0.06
+    weakInstitutionalFlow: 40
+  sizing:
+    basePositionSizePct: 0.03
+    maxPositionSizePct: 0.05
+    volatilityReductionFactor: 0.5
+    bonusSizeIfHighRR: 0.01
+
+execution:
+  thresholds:
+    strongBuyFinalProbability: 0.80
+    buyFinalProbability: 0.65
+    watchFinalProbability: 0.50
+
+fusion:
+  ruleProbabilityWeight: 0.65
+  mlProbabilityWeight: 0.35
+  fallbackToRuleOnly: true

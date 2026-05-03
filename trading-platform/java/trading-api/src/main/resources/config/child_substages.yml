@@ -1,0 +1,4376 @@
+ACCUMULATION:
+  BASE_BUILDING:
+    TIGHT_BASE:
+      family: BASE_FORMATION
+      action_bias: WATCH_BUILD_POSITION
+      confidence_bias: POSITIVE
+      risk_profile: MEDIUM
+      description: Tight base forming with controlled volatility.
+      signals:
+        nearSupport_eq: true
+        range20_lte: 0.06
+        adx_lte: 20
+      parent_stage: ACCUMULATION
+      parent_substage: BASE_BUILDING
+      institutional_trade_policy:
+        buy_weight: 10
+        sell_weight: 1
+        short_weight: 0
+        avoid_weight: 0
+        risk_penalty: 1
+        preferred_rank_bucket: HIDDEN_ACCUMULATION
+    SUPPORT_DEFENSE:
+      family: BASE_FORMATION
+      action_bias: ACCUMULATE_SMALL
+      confidence_bias: POSITIVE
+      risk_profile: MEDIUM
+      description: Buyers defend support during base construction.
+      signals:
+        nearSupport_eq: true
+        range20_lte: 0.1
+        priceReversal_eq: true
+      parent_stage: ACCUMULATION
+      parent_substage: BASE_BUILDING
+      institutional_trade_policy:
+        buy_weight: 10
+        sell_weight: 1
+        short_weight: 0
+        avoid_weight: 0
+        risk_penalty: 1
+        preferred_rank_bucket: SAFEST_BUY
+    CHOPPY_BASE:
+      family: BASE_FORMATION
+      action_bias: WAIT
+      confidence_bias: NEUTRAL
+      risk_profile: MEDIUM
+      description: Base exists but lacks confirmation.
+      signals:
+        nearSupport_eq: true
+        range20_lte: 0.1
+        vol_lte: 1
+      parent_stage: ACCUMULATION
+      parent_substage: BASE_BUILDING
+      institutional_trade_policy:
+        buy_weight: 0
+        sell_weight: 0
+        short_weight: 0
+        avoid_weight: 0
+        risk_penalty: 0
+        preferred_rank_bucket: UNRANKED
+    DEFAULT:
+      family: FALLBACK
+      action_bias: WATCH
+      confidence_bias: NEUTRAL
+      risk_profile: MEDIUM
+      description: Fallback child when no granular child rule reaches threshold.
+      signals:
+        always_true_eq: true
+      parent_stage: ACCUMULATION
+      parent_substage: BASE_BUILDING
+      institutional_trade_policy:
+        buy_weight: 2
+        sell_weight: 2
+        short_weight: 1
+        avoid_weight: 3
+        risk_penalty: 3
+        preferred_rank_bucket: WATCH
+  LOW_VOL_CONSOLIDATION:
+    QUIET_RANGE:
+      family: COMPRESSION
+      action_bias: WATCH
+      confidence_bias: NEUTRAL
+      risk_profile: MEDIUM
+      description: Low volatility range.
+      signals:
+        nearSupport_eq: true
+        range20_lte: 0.06
+        vol_lte: 1
+      parent_stage: ACCUMULATION
+      parent_substage: LOW_VOL_CONSOLIDATION
+      institutional_trade_policy:
+        buy_weight: 0
+        sell_weight: 0
+        short_weight: 0
+        avoid_weight: 0
+        risk_penalty: 0
+        preferred_rank_bucket: UNRANKED
+    SUPPLY_DRY_UP:
+      family: COMPRESSION
+      action_bias: ACCUMULATE_SMALL
+      confidence_bias: POSITIVE
+      risk_profile: MEDIUM
+      description: Supply is drying up near support.
+      signals:
+        nearSupport_eq: true
+        range20_lte: 0.1
+        vol_lte: 0.9
+      parent_stage: ACCUMULATION
+      parent_substage: LOW_VOL_CONSOLIDATION
+      institutional_trade_policy:
+        buy_weight: 9
+        sell_weight: 0
+        short_weight: 0
+        avoid_weight: 0
+        risk_penalty: 0
+        preferred_rank_bucket: HIDDEN_ACCUMULATION
+    NO_DEMAND_DRIFT:
+      family: COMPRESSION
+      action_bias: WAIT
+      confidence_bias: NEUTRAL
+      risk_profile: MEDIUM
+      description: Low activity without demand confirmation.
+      signals:
+        nearSupport_eq: true
+        range20_lte: 0.1
+        adx_lte: 18
+        breakout_eq: false
+      parent_stage: ACCUMULATION
+      parent_substage: LOW_VOL_CONSOLIDATION
+      institutional_trade_policy:
+        buy_weight: 0
+        sell_weight: 0
+        short_weight: 0
+        avoid_weight: 0
+        risk_penalty: 0
+        preferred_rank_bucket: UNRANKED
+    DEFAULT:
+      family: FALLBACK
+      action_bias: WATCH
+      confidence_bias: NEUTRAL
+      risk_profile: MEDIUM
+      description: Fallback child when no granular child rule reaches threshold.
+      signals:
+        always_true_eq: true
+      parent_stage: ACCUMULATION
+      parent_substage: LOW_VOL_CONSOLIDATION
+      institutional_trade_policy:
+        buy_weight: 2
+        sell_weight: 2
+        short_weight: 1
+        avoid_weight: 3
+        risk_penalty: 3
+        preferred_rank_bucket: WATCH
+  RANGE_BOUND:
+    LOW_RANGE_SUPPORT_HOLD:
+      family: RANGE
+      action_bias: BUY_SUPPORT_ONLY
+      confidence_bias: POSITIVE
+      risk_profile: MEDIUM
+      description: Range support is holding.
+      signals:
+        nearSupport_eq: true
+        range20_lte: 0.1
+        rsi_between:
+        - 38
+        - 55
+      parent_stage: ACCUMULATION
+      parent_substage: RANGE_BOUND
+      institutional_trade_policy:
+        buy_weight: 0
+        sell_weight: 0
+        short_weight: 0
+        avoid_weight: 0
+        risk_penalty: 0
+        preferred_rank_bucket: UNRANKED
+    MID_RANGE_NO_EDGE:
+      family: RANGE
+      action_bias: WAIT
+      confidence_bias: NEUTRAL
+      risk_profile: MEDIUM
+      description: Price is mid-range with poor edge.
+      signals:
+        nearSupport_eq: true
+        range20_lte: 0.1
+      parent_stage: ACCUMULATION
+      parent_substage: RANGE_BOUND
+      institutional_trade_policy:
+        buy_weight: 0
+        sell_weight: 0
+        short_weight: 0
+        avoid_weight: 0
+        risk_penalty: 0
+        preferred_rank_bucket: UNRANKED
+    RANGE_RESISTANCE_REJECT:
+      family: RANGE
+      action_bias: AVOID_LONG
+      confidence_bias: NEGATIVE
+      risk_profile: HIGH
+      description: Range resistance rejection.
+      signals:
+        nearSupport_eq: true
+        range20_lte: 0.1
+        falseBreakout_eq: true
+      parent_stage: ACCUMULATION
+      parent_substage: RANGE_BOUND
+      institutional_trade_policy:
+        buy_weight: 0
+        sell_weight: 0
+        short_weight: 0
+        avoid_weight: 0
+        risk_penalty: 0
+        preferred_rank_bucket: UNRANKED
+    DEFAULT:
+      family: FALLBACK
+      action_bias: WATCH
+      confidence_bias: NEUTRAL
+      risk_profile: MEDIUM
+      description: Fallback child when no granular child rule reaches threshold.
+      signals:
+        always_true_eq: true
+      parent_stage: ACCUMULATION
+      parent_substage: RANGE_BOUND
+      institutional_trade_policy:
+        buy_weight: 2
+        sell_weight: 2
+        short_weight: 1
+        avoid_weight: 3
+        risk_penalty: 3
+        preferred_rank_bucket: WATCH
+  VOLATILITY_COMPRESSION:
+    TIGHT_COMPRESSION:
+      family: COMPRESSION
+      action_bias: WATCH_BREAKOUT
+      confidence_bias: POSITIVE
+      risk_profile: MEDIUM
+      description: Very tight volatility contraction.
+      signals:
+        nearSupport_eq: true
+        range20_lte: 0.04
+        adx_lte: 20
+      parent_stage: ACCUMULATION
+      parent_substage: VOLATILITY_COMPRESSION
+      institutional_trade_policy:
+        buy_weight: 0
+        sell_weight: 0
+        short_weight: 0
+        avoid_weight: 0
+        risk_penalty: 0
+        preferred_rank_bucket: UNRANKED
+    COIL_WITH_DEMAND:
+      family: COMPRESSION
+      action_bias: ACCUMULATE_SMALL
+      confidence_bias: POSITIVE
+      risk_profile: MEDIUM
+      description: Coil has improving demand.
+      signals:
+        nearSupport_eq: true
+        range20_lte: 0.05
+        vol_gte: 1.05
+      parent_stage: ACCUMULATION
+      parent_substage: VOLATILITY_COMPRESSION
+      institutional_trade_policy:
+        buy_weight: 0
+        sell_weight: 0
+        short_weight: 0
+        avoid_weight: 0
+        risk_penalty: 0
+        preferred_rank_bucket: UNRANKED
+    DEAD_COMPRESSION:
+      family: COMPRESSION
+      action_bias: WAIT
+      confidence_bias: NEUTRAL
+      risk_profile: MEDIUM
+      description: Compression lacks energy.
+      signals:
+        nearSupport_eq: true
+        range20_lte: 0.1
+        vol_lte: 0.85
+        breakout_eq: false
+      parent_stage: ACCUMULATION
+      parent_substage: VOLATILITY_COMPRESSION
+      institutional_trade_policy:
+        buy_weight: 0
+        sell_weight: 0
+        short_weight: 0
+        avoid_weight: 0
+        risk_penalty: 0
+        preferred_rank_bucket: UNRANKED
+    DEFAULT:
+      family: FALLBACK
+      action_bias: WATCH
+      confidence_bias: NEUTRAL
+      risk_profile: MEDIUM
+      description: Fallback child when no granular child rule reaches threshold.
+      signals:
+        always_true_eq: true
+      parent_stage: ACCUMULATION
+      parent_substage: VOLATILITY_COMPRESSION
+      institutional_trade_policy:
+        buy_weight: 2
+        sell_weight: 2
+        short_weight: 1
+        avoid_weight: 3
+        risk_penalty: 3
+        preferred_rank_bucket: WATCH
+  STOP_HUNT:
+    BEAR_TRAP:
+      family: LIQUIDITY_SWEEP
+      action_bias: BUY_REVERSAL
+      confidence_bias: POSITIVE
+      risk_profile: MEDIUM
+      description: Stop hunt reverses upward.
+      signals:
+        nearSupport_eq: true
+        range20_lte: 0.1
+        falseBreakdown_eq: true
+        priceReversal_eq: true
+      parent_stage: ACCUMULATION
+      parent_substage: STOP_HUNT
+      institutional_trade_policy:
+        buy_weight: 0
+        sell_weight: 0
+        short_weight: 0
+        avoid_weight: 0
+        risk_penalty: 0
+        preferred_rank_bucket: UNRANKED
+    LOW_SWEEP_CONFIRM:
+      family: LIQUIDITY_SWEEP
+      action_bias: WATCH_CONFIRMATION
+      confidence_bias: POSITIVE
+      risk_profile: MEDIUM
+      description: Liquidity sweep needs confirmation.
+      signals:
+        nearSupport_eq: true
+        range20_lte: 0.1
+        liquidityGrabLow_eq: true
+      parent_stage: ACCUMULATION
+      parent_substage: STOP_HUNT
+      institutional_trade_policy:
+        buy_weight: 0
+        sell_weight: 0
+        short_weight: 0
+        avoid_weight: 0
+        risk_penalty: 0
+        preferred_rank_bucket: UNRANKED
+    FAILED_RECOVERY:
+      family: LIQUIDITY_SWEEP
+      action_bias: AVOID
+      confidence_bias: NEGATIVE
+      risk_profile: HIGH
+      description: Stop hunt fails to reclaim.
+      signals:
+        nearSupport_eq: true
+        range20_lte: 0.1
+        falseBreakdown_eq: true
+        priceAboveVwap_eq: false
+      parent_stage: ACCUMULATION
+      parent_substage: STOP_HUNT
+      institutional_trade_policy:
+        buy_weight: 0
+        sell_weight: 8
+        short_weight: 0
+        avoid_weight: 9
+        risk_penalty: 9
+        preferred_rank_bucket: AVOID_TRAP
+    DEFAULT:
+      family: FALLBACK
+      action_bias: WATCH
+      confidence_bias: NEUTRAL
+      risk_profile: MEDIUM
+      description: Fallback child when no granular child rule reaches threshold.
+      signals:
+        always_true_eq: true
+      parent_stage: ACCUMULATION
+      parent_substage: STOP_HUNT
+      institutional_trade_policy:
+        buy_weight: 2
+        sell_weight: 2
+        short_weight: 1
+        avoid_weight: 3
+        risk_penalty: 3
+        preferred_rank_bucket: WATCH
+  SPRING:
+    SPRING_RECLAIM:
+      family: WYCKOFF
+      action_bias: BUY_REVERSAL
+      confidence_bias: POSITIVE
+      risk_profile: MEDIUM
+      description: Spring with reclaim.
+      signals:
+        nearSupport_eq: true
+        range20_lte: 0.1
+        spring_eq: true
+        priceAboveVwap_eq: true
+      parent_stage: ACCUMULATION
+      parent_substage: SPRING
+      institutional_trade_policy:
+        buy_weight: 9
+        sell_weight: 0
+        short_weight: 0
+        avoid_weight: 0
+        risk_penalty: 0
+        preferred_rank_bucket: HIDDEN_ACCUMULATION
+    SPRING_TEST:
+      family: WYCKOFF
+      action_bias: WATCH_RETEST
+      confidence_bias: POSITIVE
+      risk_profile: MEDIUM
+      description: Spring retest with lower volume.
+      signals:
+        nearSupport_eq: true
+        range20_lte: 0.1
+        spring_eq: true
+        lowVolumeRetest_eq: true
+      parent_stage: ACCUMULATION
+      parent_substage: SPRING
+      institutional_trade_policy:
+        buy_weight: 0
+        sell_weight: 0
+        short_weight: 0
+        avoid_weight: 0
+        risk_penalty: 0
+        preferred_rank_bucket: UNRANKED
+    FAILED_SPRING:
+      family: WYCKOFF
+      action_bias: AVOID
+      confidence_bias: NEGATIVE
+      risk_profile: HIGH
+      description: Spring attempt failed.
+      signals:
+        nearSupport_eq: true
+        range20_lte: 0.1
+        failedSpring_eq: true
+      parent_stage: ACCUMULATION
+      parent_substage: SPRING
+      institutional_trade_policy:
+        buy_weight: 0
+        sell_weight: 8
+        short_weight: 0
+        avoid_weight: 9
+        risk_penalty: 9
+        preferred_rank_bucket: AVOID_TRAP
+    DEFAULT:
+      family: FALLBACK
+      action_bias: WATCH
+      confidence_bias: NEUTRAL
+      risk_profile: MEDIUM
+      description: Fallback child when no granular child rule reaches threshold.
+      signals:
+        always_true_eq: true
+      parent_stage: ACCUMULATION
+      parent_substage: SPRING
+      institutional_trade_policy:
+        buy_weight: 2
+        sell_weight: 2
+        short_weight: 1
+        avoid_weight: 3
+        risk_penalty: 3
+        preferred_rank_bucket: WATCH
+  FALSE_BREAKDOWN:
+    FAILED_BREAKDOWN_RECLAIM:
+      family: TRAP
+      action_bias: BUY_REVERSAL
+      confidence_bias: POSITIVE
+      risk_profile: MEDIUM
+      description: False breakdown reclaimed.
+      signals:
+        nearSupport_eq: true
+        range20_lte: 0.1
+        falseBreakdown_eq: true
+        priceReversal_eq: true
+      parent_stage: ACCUMULATION
+      parent_substage: FALSE_BREAKDOWN
+      institutional_trade_policy:
+        buy_weight: 0
+        sell_weight: 9
+        short_weight: 9
+        avoid_weight: 8
+        risk_penalty: 8
+        preferred_rank_bucket: SHORT_CANDIDATE
+    UNDERCUT_AND_HOLD:
+      family: TRAP
+      action_bias: WATCH
+      confidence_bias: NEUTRAL
+      risk_profile: MEDIUM
+      description: Undercut holds support zone.
+      signals:
+        nearSupport_eq: true
+        range20_lte: 0.1
+        falseBreakdown_eq: true
+      parent_stage: ACCUMULATION
+      parent_substage: FALSE_BREAKDOWN
+      institutional_trade_policy:
+        buy_weight: 0
+        sell_weight: 9
+        short_weight: 9
+        avoid_weight: 8
+        risk_penalty: 8
+        preferred_rank_bucket: SHORT_CANDIDATE
+    BREAKDOWN_CONTINUES:
+      family: TRAP
+      action_bias: AVOID
+      confidence_bias: NEGATIVE
+      risk_profile: HIGH
+      description: Breakdown continues after false-break attempt.
+      signals:
+        nearSupport_eq: true
+        range20_lte: 0.1
+        supportFailure_eq: true
+        priceBelowVwap_eq: true
+      parent_stage: ACCUMULATION
+      parent_substage: FALSE_BREAKDOWN
+      institutional_trade_policy:
+        buy_weight: 0
+        sell_weight: 9
+        short_weight: 9
+        avoid_weight: 8
+        risk_penalty: 8
+        preferred_rank_bucket: SHORT_CANDIDATE
+    DEFAULT:
+      family: FALLBACK
+      action_bias: WATCH
+      confidence_bias: NEUTRAL
+      risk_profile: MEDIUM
+      description: Fallback child when no granular child rule reaches threshold.
+      signals:
+        always_true_eq: true
+      parent_stage: ACCUMULATION
+      parent_substage: FALSE_BREAKDOWN
+      institutional_trade_policy:
+        buy_weight: 0
+        sell_weight: 9
+        short_weight: 9
+        avoid_weight: 8
+        risk_penalty: 8
+        preferred_rank_bucket: SHORT_CANDIDATE
+  LIQUIDITY_GRAB_LOW:
+    LOW_LIQUIDITY_SWEEP:
+      family: LIQUIDITY_SWEEP
+      action_bias: BUY_REVERSAL
+      confidence_bias: POSITIVE
+      risk_profile: MEDIUM
+      description: Low sweep and reversal.
+      signals:
+        nearSupport_eq: true
+        range20_lte: 0.1
+        liquidityGrabLow_eq: true
+        priceReversal_eq: true
+      parent_stage: ACCUMULATION
+      parent_substage: LIQUIDITY_GRAB_LOW
+      institutional_trade_policy:
+        buy_weight: 0
+        sell_weight: 0
+        short_weight: 0
+        avoid_weight: 0
+        risk_penalty: 0
+        preferred_rank_bucket: UNRANKED
+    STOP_RUN_ABSORPTION:
+      family: LIQUIDITY_SWEEP
+      action_bias: ACCUMULATE_SMALL
+      confidence_bias: POSITIVE
+      risk_profile: MEDIUM
+      description: Stop run shows absorption.
+      signals:
+        nearSupport_eq: true
+        range20_lte: 0.1
+        liquidityGrabLow_eq: true
+        vol_gte: 1.1
+      parent_stage: ACCUMULATION
+      parent_substage: LIQUIDITY_GRAB_LOW
+      institutional_trade_policy:
+        buy_weight: 10
+        sell_weight: 1
+        short_weight: 0
+        avoid_weight: 0
+        risk_penalty: 1
+        preferred_rank_bucket: HIDDEN_ACCUMULATION
+    SWEEP_NO_RECLAIM:
+      family: LIQUIDITY_SWEEP
+      action_bias: WAIT
+      confidence_bias: NEUTRAL
+      risk_profile: MEDIUM
+      description: Liquidity sweep lacks reclaim.
+      signals:
+        nearSupport_eq: true
+        range20_lte: 0.1
+        liquidityGrabLow_eq: true
+        priceAboveVwap_eq: false
+      parent_stage: ACCUMULATION
+      parent_substage: LIQUIDITY_GRAB_LOW
+      institutional_trade_policy:
+        buy_weight: 0
+        sell_weight: 0
+        short_weight: 0
+        avoid_weight: 0
+        risk_penalty: 0
+        preferred_rank_bucket: UNRANKED
+    DEFAULT:
+      family: FALLBACK
+      action_bias: WATCH
+      confidence_bias: NEUTRAL
+      risk_profile: MEDIUM
+      description: Fallback child when no granular child rule reaches threshold.
+      signals:
+        always_true_eq: true
+      parent_stage: ACCUMULATION
+      parent_substage: LIQUIDITY_GRAB_LOW
+      institutional_trade_policy:
+        buy_weight: 2
+        sell_weight: 2
+        short_weight: 1
+        avoid_weight: 3
+        risk_penalty: 3
+        preferred_rank_bucket: WATCH
+  ABSORPTION:
+    SUPPLY_ABSORPTION:
+      family: ABSORPTION
+      action_bias: ACCUMULATE
+      confidence_bias: POSITIVE
+      risk_profile: MEDIUM
+      description: Supply is absorbed near support.
+      signals:
+        nearSupport_eq: true
+        range20_lte: 0.1
+        vol_gte: 1
+      parent_stage: ACCUMULATION
+      parent_substage: ABSORPTION
+      institutional_trade_policy:
+        buy_weight: 10
+        sell_weight: 1
+        short_weight: 0
+        avoid_weight: 0
+        risk_penalty: 1
+        preferred_rank_bucket: HIDDEN_ACCUMULATION
+    ABSORPTION_WITH_REVERSAL:
+      family: ABSORPTION
+      action_bias: BUY_REVERSAL
+      confidence_bias: POSITIVE
+      risk_profile: MEDIUM
+      description: Absorption has reversal confirmation.
+      signals:
+        nearSupport_eq: true
+        range20_lte: 0.1
+        priceReversal_eq: true
+        demandCandle_eq: true
+      parent_stage: ACCUMULATION
+      parent_substage: ABSORPTION
+      institutional_trade_policy:
+        buy_weight: 10
+        sell_weight: 1
+        short_weight: 0
+        avoid_weight: 0
+        risk_penalty: 1
+        preferred_rank_bucket: HIDDEN_ACCUMULATION
+    UNCONFIRMED_ABSORPTION:
+      family: ABSORPTION
+      action_bias: WATCH
+      confidence_bias: NEUTRAL
+      risk_profile: MEDIUM
+      description: Absorption not yet confirmed.
+      signals:
+        nearSupport_eq: true
+        range20_lte: 0.1
+      parent_stage: ACCUMULATION
+      parent_substage: ABSORPTION
+      institutional_trade_policy:
+        buy_weight: 10
+        sell_weight: 1
+        short_weight: 0
+        avoid_weight: 0
+        risk_penalty: 1
+        preferred_rank_bucket: HIDDEN_ACCUMULATION
+    DEFAULT:
+      family: FALLBACK
+      action_bias: WATCH
+      confidence_bias: NEUTRAL
+      risk_profile: MEDIUM
+      description: Fallback child when no granular child rule reaches threshold.
+      signals:
+        always_true_eq: true
+      parent_stage: ACCUMULATION
+      parent_substage: ABSORPTION
+      institutional_trade_policy:
+        buy_weight: 10
+        sell_weight: 1
+        short_weight: 0
+        avoid_weight: 0
+        risk_penalty: 1
+        preferred_rank_bucket: HIDDEN_ACCUMULATION
+  REVERSAL_ATTEMPT:
+    REVERSAL_CANDLE:
+      family: REVERSAL
+      action_bias: BUY_SMALL
+      confidence_bias: POSITIVE
+      risk_profile: MEDIUM
+      description: Reversal candle appears from base.
+      signals:
+        nearSupport_eq: true
+        range20_lte: 0.1
+        priceReversal_eq: true
+        rsi_between:
+        - 38
+        - 55
+      parent_stage: ACCUMULATION
+      parent_substage: REVERSAL_ATTEMPT
+      institutional_trade_policy:
+        buy_weight: 0
+        sell_weight: 0
+        short_weight: 0
+        avoid_weight: 0
+        risk_penalty: 0
+        preferred_rank_bucket: UNRANKED
+    REVERSAL_WITH_VOLUME:
+      family: REVERSAL
+      action_bias: BUY
+      confidence_bias: POSITIVE
+      risk_profile: MEDIUM
+      description: Reversal supported by volume.
+      signals:
+        nearSupport_eq: true
+        range20_lte: 0.1
+        priceReversal_eq: true
+        vol_gte: 1.1
+      parent_stage: ACCUMULATION
+      parent_substage: REVERSAL_ATTEMPT
+      institutional_trade_policy:
+        buy_weight: 0
+        sell_weight: 0
+        short_weight: 0
+        avoid_weight: 0
+        risk_penalty: 0
+        preferred_rank_bucket: UNRANKED
+    WEAK_REVERSAL:
+      family: REVERSAL
+      action_bias: WAIT
+      confidence_bias: NEUTRAL
+      risk_profile: MEDIUM
+      description: Reversal lacks VWAP reclaim.
+      signals:
+        nearSupport_eq: true
+        range20_lte: 0.1
+        priceReversal_eq: true
+        priceAboveVwap_eq: false
+      parent_stage: ACCUMULATION
+      parent_substage: REVERSAL_ATTEMPT
+      institutional_trade_policy:
+        buy_weight: 0
+        sell_weight: 0
+        short_weight: 0
+        avoid_weight: 0
+        risk_penalty: 0
+        preferred_rank_bucket: UNRANKED
+    DEFAULT:
+      family: FALLBACK
+      action_bias: WATCH
+      confidence_bias: NEUTRAL
+      risk_profile: MEDIUM
+      description: Fallback child when no granular child rule reaches threshold.
+      signals:
+        always_true_eq: true
+      parent_stage: ACCUMULATION
+      parent_substage: REVERSAL_ATTEMPT
+      institutional_trade_policy:
+        buy_weight: 2
+        sell_weight: 2
+        short_weight: 1
+        avoid_weight: 3
+        risk_penalty: 3
+        preferred_rank_bucket: WATCH
+  HIGHER_LOW_FORMATION:
+    FIRST_HIGHER_LOW:
+      family: STRUCTURE
+      action_bias: BUY_PULLBACK
+      confidence_bias: POSITIVE
+      risk_profile: MEDIUM
+      description: First higher low forms.
+      signals:
+        nearSupport_eq: true
+        range20_lte: 0.1
+        higherLow_eq: true
+      parent_stage: ACCUMULATION
+      parent_substage: HIGHER_LOW_FORMATION
+      institutional_trade_policy:
+        buy_weight: 0
+        sell_weight: 0
+        short_weight: 0
+        avoid_weight: 0
+        risk_penalty: 0
+        preferred_rank_bucket: UNRANKED
+    HL_WITH_RECLAIM:
+      family: STRUCTURE
+      action_bias: BUY
+      confidence_bias: POSITIVE
+      risk_profile: MEDIUM
+      description: Higher low with VWAP reclaim.
+      signals:
+        nearSupport_eq: true
+        range20_lte: 0.1
+        higherLow_eq: true
+        priceAboveVwap_eq: true
+      parent_stage: ACCUMULATION
+      parent_substage: HIGHER_LOW_FORMATION
+      institutional_trade_policy:
+        buy_weight: 0
+        sell_weight: 0
+        short_weight: 0
+        avoid_weight: 0
+        risk_penalty: 0
+        preferred_rank_bucket: UNRANKED
+    HL_UNCONFIRMED:
+      family: STRUCTURE
+      action_bias: WATCH
+      confidence_bias: NEUTRAL
+      risk_profile: MEDIUM
+      description: Higher low needs confirmation.
+      signals:
+        nearSupport_eq: true
+        range20_lte: 0.1
+        higherLow_eq: true
+        breakout_eq: false
+      parent_stage: ACCUMULATION
+      parent_substage: HIGHER_LOW_FORMATION
+      institutional_trade_policy:
+        buy_weight: 0
+        sell_weight: 0
+        short_weight: 0
+        avoid_weight: 0
+        risk_penalty: 0
+        preferred_rank_bucket: UNRANKED
+    DEFAULT:
+      family: FALLBACK
+      action_bias: WATCH
+      confidence_bias: NEUTRAL
+      risk_profile: MEDIUM
+      description: Fallback child when no granular child rule reaches threshold.
+      signals:
+        always_true_eq: true
+      parent_stage: ACCUMULATION
+      parent_substage: HIGHER_LOW_FORMATION
+      institutional_trade_policy:
+        buy_weight: 2
+        sell_weight: 2
+        short_weight: 1
+        avoid_weight: 3
+        risk_penalty: 3
+        preferred_rank_bucket: WATCH
+  DEMAND_EMERGENCE:
+    DEMAND_CANDLE:
+      family: DEMAND
+      action_bias: BUY_SMALL
+      confidence_bias: POSITIVE
+      risk_profile: MEDIUM
+      description: Demand candle emerges.
+      signals:
+        nearSupport_eq: true
+        range20_lte: 0.1
+        demandCandle_eq: true
+        vol_gte: 1.05
+      parent_stage: ACCUMULATION
+      parent_substage: DEMAND_EMERGENCE
+      institutional_trade_policy:
+        buy_weight: 0
+        sell_weight: 0
+        short_weight: 0
+        avoid_weight: 0
+        risk_penalty: 0
+        preferred_rank_bucket: UNRANKED
+    DEMAND_CLUSTER:
+      family: DEMAND
+      action_bias: ACCUMULATE
+      confidence_bias: POSITIVE
+      risk_profile: MEDIUM
+      description: Demand cluster near support.
+      signals:
+        nearSupport_eq: true
+        range20_lte: 0.1
+        demandCandle_eq: true
+      parent_stage: ACCUMULATION
+      parent_substage: DEMAND_EMERGENCE
+      institutional_trade_policy:
+        buy_weight: 0
+        sell_weight: 0
+        short_weight: 0
+        avoid_weight: 0
+        risk_penalty: 0
+        preferred_rank_bucket: UNRANKED
+    LOW_QUALITY_DEMAND:
+      family: DEMAND
+      action_bias: WATCH
+      confidence_bias: NEUTRAL
+      risk_profile: MEDIUM
+      description: Demand lacks reclaim.
+      signals:
+        nearSupport_eq: true
+        range20_lte: 0.1
+        demandCandle_eq: true
+        priceAboveVwap_eq: false
+      parent_stage: ACCUMULATION
+      parent_substage: DEMAND_EMERGENCE
+      institutional_trade_policy:
+        buy_weight: 0
+        sell_weight: 0
+        short_weight: 0
+        avoid_weight: 0
+        risk_penalty: 0
+        preferred_rank_bucket: UNRANKED
+    DEFAULT:
+      family: FALLBACK
+      action_bias: WATCH
+      confidence_bias: NEUTRAL
+      risk_profile: MEDIUM
+      description: Fallback child when no granular child rule reaches threshold.
+      signals:
+        always_true_eq: true
+      parent_stage: ACCUMULATION
+      parent_substage: DEMAND_EMERGENCE
+      institutional_trade_policy:
+        buy_weight: 2
+        sell_weight: 2
+        short_weight: 1
+        avoid_weight: 3
+        risk_penalty: 3
+        preferred_rank_bucket: WATCH
+  VOLUME_ACCUMULATION:
+    STEALTH_ACCUMULATION:
+      family: VOLUME
+      action_bias: ACCUMULATE
+      confidence_bias: POSITIVE
+      risk_profile: MEDIUM
+      description: Volume builds near support.
+      signals:
+        nearSupport_eq: true
+        range20_lte: 0.1
+        vol_gte: 1.15
+      parent_stage: ACCUMULATION
+      parent_substage: VOLUME_ACCUMULATION
+      institutional_trade_policy:
+        buy_weight: 9
+        sell_weight: 0
+        short_weight: 0
+        avoid_weight: 0
+        risk_penalty: 0
+        preferred_rank_bucket: HIDDEN_ACCUMULATION
+    ACCUMULATION_RECLAIM:
+      family: VOLUME
+      action_bias: BUY
+      confidence_bias: POSITIVE
+      risk_profile: MEDIUM
+      description: Accumulation plus reclaim.
+      signals:
+        nearSupport_eq: true
+        range20_lte: 0.1
+        vol_gte: 1.2
+        priceAboveVwap_eq: true
+      parent_stage: ACCUMULATION
+      parent_substage: VOLUME_ACCUMULATION
+      institutional_trade_policy:
+        buy_weight: 9
+        sell_weight: 0
+        short_weight: 0
+        avoid_weight: 0
+        risk_penalty: 0
+        preferred_rank_bucket: HIDDEN_ACCUMULATION
+    NOISY_VOLUME:
+      family: VOLUME
+      action_bias: WAIT
+      confidence_bias: NEUTRAL
+      risk_profile: MEDIUM
+      description: Volume appears without directional resolution.
+      signals:
+        nearSupport_eq: true
+        range20_lte: 0.1
+        vol_gte: 1.15
+        breakout_eq: false
+      parent_stage: ACCUMULATION
+      parent_substage: VOLUME_ACCUMULATION
+      institutional_trade_policy:
+        buy_weight: 9
+        sell_weight: 0
+        short_weight: 0
+        avoid_weight: 0
+        risk_penalty: 0
+        preferred_rank_bucket: HIDDEN_ACCUMULATION
+    DEFAULT:
+      family: FALLBACK
+      action_bias: WATCH
+      confidence_bias: NEUTRAL
+      risk_profile: MEDIUM
+      description: Fallback child when no granular child rule reaches threshold.
+      signals:
+        always_true_eq: true
+      parent_stage: ACCUMULATION
+      parent_substage: VOLUME_ACCUMULATION
+      institutional_trade_policy:
+        buy_weight: 9
+        sell_weight: 0
+        short_weight: 0
+        avoid_weight: 0
+        risk_penalty: 0
+        preferred_rank_bucket: HIDDEN_ACCUMULATION
+  RANGE_TIGHTENING:
+    TIGHTENING_COIL:
+      family: COMPRESSION
+      action_bias: WATCH_BREAKOUT
+      confidence_bias: POSITIVE
+      risk_profile: MEDIUM
+      description: Range tightens before expansion.
+      signals:
+        nearSupport_eq: true
+        range20_lte: 0.05
+        breakout_eq: false
+      parent_stage: ACCUMULATION
+      parent_substage: RANGE_TIGHTENING
+      institutional_trade_policy:
+        buy_weight: 0
+        sell_weight: 0
+        short_weight: 0
+        avoid_weight: 0
+        risk_penalty: 0
+        preferred_rank_bucket: UNRANKED
+    TIGHTENING_WITH_DEMAND:
+      family: COMPRESSION
+      action_bias: ACCUMULATE_SMALL
+      confidence_bias: POSITIVE
+      risk_profile: MEDIUM
+      description: Range tightens with demand.
+      signals:
+        nearSupport_eq: true
+        range20_lte: 0.05
+        demandCandle_eq: true
+      parent_stage: ACCUMULATION
+      parent_substage: RANGE_TIGHTENING
+      institutional_trade_policy:
+        buy_weight: 0
+        sell_weight: 0
+        short_weight: 0
+        avoid_weight: 0
+        risk_penalty: 0
+        preferred_rank_bucket: UNRANKED
+    TIGHTENING_NO_TRIGGER:
+      family: COMPRESSION
+      action_bias: WAIT
+      confidence_bias: NEUTRAL
+      risk_profile: MEDIUM
+      description: No breakout trigger yet.
+      signals:
+        nearSupport_eq: true
+        range20_lte: 0.05
+        macdCross_eq: false
+      parent_stage: ACCUMULATION
+      parent_substage: RANGE_TIGHTENING
+      institutional_trade_policy:
+        buy_weight: 0
+        sell_weight: 0
+        short_weight: 0
+        avoid_weight: 0
+        risk_penalty: 0
+        preferred_rank_bucket: UNRANKED
+    DEFAULT:
+      family: FALLBACK
+      action_bias: WATCH
+      confidence_bias: NEUTRAL
+      risk_profile: MEDIUM
+      description: Fallback child when no granular child rule reaches threshold.
+      signals:
+        always_true_eq: true
+      parent_stage: ACCUMULATION
+      parent_substage: RANGE_TIGHTENING
+      institutional_trade_policy:
+        buy_weight: 2
+        sell_weight: 2
+        short_weight: 1
+        avoid_weight: 3
+        risk_penalty: 3
+        preferred_rank_bucket: WATCH
+  PRE_BREAKOUT:
+    COILED_BREAKOUT_SETUP:
+      family: BREAKOUT_SETUP
+      action_bias: BUY_ON_TRIGGER
+      confidence_bias: POSITIVE
+      risk_profile: MEDIUM
+      description: Tight pre-breakout coil with price holding above VWAP and dry-up/controlled volume.
+      signals:
+        coiled_breakout_setup_eq: true
+        coil_strength_gte: 75
+        price_above_vwap_eq: true
+      parent_stage: ACCUMULATION
+      parent_substage: PRE_BREAKOUT
+      institutional_trade_policy:
+        buy_weight: 10
+        sell_weight: 1
+        short_weight: 0
+        avoid_weight: 0
+        risk_penalty: 1
+        preferred_rank_bucket: HIDDEN_ACCUMULATION
+  PRE_BREAKOUT_TIGHT:
+    family: BREAKOUT_SETUP
+    action_bias: WATCH_BUY
+    confidence_bias: POSITIVE
+    risk_profile: MEDIUM
+    description: Tight range compression; entry should favor balanced or conservative entry unless volume confirms.
+    signals:
+      tight_coil_eq: true
+      coil_strength_gte: 70
+      price_above_vwap_eq: true
+    parent_stage: ACCUMULATION
+    parent_substage: PRE_BREAKOUT
+    institutional_trade_policy:
+      buy_weight: 9
+      sell_weight: 0
+      short_weight: 0
+      avoid_weight: 0
+      risk_penalty: 0
+      preferred_rank_bucket: HIDDEN_ACCUMULATION
+  PRE_BREAKOUT_STRONG:
+    family: BREAKOUT_SETUP
+    action_bias: BUY_ON_TRIGGER
+    confidence_bias: STRONG_POSITIVE
+    risk_profile: MEDIUM
+    description: High-quality pre-breakout condition with coil, improving volume, and trigger readiness.
+    signals:
+      pre_breakout_compression_eq: true
+      coil_strength_gte: 80
+      volume_surge_gte: 1.1
+      macd_cross_eq: true
+    parent_stage: ACCUMULATION
+    parent_substage: PRE_BREAKOUT
+    institutional_trade_policy:
+      buy_weight: 10
+      sell_weight: 1
+      short_weight: 0
+      avoid_weight: 0
+      risk_penalty: 1
+      preferred_rank_bucket: HIDDEN_ACCUMULATION
+  VOLUME_EXPANSION_START:
+    family: BREAKOUT_SETUP
+    action_bias: WATCH_BREAKOUT
+    confidence_bias: POSITIVE
+    risk_profile: MEDIUM
+    description: Volume starts expanding out of a tight structure.
+    signals:
+      pre_breakout_compression_eq: true
+      coil_strength_gte: 65
+      vol_gte: 1.15
+    parent_stage: ACCUMULATION
+    parent_substage: PRE_BREAKOUT
+    institutional_trade_policy:
+      buy_weight: 9
+      sell_weight: 0
+      short_weight: 0
+      avoid_weight: 0
+      risk_penalty: 0
+      preferred_rank_bucket: HIDDEN_ACCUMULATION
+  PRE_BREAKOUT_UNCONFIRMED:
+    family: BREAKOUT_SETUP
+    action_bias: WAIT
+    confidence_bias: NEUTRAL
+    risk_profile: MEDIUM
+    description: Setup exists but compression/trigger quality is not strong enough.
+    signals:
+      pre_breakout_compression_eq: true
+      breakout_eq: false
+    parent_stage: ACCUMULATION
+    parent_substage: PRE_BREAKOUT
+    institutional_trade_policy:
+      buy_weight: 9
+      sell_weight: 0
+      short_weight: 0
+      avoid_weight: 0
+      risk_penalty: 0
+      preferred_rank_bucket: HIDDEN_ACCUMULATION
+  DEFAULT:
+    family: FALLBACK
+    action_bias: WATCH
+    confidence_bias: NEUTRAL
+    risk_profile: MEDIUM
+    description: Fallback child when no granular child rule reaches threshold.
+    signals:
+      always_true_eq: true
+    parent_stage: ACCUMULATION
+    parent_substage: PRE_BREAKOUT
+    institutional_trade_policy:
+      buy_weight: 9
+      sell_weight: 0
+      short_weight: 0
+      avoid_weight: 0
+      risk_penalty: 0
+      preferred_rank_bucket: HIDDEN_ACCUMULATION
+BREAKOUT:
+  CLEAN_BREAKOUT:
+    family: BREAKOUT
+    action_bias: BUY
+    confidence_bias: POSITIVE
+    risk_profile: MEDIUM
+    description: Clean breakout with volume.
+    signals:
+      priceAboveVwap_eq: true
+      bullStack_eq: true
+      breakout_eq: true
+      vol_gte: 1.1
+    parent_stage: MARKUP
+    parent_substage: BREAKOUT
+    institutional_trade_policy:
+      buy_weight: 10
+      sell_weight: 1
+      short_weight: 0
+      avoid_weight: 0
+      risk_penalty: 1
+      preferred_rank_bucket: SAFEST_BUY
+  BREAKOUT_NO_VOLUME:
+    family: BREAKOUT
+    action_bias: WATCH_RETEST
+    confidence_bias: NEUTRAL
+    risk_profile: MEDIUM
+    description: Breakout lacks volume.
+    signals:
+      priceAboveVwap_eq: true
+      bullStack_eq: true
+      breakout_eq: true
+      vol_lte: 1
+    parent_stage: MARKUP
+    parent_substage: BREAKOUT
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 0
+      short_weight: 0
+      avoid_weight: 0
+      risk_penalty: 0
+      preferred_rank_bucket: UNRANKED
+  OVEREXTENDED_BREAKOUT:
+    family: BREAKOUT
+    action_bias: WAIT_FOR_PULLBACK
+    confidence_bias: NEGATIVE
+    risk_profile: MEDIUM
+    description: Breakout is late/extended.
+    signals:
+      priceAboveVwap_eq: true
+      bullStack_eq: true
+      breakout_eq: true
+      rsi_gte: 72
+    parent_stage: MARKUP
+    parent_substage: BREAKOUT
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 8
+      short_weight: 0
+      avoid_weight: 9
+      risk_penalty: 9
+      preferred_rank_bucket: AVOID_TRAP
+  DEFAULT:
+    family: FALLBACK
+    action_bias: WATCH
+    confidence_bias: NEUTRAL
+    risk_profile: MEDIUM
+    description: Fallback child when no granular child rule reaches threshold.
+    signals:
+      always_true_eq: true
+    parent_stage: MARKUP
+    parent_substage: BREAKOUT
+    institutional_trade_policy:
+      buy_weight: 2
+      sell_weight: 2
+      short_weight: 1
+      avoid_weight: 3
+      risk_penalty: 3
+      preferred_rank_bucket: WATCH
+RETEST:
+  SUCCESSFUL_RETEST:
+    family: RETEST
+    action_bias: BUY_RETEST
+    confidence_bias: POSITIVE
+    risk_profile: MEDIUM
+    description: Breakout retest holds.
+    signals:
+      priceAboveVwap_eq: true
+      bullStack_eq: true
+      breakoutRetest_eq: true
+    parent_stage: MARKUP
+    parent_substage: RETEST
+    institutional_trade_policy:
+      buy_weight: 10
+      sell_weight: 1
+      short_weight: 0
+      avoid_weight: 0
+      risk_penalty: 1
+      preferred_rank_bucket: SAFEST_BUY
+  LOW_VOLUME_RETEST:
+    family: RETEST
+    action_bias: BUY_SMALL
+    confidence_bias: POSITIVE
+    risk_profile: MEDIUM
+    description: Retest happens on lower volume.
+    signals:
+      priceAboveVwap_eq: true
+      bullStack_eq: true
+      breakoutRetest_eq: true
+      lowVolumeRetest_eq: true
+    parent_stage: MARKUP
+    parent_substage: RETEST
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 0
+      short_weight: 0
+      avoid_weight: 0
+      risk_penalty: 0
+      preferred_rank_bucket: UNRANKED
+  FAILED_RETEST:
+    family: RETEST
+    action_bias: AVOID
+    confidence_bias: NEGATIVE
+    risk_profile: HIGH
+    description: Retest fails.
+    signals:
+      priceAboveVwap_eq: true
+      bullStack_eq: true
+      failedBreakout_eq: true
+    parent_stage: MARKUP
+    parent_substage: RETEST
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 8
+      short_weight: 0
+      avoid_weight: 9
+      risk_penalty: 9
+      preferred_rank_bucket: AVOID_TRAP
+  DEFAULT:
+    family: FALLBACK
+    action_bias: WATCH
+    confidence_bias: NEUTRAL
+    risk_profile: MEDIUM
+    description: Fallback child when no granular child rule reaches threshold.
+    signals:
+      always_true_eq: true
+    parent_stage: MARKUP
+    parent_substage: RETEST
+    institutional_trade_policy:
+      buy_weight: 2
+      sell_weight: 2
+      short_weight: 1
+      avoid_weight: 3
+      risk_penalty: 3
+      preferred_rank_bucket: WATCH
+EARLY_TREND:
+  EMA_STACK_FORMING:
+    family: TREND
+    action_bias: BUY_PULLBACK
+    confidence_bias: POSITIVE
+    risk_profile: MEDIUM
+    description: Early trend forms.
+    signals:
+      priceAboveVwap_eq: true
+      bullStack_eq: true
+      rsi_between:
+      - 50
+      - 64
+    parent_stage: MARKUP
+    parent_substage: EARLY_TREND
+    institutional_trade_policy:
+      buy_weight: 10
+      sell_weight: 1
+      short_weight: 0
+      avoid_weight: 0
+      risk_penalty: 1
+      preferred_rank_bucket: SAFEST_BUY
+  RSI_50_HOLD:
+    family: TREND
+    action_bias: BUY_SMALL
+    confidence_bias: POSITIVE
+    risk_profile: MEDIUM
+    description: RSI 50 zone holds.
+    signals:
+      priceAboveVwap_eq: true
+      bullStack_eq: true
+      rsi_between:
+      - 50
+      - 58
+    parent_stage: MARKUP
+    parent_substage: EARLY_TREND
+    institutional_trade_policy:
+      buy_weight: 10
+      sell_weight: 1
+      short_weight: 0
+      avoid_weight: 0
+      risk_penalty: 1
+      preferred_rank_bucket: SAFEST_BUY
+  EARLY_TREND_WEAK:
+    family: TREND
+    action_bias: WATCH
+    confidence_bias: NEUTRAL
+    risk_profile: MEDIUM
+    description: Early trend lacks ADX strength.
+    signals:
+      priceAboveVwap_eq: true
+      bullStack_eq: true
+      adx_lte: 20
+    parent_stage: MARKUP
+    parent_substage: EARLY_TREND
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 0
+      short_weight: 0
+      avoid_weight: 0
+      risk_penalty: 0
+      preferred_rank_bucket: UNRANKED
+  DEFAULT:
+    family: FALLBACK
+    action_bias: WATCH
+    confidence_bias: NEUTRAL
+    risk_profile: MEDIUM
+    description: Fallback child when no granular child rule reaches threshold.
+    signals:
+      always_true_eq: true
+    parent_stage: MARKUP
+    parent_substage: EARLY_TREND
+    institutional_trade_policy:
+      buy_weight: 2
+      sell_weight: 2
+      short_weight: 1
+      avoid_weight: 3
+      risk_penalty: 3
+      preferred_rank_bucket: WATCH
+TREND_CONTINUATION:
+  ORDERLY_CONTINUATION:
+    family: TREND
+    action_bias: HOLD_OR_ADD
+    confidence_bias: POSITIVE
+    risk_profile: MEDIUM
+    description: Trend continuation is orderly.
+    signals:
+      priceAboveVwap_eq: true
+      bullStack_eq: true
+      bearStack_eq: false
+      adx_gte: 20
+    parent_stage: MARKUP
+    parent_substage: TREND_CONTINUATION
+    institutional_trade_policy:
+      buy_weight: 10
+      sell_weight: 1
+      short_weight: 0
+      avoid_weight: 0
+      risk_penalty: 1
+      preferred_rank_bucket: SAFEST_BUY
+  CONTINUATION_PULLBACK:
+    family: TREND
+    action_bias: ADD_ON_PULLBACK
+    confidence_bias: POSITIVE
+    risk_profile: MEDIUM
+    description: Trend continuation pullback.
+    signals:
+      priceAboveVwap_eq: true
+      bullStack_eq: true
+      higherLow_eq: true
+      lowerHigh_eq: false
+    parent_stage: MARKUP
+    parent_substage: TREND_CONTINUATION
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 0
+      short_weight: 0
+      avoid_weight: 0
+      risk_penalty: 0
+      preferred_rank_bucket: UNRANKED
+  CONTINUATION_EXTENDED:
+    family: TREND
+    action_bias: REDUCE_CHASE
+    confidence_bias: NEGATIVE
+    risk_profile: MEDIUM
+    description: Trend continuation appears stretched.
+    signals:
+      priceAboveVwap_eq: true
+      bullStack_eq: true
+      rsi_gte: 72
+      rsi_lte: 100
+    parent_stage: MARKUP
+    parent_substage: TREND_CONTINUATION
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 0
+      short_weight: 0
+      avoid_weight: 0
+      risk_penalty: 0
+      preferred_rank_bucket: UNRANKED
+  DEFAULT:
+    family: FALLBACK
+    action_bias: WATCH
+    confidence_bias: NEUTRAL
+    risk_profile: MEDIUM
+    description: Fallback child when no granular child rule reaches threshold.
+    signals:
+      always_true_eq: true
+    parent_stage: MARKUP
+    parent_substage: TREND_CONTINUATION
+    institutional_trade_policy:
+      buy_weight: 2
+      sell_weight: 2
+      short_weight: 1
+      avoid_weight: 3
+      risk_penalty: 3
+      preferred_rank_bucket: WATCH
+  MARKDOWN_ORDERLY_CONTINUATION:
+    family: TREND
+    action_bias: HOLD_OR_ADD
+    confidence_bias: POSITIVE
+    risk_profile: MEDIUM
+    description: Trend continuation is orderly.
+    signals:
+      priceBelowVwap_eq: true
+      bearStack_eq: true
+      bullStack_eq: false
+      adx_gte: 20
+    parent_stage: MARKDOWN
+    parent_substage: TREND_CONTINUATION
+    institutional_trade_policy:
+      buy_weight: 10
+      sell_weight: 1
+      short_weight: 0
+      avoid_weight: 0
+      risk_penalty: 1
+      preferred_rank_bucket: SAFEST_BUY
+  MARKDOWN_CONTINUATION_PULLBACK:
+    family: TREND
+    action_bias: ADD_ON_PULLBACK
+    confidence_bias: POSITIVE
+    risk_profile: MEDIUM
+    description: Trend continuation pullback.
+    signals:
+      priceBelowVwap_eq: true
+      bearStack_eq: true
+      higherLow_eq: false
+      lowerHigh_eq: true
+    parent_stage: MARKDOWN
+    parent_substage: TREND_CONTINUATION
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 0
+      short_weight: 0
+      avoid_weight: 0
+      risk_penalty: 0
+      preferred_rank_bucket: UNRANKED
+  MARKDOWN_CONTINUATION_EXTENDED:
+    family: TREND
+    action_bias: REDUCE_CHASE
+    confidence_bias: NEGATIVE
+    risk_profile: MEDIUM
+    description: Trend continuation appears stretched.
+    signals:
+      priceBelowVwap_eq: true
+      bearStack_eq: true
+      rsi_gte: 0
+      rsi_lte: 28
+    parent_stage: MARKDOWN
+    parent_substage: TREND_CONTINUATION
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 0
+      short_weight: 0
+      avoid_weight: 0
+      risk_penalty: 0
+      preferred_rank_bucket: UNRANKED
+  MARKDOWN_DEFAULT:
+    family: FALLBACK
+    action_bias: WATCH
+    confidence_bias: NEUTRAL
+    risk_profile: HIGH
+    description: Fallback child when no granular child rule reaches threshold.
+    signals:
+      always_true_eq: true
+    parent_stage: MARKDOWN
+    parent_substage: TREND_CONTINUATION
+    institutional_trade_policy:
+      buy_weight: 2
+      sell_weight: 2
+      short_weight: 1
+      avoid_weight: 3
+      risk_penalty: 3
+      preferred_rank_bucket: WATCH
+PULLBACK:
+  PULLBACK_TO_TREND:
+    family: PULLBACK
+    action_bias: BUY_PULLBACK
+    confidence_bias: POSITIVE
+    risk_profile: MEDIUM
+    description: Healthy pullback in uptrend.
+    signals:
+      priceAboveVwap_eq: true
+      bullStack_eq: true
+      pullback_eq: true
+    parent_stage: MARKUP
+    parent_substage: PULLBACK
+    institutional_trade_policy:
+      buy_weight: 10
+      sell_weight: 1
+      short_weight: 0
+      avoid_weight: 0
+      risk_penalty: 1
+      preferred_rank_bucket: SAFEST_BUY
+  SHALLOW_PULLBACK:
+    family: PULLBACK
+    action_bias: ADD_SMALL
+    confidence_bias: POSITIVE
+    risk_profile: MEDIUM
+    description: Shallow pullback above VWAP.
+    signals:
+      priceAboveVwap_eq: true
+      bullStack_eq: true
+      pullback_eq: true
+    parent_stage: MARKUP
+    parent_substage: PULLBACK
+    institutional_trade_policy:
+      buy_weight: 10
+      sell_weight: 1
+      short_weight: 0
+      avoid_weight: 0
+      risk_penalty: 1
+      preferred_rank_bucket: SAFEST_BUY
+  DEEP_PULLBACK:
+    family: PULLBACK
+    action_bias: WAIT
+    confidence_bias: NEUTRAL
+    risk_profile: MEDIUM
+    description: Pullback is deeper; wait.
+    signals:
+      priceAboveVwap_eq: false
+      bullStack_eq: true
+      pullback_eq: true
+    parent_stage: MARKUP
+    parent_substage: PULLBACK
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 0
+      short_weight: 0
+      avoid_weight: 0
+      risk_penalty: 0
+      preferred_rank_bucket: UNRANKED
+  DEFAULT:
+    family: FALLBACK
+    action_bias: WATCH
+    confidence_bias: NEUTRAL
+    risk_profile: MEDIUM
+    description: Fallback child when no granular child rule reaches threshold.
+    signals:
+      always_true_eq: true
+    parent_stage: MARKUP
+    parent_substage: PULLBACK
+    institutional_trade_policy:
+      buy_weight: 2
+      sell_weight: 2
+      short_weight: 1
+      avoid_weight: 3
+      risk_penalty: 3
+      preferred_rank_bucket: WATCH
+HIGHER_HIGH:
+  CONFIRMED_HIGHER_HIGH:
+    family: STRUCTURE
+    action_bias: HOLD
+    confidence_bias: POSITIVE
+    risk_profile: MEDIUM
+    description: Higher high confirms structure.
+    signals:
+      priceAboveVwap_eq: true
+      bullStack_eq: true
+      higherHigh_eq: true
+    parent_stage: MARKUP
+    parent_substage: HIGHER_HIGH
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 0
+      short_weight: 0
+      avoid_weight: 0
+      risk_penalty: 0
+      preferred_rank_bucket: UNRANKED
+  HH_WITH_VOLUME:
+    family: STRUCTURE
+    action_bias: ADD_SMALL
+    confidence_bias: POSITIVE
+    risk_profile: MEDIUM
+    description: Higher high has volume confirmation.
+    signals:
+      priceAboveVwap_eq: true
+      bullStack_eq: true
+      higherHigh_eq: true
+      vol_gte: 1.1
+    parent_stage: MARKUP
+    parent_substage: HIGHER_HIGH
+    institutional_trade_policy:
+      buy_weight: 8
+      sell_weight: 0
+      short_weight: 0
+      avoid_weight: 0
+      risk_penalty: 3
+      preferred_rank_bucket: AGGRESSIVE_BUY
+  HH_EXHAUSTIVE:
+    family: STRUCTURE
+    action_bias: TRIM
+    confidence_bias: NEGATIVE
+    risk_profile: MEDIUM
+    description: Higher high is exhaustive.
+    signals:
+      priceAboveVwap_eq: true
+      bullStack_eq: true
+      higherHigh_eq: true
+      rsi_gte: 75
+    parent_stage: MARKUP
+    parent_substage: HIGHER_HIGH
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 0
+      short_weight: 0
+      avoid_weight: 0
+      risk_penalty: 0
+      preferred_rank_bucket: UNRANKED
+  DEFAULT:
+    family: FALLBACK
+    action_bias: WATCH
+    confidence_bias: NEUTRAL
+    risk_profile: MEDIUM
+    description: Fallback child when no granular child rule reaches threshold.
+    signals:
+      always_true_eq: true
+    parent_stage: MARKUP
+    parent_substage: HIGHER_HIGH
+    institutional_trade_policy:
+      buy_weight: 2
+      sell_weight: 2
+      short_weight: 1
+      avoid_weight: 3
+      risk_penalty: 3
+      preferred_rank_bucket: WATCH
+HIGHER_LOW:
+  CONFIRMED_HIGHER_LOW:
+    family: STRUCTURE
+    action_bias: BUY_PULLBACK
+    confidence_bias: POSITIVE
+    risk_profile: MEDIUM
+    description: Higher low confirms uptrend.
+    signals:
+      priceAboveVwap_eq: true
+      bullStack_eq: true
+      higherLow_eq: true
+    parent_stage: MARKUP
+    parent_substage: HIGHER_LOW
+    institutional_trade_policy:
+      buy_weight: 10
+      sell_weight: 1
+      short_weight: 0
+      avoid_weight: 0
+      risk_penalty: 1
+      preferred_rank_bucket: SAFEST_BUY
+  HL_LOW_RISK_ENTRY:
+    family: STRUCTURE
+    action_bias: ADD
+    confidence_bias: POSITIVE
+    risk_profile: MEDIUM
+    description: Higher low offers low-risk entry.
+    signals:
+      priceAboveVwap_eq: true
+      bullStack_eq: true
+      higherLow_eq: true
+      rsi_between:
+      - 50
+      - 62
+    parent_stage: MARKUP
+    parent_substage: HIGHER_LOW
+    institutional_trade_policy:
+      buy_weight: 10
+      sell_weight: 1
+      short_weight: 0
+      avoid_weight: 0
+      risk_penalty: 1
+      preferred_rank_bucket: SAFEST_BUY
+  HL_LOST_VWAP:
+    family: STRUCTURE
+    action_bias: WAIT
+    confidence_bias: NEUTRAL
+    risk_profile: MEDIUM
+    description: Higher low lacks VWAP support.
+    signals:
+      priceAboveVwap_eq: false
+      bullStack_eq: true
+      higherLow_eq: true
+    parent_stage: MARKUP
+    parent_substage: HIGHER_LOW
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 8
+      short_weight: 0
+      avoid_weight: 9
+      risk_penalty: 9
+      preferred_rank_bucket: AVOID_TRAP
+  DEFAULT:
+    family: FALLBACK
+    action_bias: WATCH
+    confidence_bias: NEUTRAL
+    risk_profile: MEDIUM
+    description: Fallback child when no granular child rule reaches threshold.
+    signals:
+      always_true_eq: true
+    parent_stage: MARKUP
+    parent_substage: HIGHER_LOW
+    institutional_trade_policy:
+      buy_weight: 2
+      sell_weight: 2
+      short_weight: 1
+      avoid_weight: 3
+      risk_penalty: 3
+      preferred_rank_bucket: WATCH
+STRONG_TREND:
+  TREND_ACCELERATION:
+    family: TREND
+    action_bias: HOLD
+    confidence_bias: POSITIVE
+    risk_profile: MEDIUM
+    description: Strong trend accelerates.
+    signals:
+      priceAboveVwap_eq: true
+      bullStack_eq: true
+      bearStack_eq: false
+      adx_gte: 25
+    parent_stage: MARKUP
+    parent_substage: STRONG_TREND
+    institutional_trade_policy:
+      buy_weight: 10
+      sell_weight: 1
+      short_weight: 0
+      avoid_weight: 0
+      risk_penalty: 3
+      preferred_rank_bucket: AGGRESSIVE_BUY
+  VOLUME_CONFIRMED_TREND:
+    family: TREND
+    action_bias: ADD_ON_PULLBACK
+    confidence_bias: POSITIVE
+    risk_profile: MEDIUM
+    description: Trend has volume confirmation.
+    signals:
+      priceAboveVwap_eq: true
+      bullStack_eq: true
+      vol_gte: 1.15
+    parent_stage: MARKUP
+    parent_substage: STRONG_TREND
+    institutional_trade_policy:
+      buy_weight: 10
+      sell_weight: 1
+      short_weight: 0
+      avoid_weight: 0
+      risk_penalty: 1
+      preferred_rank_bucket: SAFEST_BUY
+  LATE_STRONG_TREND:
+    family: TREND
+    action_bias: AVOID_CHASING
+    confidence_bias: NEGATIVE
+    risk_profile: HIGH
+    description: Strong trend may be late.
+    signals:
+      priceAboveVwap_eq: true
+      bullStack_eq: true
+      rsi_gte: 72
+      rsi_lte: 100
+    parent_stage: MARKUP
+    parent_substage: STRONG_TREND
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 0
+      short_weight: 0
+      avoid_weight: 0
+      risk_penalty: 0
+      preferred_rank_bucket: UNRANKED
+  DEFAULT:
+    family: FALLBACK
+    action_bias: WATCH
+    confidence_bias: NEUTRAL
+    risk_profile: MEDIUM
+    description: Fallback child when no granular child rule reaches threshold.
+    signals:
+      always_true_eq: true
+    parent_stage: MARKUP
+    parent_substage: STRONG_TREND
+    institutional_trade_policy:
+      buy_weight: 2
+      sell_weight: 2
+      short_weight: 1
+      avoid_weight: 3
+      risk_penalty: 3
+      preferred_rank_bucket: WATCH
+RANGE_EXPANSION:
+  HEALTHY_EXPANSION:
+    family: EXPANSION
+    action_bias: BUY_BREAKOUT
+    confidence_bias: POSITIVE
+    risk_profile: MEDIUM
+    description: Range expands directionally.
+    signals:
+      priceAboveVwap_eq: true
+      bullStack_eq: true
+      rangeExpansion_eq: true
+      adx_gte: 22
+    parent_stage: MARKUP
+    parent_substage: RANGE_EXPANSION
+    institutional_trade_policy:
+      buy_weight: 8
+      sell_weight: 0
+      short_weight: 0
+      avoid_weight: 0
+      risk_penalty: 3
+      preferred_rank_bucket: AGGRESSIVE_BUY
+  EXPANSION_WITH_VOLUME:
+    family: EXPANSION
+    action_bias: ADD_SMALL
+    confidence_bias: POSITIVE
+    risk_profile: MEDIUM
+    description: Expansion confirmed by volume.
+    signals:
+      priceAboveVwap_eq: true
+      bullStack_eq: true
+      rangeExpansion_eq: true
+      vol_gte: 1.2
+    parent_stage: MARKUP
+    parent_substage: RANGE_EXPANSION
+    institutional_trade_policy:
+      buy_weight: 8
+      sell_weight: 0
+      short_weight: 0
+      avoid_weight: 0
+      risk_penalty: 3
+      preferred_rank_bucket: AGGRESSIVE_BUY
+  EXHAUSTIVE_EXPANSION:
+    family: EXPANSION
+    action_bias: WAIT
+    confidence_bias: NEGATIVE
+    risk_profile: MEDIUM
+    description: Expansion looks exhaustive.
+    signals:
+      priceAboveVwap_eq: true
+      bullStack_eq: true
+      rangeExpansion_eq: true
+      rsi_gte: 75
+    parent_stage: MARKUP
+    parent_substage: RANGE_EXPANSION
+    institutional_trade_policy:
+      buy_weight: 8
+      sell_weight: 0
+      short_weight: 0
+      avoid_weight: 0
+      risk_penalty: 3
+      preferred_rank_bucket: AGGRESSIVE_BUY
+  DEFAULT:
+    family: FALLBACK
+    action_bias: WATCH
+    confidence_bias: NEUTRAL
+    risk_profile: MEDIUM
+    description: Fallback child when no granular child rule reaches threshold.
+    signals:
+      always_true_eq: true
+    parent_stage: MARKUP
+    parent_substage: RANGE_EXPANSION
+    institutional_trade_policy:
+      buy_weight: 8
+      sell_weight: 0
+      short_weight: 0
+      avoid_weight: 0
+      risk_penalty: 3
+      preferred_rank_bucket: AGGRESSIVE_BUY
+MOMENTUM_SURGE:
+  CLEAN_MOMENTUM_SURGE:
+    family: MOMENTUM
+    action_bias: HOLD_OR_ADD
+    confidence_bias: POSITIVE
+    risk_profile: MEDIUM
+    description: Momentum surge confirms upside.
+    signals:
+      priceAboveVwap_eq: true
+      bullStack_eq: true
+      momentumSurge_eq: true
+      vol_gte: 1.2
+    parent_stage: MARKUP
+    parent_substage: MOMENTUM_SURGE
+    institutional_trade_policy:
+      buy_weight: 8
+      sell_weight: 0
+      short_weight: 0
+      avoid_weight: 0
+      risk_penalty: 3
+      preferred_rank_bucket: AGGRESSIVE_BUY
+  SURGE_BREAKOUT:
+    family: MOMENTUM
+    action_bias: BUY_BREAKOUT
+    confidence_bias: POSITIVE
+    risk_profile: MEDIUM
+    description: Momentum confirms breakout.
+    signals:
+      priceAboveVwap_eq: true
+      bullStack_eq: true
+      momentumSurge_eq: true
+      breakout_eq: true
+    parent_stage: MARKUP
+    parent_substage: MOMENTUM_SURGE
+    institutional_trade_policy:
+      buy_weight: 8
+      sell_weight: 0
+      short_weight: 0
+      avoid_weight: 0
+      risk_penalty: 3
+      preferred_rank_bucket: AGGRESSIVE_BUY
+  SURGE_OVERHEATED:
+    family: MOMENTUM
+    action_bias: TRIM_OR_WAIT
+    confidence_bias: NEGATIVE
+    risk_profile: MEDIUM
+    description: Momentum surge is overheated.
+    signals:
+      priceAboveVwap_eq: true
+      bullStack_eq: true
+      momentumSurge_eq: true
+      rsi_gte: 78
+    parent_stage: MARKUP
+    parent_substage: MOMENTUM_SURGE
+    institutional_trade_policy:
+      buy_weight: 8
+      sell_weight: 0
+      short_weight: 0
+      avoid_weight: 0
+      risk_penalty: 3
+      preferred_rank_bucket: AGGRESSIVE_BUY
+  DEFAULT:
+    family: FALLBACK
+    action_bias: WATCH
+    confidence_bias: NEUTRAL
+    risk_profile: MEDIUM
+    description: Fallback child when no granular child rule reaches threshold.
+    signals:
+      always_true_eq: true
+    parent_stage: MARKUP
+    parent_substage: MOMENTUM_SURGE
+    institutional_trade_policy:
+      buy_weight: 8
+      sell_weight: 0
+      short_weight: 0
+      avoid_weight: 0
+      risk_penalty: 3
+      preferred_rank_bucket: AGGRESSIVE_BUY
+ACCELERATION:
+  CONTROLLED_ACCELERATION:
+    family: ACCELERATION
+    action_bias: HOLD
+    confidence_bias: POSITIVE
+    risk_profile: MEDIUM
+    description: Acceleration remains controlled.
+    signals:
+      priceAboveVwap_eq: true
+      bullStack_eq: true
+      adx_gte: 28
+      vol_gte: 1.15
+    parent_stage: MARKUP
+    parent_substage: ACCELERATION
+    institutional_trade_policy:
+      buy_weight: 8
+      sell_weight: 0
+      short_weight: 0
+      avoid_weight: 0
+      risk_penalty: 3
+      preferred_rank_bucket: AGGRESSIVE_BUY
+  VOLUME_ACCELERATION:
+    family: ACCELERATION
+    action_bias: ADD_SMALL
+    confidence_bias: POSITIVE
+    risk_profile: MEDIUM
+    description: Volume confirms acceleration.
+    signals:
+      priceAboveVwap_eq: true
+      bullStack_eq: true
+      vol_gte: 1.3
+    parent_stage: MARKUP
+    parent_substage: ACCELERATION
+    institutional_trade_policy:
+      buy_weight: 8
+      sell_weight: 0
+      short_weight: 0
+      avoid_weight: 0
+      risk_penalty: 3
+      preferred_rank_bucket: AGGRESSIVE_BUY
+  BLOWOFF_ACCELERATION:
+    family: ACCELERATION
+    action_bias: TRIM
+    confidence_bias: NEGATIVE
+    risk_profile: MEDIUM
+    description: Acceleration may be blowoff.
+    signals:
+      priceAboveVwap_eq: true
+      bullStack_eq: true
+      rsi_gte: 78
+      adx_gte: 35
+    parent_stage: MARKUP
+    parent_substage: ACCELERATION
+    institutional_trade_policy:
+      buy_weight: 2
+      sell_weight: 8
+      short_weight: 0
+      avoid_weight: 9
+      risk_penalty: 9
+      preferred_rank_bucket: AVOID_TRAP
+  DEFAULT:
+    family: FALLBACK
+    action_bias: WATCH
+    confidence_bias: NEUTRAL
+    risk_profile: MEDIUM
+    description: Fallback child when no granular child rule reaches threshold.
+    signals:
+      always_true_eq: true
+    parent_stage: MARKUP
+    parent_substage: ACCELERATION
+    institutional_trade_policy:
+      buy_weight: 8
+      sell_weight: 0
+      short_weight: 0
+      avoid_weight: 0
+      risk_penalty: 3
+      preferred_rank_bucket: AGGRESSIVE_BUY
+  MARKDOWN_CONTROLLED_ACCELERATION:
+    family: ACCELERATION
+    action_bias: HOLD
+    confidence_bias: POSITIVE
+    risk_profile: MEDIUM
+    description: Acceleration remains controlled.
+    signals:
+      priceBelowVwap_eq: true
+      bearStack_eq: true
+      adx_gte: 28
+      vol_gte: 1.15
+    parent_stage: MARKDOWN
+    parent_substage: ACCELERATION
+    institutional_trade_policy:
+      buy_weight: 8
+      sell_weight: 0
+      short_weight: 0
+      avoid_weight: 0
+      risk_penalty: 3
+      preferred_rank_bucket: AGGRESSIVE_BUY
+  MARKDOWN_VOLUME_ACCELERATION:
+    family: ACCELERATION
+    action_bias: ADD_SMALL
+    confidence_bias: POSITIVE
+    risk_profile: MEDIUM
+    description: Volume confirms acceleration.
+    signals:
+      priceBelowVwap_eq: true
+      bearStack_eq: true
+      vol_gte: 1.3
+    parent_stage: MARKDOWN
+    parent_substage: ACCELERATION
+    institutional_trade_policy:
+      buy_weight: 8
+      sell_weight: 0
+      short_weight: 0
+      avoid_weight: 0
+      risk_penalty: 3
+      preferred_rank_bucket: AGGRESSIVE_BUY
+  MARKDOWN_BLOWOFF_ACCELERATION:
+    family: ACCELERATION
+    action_bias: TRIM
+    confidence_bias: NEGATIVE
+    risk_profile: MEDIUM
+    description: Acceleration may be blowoff.
+    signals:
+      priceBelowVwap_eq: true
+      bearStack_eq: true
+      rsi_gte: 78
+      adx_gte: 35
+    parent_stage: MARKDOWN
+    parent_substage: ACCELERATION
+    institutional_trade_policy:
+      buy_weight: 2
+      sell_weight: 8
+      short_weight: 0
+      avoid_weight: 9
+      risk_penalty: 9
+      preferred_rank_bucket: AVOID_TRAP
+  MARKDOWN_DEFAULT:
+    family: FALLBACK
+    action_bias: WATCH
+    confidence_bias: NEUTRAL
+    risk_profile: HIGH
+    description: Fallback child when no granular child rule reaches threshold.
+    signals:
+      always_true_eq: true
+    parent_stage: MARKDOWN
+    parent_substage: ACCELERATION
+    institutional_trade_policy:
+      buy_weight: 8
+      sell_weight: 0
+      short_weight: 0
+      avoid_weight: 0
+      risk_penalty: 3
+      preferred_rank_bucket: AGGRESSIVE_BUY
+CLIMAX_RUN:
+  CLIMAX_EXTENSION:
+    family: CLIMAX
+    action_bias: TRIM
+    confidence_bias: NEGATIVE
+    risk_profile: MEDIUM
+    description: Climax extension; reduce chase.
+    signals:
+      priceAboveVwap_eq: true
+      bullStack_eq: true
+      rsi_gte: 72
+      adx_gte: 35
+    parent_stage: MARKUP
+    parent_substage: CLIMAX_RUN
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 0
+      short_weight: 0
+      avoid_weight: 0
+      risk_penalty: 0
+      preferred_rank_bucket: UNRANKED
+  BLOWOFF_VOLUME:
+    family: CLIMAX
+    action_bias: TRIM_AGGRESSIVE
+    confidence_bias: NEGATIVE
+    risk_profile: MEDIUM
+    description: Blowoff volume risk.
+    signals:
+      priceAboveVwap_eq: true
+      bullStack_eq: true
+      vol_gte: 1.6
+      rsi_gte: 75
+    parent_stage: MARKUP
+    parent_substage: CLIMAX_RUN
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 8
+      short_weight: 0
+      avoid_weight: 9
+      risk_penalty: 9
+      preferred_rank_bucket: AVOID_TRAP
+  FINAL_PUSH:
+    family: CLIMAX
+    action_bias: AVOID_NEW_LONG
+    confidence_bias: NEGATIVE
+    risk_profile: HIGH
+    description: Likely final push.
+    signals:
+      priceAboveVwap_eq: true
+      bullStack_eq: true
+      rsi_gte: 80
+    parent_stage: MARKUP
+    parent_substage: CLIMAX_RUN
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 8
+      short_weight: 0
+      avoid_weight: 9
+      risk_penalty: 9
+      preferred_rank_bucket: AVOID_TRAP
+  DEFAULT:
+    family: FALLBACK
+    action_bias: WATCH
+    confidence_bias: NEUTRAL
+    risk_profile: MEDIUM
+    description: Fallback child when no granular child rule reaches threshold.
+    signals:
+      always_true_eq: true
+    parent_stage: MARKUP
+    parent_substage: CLIMAX_RUN
+    institutional_trade_policy:
+      buy_weight: 2
+      sell_weight: 2
+      short_weight: 1
+      avoid_weight: 3
+      risk_penalty: 3
+      preferred_rank_bucket: WATCH
+OVEREXTENSION:
+  RSI_OVEREXTENSION:
+    family: EXTENSION
+    action_bias: AVOID_CHASING
+    confidence_bias: NEGATIVE
+    risk_profile: HIGH
+    description: RSI overextension.
+    signals:
+      priceAboveVwap_eq: true
+      bullStack_eq: true
+      rsi_gte: 78
+    parent_stage: MARKUP
+    parent_substage: OVEREXTENSION
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 8
+      short_weight: 0
+      avoid_weight: 9
+      risk_penalty: 9
+      preferred_rank_bucket: AVOID_TRAP
+  ADX_OVEREXTENSION:
+    family: EXTENSION
+    action_bias: TRIM
+    confidence_bias: NEGATIVE
+    risk_profile: MEDIUM
+    description: Trend is stretched.
+    signals:
+      priceAboveVwap_eq: true
+      bullStack_eq: true
+      adx_gte: 35
+      rsi_gte: 75
+    parent_stage: MARKUP
+    parent_substage: OVEREXTENSION
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 8
+      short_weight: 0
+      avoid_weight: 9
+      risk_penalty: 9
+      preferred_rank_bucket: AVOID_TRAP
+  EXTENDED_WITHOUT_VOLUME:
+    family: EXTENSION
+    action_bias: WAIT
+    confidence_bias: NEUTRAL
+    risk_profile: MEDIUM
+    description: Extension lacks volume confirmation.
+    signals:
+      priceAboveVwap_eq: true
+      bullStack_eq: true
+      rsi_gte: 75
+      vol_lte: 1
+    parent_stage: MARKUP
+    parent_substage: OVEREXTENSION
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 0
+      short_weight: 0
+      avoid_weight: 0
+      risk_penalty: 0
+      preferred_rank_bucket: UNRANKED
+  DEFAULT:
+    family: FALLBACK
+    action_bias: WATCH
+    confidence_bias: NEUTRAL
+    risk_profile: MEDIUM
+    description: Fallback child when no granular child rule reaches threshold.
+    signals:
+      always_true_eq: true
+    parent_stage: MARKUP
+    parent_substage: OVEREXTENSION
+    institutional_trade_policy:
+      buy_weight: 2
+      sell_weight: 2
+      short_weight: 1
+      avoid_weight: 3
+      risk_penalty: 3
+      preferred_rank_bucket: WATCH
+EXHAUSTION:
+  MOMENTUM_EXHAUSTION:
+    family: EXHAUSTION
+    action_bias: TRIM_OR_AVOID
+    confidence_bias: NEGATIVE
+    risk_profile: HIGH
+    description: Momentum is exhausted.
+    signals:
+      priceAboveVwap_eq: true
+      bullStack_eq: true
+      rsi_gte: 75
+      adx_gte: 35
+    parent_stage: MARKUP
+    parent_substage: EXHAUSTION
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 8
+      short_weight: 0
+      avoid_weight: 9
+      risk_penalty: 9
+      preferred_rank_bucket: AVOID_TRAP
+  EXHAUSTION_REVERSAL:
+    family: EXHAUSTION
+    action_bias: WATCH_REVERSAL
+    confidence_bias: NEGATIVE
+    risk_profile: MEDIUM
+    description: Reversal appears after exhaustion.
+    signals:
+      priceAboveVwap_eq: true
+      bullStack_eq: true
+      priceReversal_eq: true
+    parent_stage: MARKUP
+    parent_substage: EXHAUSTION
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 8
+      short_weight: 0
+      avoid_weight: 9
+      risk_penalty: 9
+      preferred_rank_bucket: AVOID_TRAP
+  EXHAUSTION_WITH_VOLUME:
+    family: EXHAUSTION
+    action_bias: EXIT_PARTIAL
+    confidence_bias: NEGATIVE
+    risk_profile: MEDIUM
+    description: Exhaustion has volume spike.
+    signals:
+      priceAboveVwap_eq: true
+      bullStack_eq: true
+      vol_gte: 1.4
+    parent_stage: MARKUP
+    parent_substage: EXHAUSTION
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 8
+      short_weight: 0
+      avoid_weight: 9
+      risk_penalty: 9
+      preferred_rank_bucket: AVOID_TRAP
+  DEFAULT:
+    family: FALLBACK
+    action_bias: WATCH
+    confidence_bias: NEUTRAL
+    risk_profile: MEDIUM
+    description: Fallback child when no granular child rule reaches threshold.
+    signals:
+      always_true_eq: true
+    parent_stage: MARKUP
+    parent_substage: EXHAUSTION
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 8
+      short_weight: 0
+      avoid_weight: 9
+      risk_penalty: 9
+      preferred_rank_bucket: AVOID_TRAP
+  DISTRIBUTION_MOMENTUM_EXHAUSTION:
+    family: EXHAUSTION
+    action_bias: TRIM_OR_AVOID
+    confidence_bias: NEGATIVE
+    risk_profile: HIGH
+    description: Momentum is exhausted.
+    signals:
+      rsi_gte: 75
+      breakout_eq: false
+      adx_gte: 35
+    parent_stage: DISTRIBUTION
+    parent_substage: EXHAUSTION
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 8
+      short_weight: 0
+      avoid_weight: 9
+      risk_penalty: 9
+      preferred_rank_bucket: AVOID_TRAP
+  DISTRIBUTION_EXHAUSTION_REVERSAL:
+    family: EXHAUSTION
+    action_bias: WATCH_REVERSAL
+    confidence_bias: NEGATIVE
+    risk_profile: MEDIUM
+    description: Reversal appears after exhaustion.
+    signals:
+      rsi_gte: 55
+      breakout_eq: false
+      priceReversal_eq: true
+    parent_stage: DISTRIBUTION
+    parent_substage: EXHAUSTION
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 8
+      short_weight: 0
+      avoid_weight: 9
+      risk_penalty: 9
+      preferred_rank_bucket: AVOID_TRAP
+  DISTRIBUTION_EXHAUSTION_WITH_VOLUME:
+    family: EXHAUSTION
+    action_bias: EXIT_PARTIAL
+    confidence_bias: NEGATIVE
+    risk_profile: MEDIUM
+    description: Exhaustion has volume spike.
+    signals:
+      rsi_gte: 55
+      breakout_eq: false
+      vol_gte: 1.4
+    parent_stage: DISTRIBUTION
+    parent_substage: EXHAUSTION
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 8
+      short_weight: 0
+      avoid_weight: 9
+      risk_penalty: 9
+      preferred_rank_bucket: AVOID_TRAP
+  DISTRIBUTION_DEFAULT:
+    family: FALLBACK
+    action_bias: WATCH
+    confidence_bias: NEUTRAL
+    risk_profile: HIGH
+    description: Fallback child when no granular child rule reaches threshold.
+    signals:
+      always_true_eq: true
+    parent_stage: DISTRIBUTION
+    parent_substage: EXHAUSTION
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 8
+      short_weight: 0
+      avoid_weight: 9
+      risk_penalty: 9
+      preferred_rank_bucket: AVOID_TRAP
+TIGHT_RANGE_TOP:
+  TIGHT_TOP_RANGE:
+    family: TOPPING
+    action_bias: AVOID_LONG
+    confidence_bias: NEGATIVE
+    risk_profile: HIGH
+    description: Tight top range.
+    signals:
+      rsi_gte: 60
+      breakout_eq: false
+      range20_lte: 0.05
+    parent_stage: DISTRIBUTION
+    parent_substage: TIGHT_RANGE_TOP
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 8
+      short_weight: 0
+      avoid_weight: 9
+      risk_penalty: 9
+      preferred_rank_bucket: AVOID_TRAP
+  DISTRIBUTION_COIL:
+    family: TOPPING
+    action_bias: WATCH_SHORT
+    confidence_bias: NEGATIVE
+    risk_profile: HIGH
+    description: Topping coil.
+    signals:
+      rsi_gte: 55
+      breakout_eq: false
+      range20_lte: 0.06
+    parent_stage: DISTRIBUTION
+    parent_substage: TIGHT_RANGE_TOP
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 9
+      short_weight: 9
+      avoid_weight: 8
+      risk_penalty: 8
+      preferred_rank_bucket: SHORT_CANDIDATE
+  TOP_RANGE_FAKE_STRENGTH:
+    family: TOPPING
+    action_bias: WAIT
+    confidence_bias: NEUTRAL
+    risk_profile: MEDIUM
+    description: Top range has weak demand.
+    signals:
+      rsi_gte: 55
+      breakout_eq: false
+      priceAboveVwap_eq: true
+      vol_lte: 1
+    parent_stage: DISTRIBUTION
+    parent_substage: TIGHT_RANGE_TOP
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 8
+      short_weight: 0
+      avoid_weight: 9
+      risk_penalty: 9
+      preferred_rank_bucket: AVOID_TRAP
+  DEFAULT:
+    family: FALLBACK
+    action_bias: WATCH
+    confidence_bias: NEUTRAL
+    risk_profile: HIGH
+    description: Fallback child when no granular child rule reaches threshold.
+    signals:
+      always_true_eq: true
+    parent_stage: DISTRIBUTION
+    parent_substage: TIGHT_RANGE_TOP
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 8
+      short_weight: 0
+      avoid_weight: 9
+      risk_penalty: 9
+      preferred_rank_bucket: AVOID_TRAP
+SIDEWAYS_TOPPING:
+  SIDEWAYS_SUPPLY:
+    family: TOPPING
+    action_bias: AVOID_LONG
+    confidence_bias: NEGATIVE
+    risk_profile: HIGH
+    description: Sideways topping supply.
+    signals:
+      rsi_gte: 55
+      breakout_eq: false
+      range20_lte: 0.08
+      priceAboveVwap_eq: true
+    parent_stage: DISTRIBUTION
+    parent_substage: SIDEWAYS_TOPPING
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 8
+      short_weight: 0
+      avoid_weight: 9
+      risk_penalty: 9
+      preferred_rank_bucket: AVOID_TRAP
+  FAILED_ADVANCE:
+    family: TOPPING
+    action_bias: WATCH_SHORT
+    confidence_bias: NEGATIVE
+    risk_profile: HIGH
+    description: Advance fails inside topping range.
+    signals:
+      rsi_gte: 55
+      breakout_eq: false
+      falseBreakout_eq: true
+    parent_stage: DISTRIBUTION
+    parent_substage: SIDEWAYS_TOPPING
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 9
+      short_weight: 9
+      avoid_weight: 8
+      risk_penalty: 8
+      preferred_rank_bucket: SHORT_CANDIDATE
+  UNRESOLVED_TOP:
+    family: TOPPING
+    action_bias: WAIT
+    confidence_bias: NEUTRAL
+    risk_profile: MEDIUM
+    description: Top unresolved.
+    signals:
+      rsi_gte: 55
+      breakout_eq: false
+      range20_lte: 0.08
+    parent_stage: DISTRIBUTION
+    parent_substage: SIDEWAYS_TOPPING
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 8
+      short_weight: 0
+      avoid_weight: 9
+      risk_penalty: 9
+      preferred_rank_bucket: AVOID_TRAP
+  DEFAULT:
+    family: FALLBACK
+    action_bias: WATCH
+    confidence_bias: NEUTRAL
+    risk_profile: HIGH
+    description: Fallback child when no granular child rule reaches threshold.
+    signals:
+      always_true_eq: true
+    parent_stage: DISTRIBUTION
+    parent_substage: SIDEWAYS_TOPPING
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 8
+      short_weight: 0
+      avoid_weight: 9
+      risk_penalty: 9
+      preferred_rank_bucket: AVOID_TRAP
+VOLUME_DISTRIBUTION:
+  HEAVY_SELL_VOLUME:
+    family: DISTRIBUTION
+    action_bias: AVOID_LONG
+    confidence_bias: NEGATIVE
+    risk_profile: HIGH
+    description: High volume without progress.
+    signals:
+      rsi_gte: 55
+      breakout_eq: false
+      vol_gte: 1.15
+    parent_stage: DISTRIBUTION
+    parent_substage: VOLUME_DISTRIBUTION
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 8
+      short_weight: 0
+      avoid_weight: 9
+      risk_penalty: 9
+      preferred_rank_bucket: AVOID_TRAP
+  SUPPLY_ABOVE:
+    family: DISTRIBUTION
+    action_bias: WATCH_SHORT
+    confidence_bias: NEGATIVE
+    risk_profile: HIGH
+    description: Supply appears above.
+    signals:
+      rsi_gte: 55
+      breakout_eq: false
+      vol_gte: 1.2
+      lowerHigh_eq: true
+    parent_stage: DISTRIBUTION
+    parent_substage: VOLUME_DISTRIBUTION
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 9
+      short_weight: 9
+      avoid_weight: 8
+      risk_penalty: 8
+      preferred_rank_bucket: SHORT_CANDIDATE
+  MIXED_VOLUME:
+    family: DISTRIBUTION
+    action_bias: WAIT
+    confidence_bias: NEUTRAL
+    risk_profile: MEDIUM
+    description: Volume is mixed but suspicious.
+    signals:
+      rsi_gte: 55
+      breakout_eq: false
+      vol_gte: 1.1
+    parent_stage: DISTRIBUTION
+    parent_substage: VOLUME_DISTRIBUTION
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 8
+      short_weight: 0
+      avoid_weight: 9
+      risk_penalty: 9
+      preferred_rank_bucket: AVOID_TRAP
+  DEFAULT:
+    family: FALLBACK
+    action_bias: WATCH
+    confidence_bias: NEUTRAL
+    risk_profile: HIGH
+    description: Fallback child when no granular child rule reaches threshold.
+    signals:
+      always_true_eq: true
+    parent_stage: DISTRIBUTION
+    parent_substage: VOLUME_DISTRIBUTION
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 8
+      short_weight: 0
+      avoid_weight: 9
+      risk_penalty: 9
+      preferred_rank_bucket: AVOID_TRAP
+TOP_FORMATION:
+  DOUBLE_TOP_ZONE:
+    family: TOPPING
+    action_bias: AVOID_LONG
+    confidence_bias: NEGATIVE
+    risk_profile: HIGH
+    description: Top structure forms.
+    signals:
+      rsi_gte: 60
+      breakout_eq: false
+      lowerHigh_eq: true
+    parent_stage: DISTRIBUTION
+    parent_substage: TOP_FORMATION
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 8
+      short_weight: 0
+      avoid_weight: 9
+      risk_penalty: 9
+      preferred_rank_bucket: AVOID_TRAP
+  LOW_VOLUME_RALLY:
+    family: TOPPING
+    action_bias: WATCH_SHORT
+    confidence_bias: NEGATIVE
+    risk_profile: HIGH
+    description: Rally lacks demand.
+    signals:
+      rsi_gte: 60
+      breakout_eq: false
+      vol_lte: 1
+    parent_stage: DISTRIBUTION
+    parent_substage: TOP_FORMATION
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 9
+      short_weight: 9
+      avoid_weight: 8
+      risk_penalty: 8
+      preferred_rank_bucket: SHORT_CANDIDATE
+  TOP_UNCONFIRMED:
+    family: TOPPING
+    action_bias: WAIT
+    confidence_bias: NEUTRAL
+    risk_profile: MEDIUM
+    description: Top needs break confirmation.
+    signals:
+      rsi_gte: 60
+      breakout_eq: false
+    parent_stage: DISTRIBUTION
+    parent_substage: TOP_FORMATION
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 8
+      short_weight: 0
+      avoid_weight: 9
+      risk_penalty: 9
+      preferred_rank_bucket: AVOID_TRAP
+  DEFAULT:
+    family: FALLBACK
+    action_bias: WATCH
+    confidence_bias: NEUTRAL
+    risk_profile: HIGH
+    description: Fallback child when no granular child rule reaches threshold.
+    signals:
+      always_true_eq: true
+    parent_stage: DISTRIBUTION
+    parent_substage: TOP_FORMATION
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 8
+      short_weight: 0
+      avoid_weight: 9
+      risk_penalty: 9
+      preferred_rank_bucket: AVOID_TRAP
+UPTHRUST:
+  UPTHRUST_REVERSAL:
+    family: UPTHRUST
+    action_bias: SHORT_OR_EXIT
+    confidence_bias: NEGATIVE
+    risk_profile: HIGH
+    description: Upthrust reversal.
+    signals:
+      rsi_gte: 68
+      breakout_eq: false
+      failed_break_above_resistance: true
+    parent_stage: DISTRIBUTION
+    parent_substage: UPTHRUST
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 9
+      short_weight: 9
+      avoid_weight: 8
+      risk_penalty: 8
+      preferred_rank_bucket: SHORT_CANDIDATE
+  LIQUIDITY_GRAB_HIGH:
+    family: UPTHRUST
+    action_bias: EXIT_LONG
+    confidence_bias: NEGATIVE
+    risk_profile: MEDIUM
+    description: High liquidity grab.
+    signals:
+      rsi_gte: 55
+      breakout_eq: false
+      liquidityGrabHigh_eq: true
+    parent_stage: DISTRIBUTION
+    parent_substage: UPTHRUST
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 8
+      short_weight: 0
+      avoid_weight: 9
+      risk_penalty: 9
+      preferred_rank_bucket: AVOID_TRAP
+  UPTHRUST_UNCONFIRMED:
+    family: UPTHRUST
+    action_bias: WAIT
+    confidence_bias: NEUTRAL
+    risk_profile: MEDIUM
+    description: Upthrust not confirmed.
+    signals:
+      rsi_gte: 68
+      breakout_eq: false
+    parent_stage: DISTRIBUTION
+    parent_substage: UPTHRUST
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 8
+      short_weight: 0
+      avoid_weight: 9
+      risk_penalty: 9
+      preferred_rank_bucket: AVOID_TRAP
+  DEFAULT:
+    family: FALLBACK
+    action_bias: WATCH
+    confidence_bias: NEUTRAL
+    risk_profile: HIGH
+    description: Fallback child when no granular child rule reaches threshold.
+    signals:
+      always_true_eq: true
+    parent_stage: DISTRIBUTION
+    parent_substage: UPTHRUST
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 8
+      short_weight: 0
+      avoid_weight: 9
+      risk_penalty: 9
+      preferred_rank_bucket: AVOID_TRAP
+FALSE_BREAKOUT:
+  FAILED_BREAKOUT_REJECTION:
+    family: TRAP
+    action_bias: SHORT_OR_EXIT
+    confidence_bias: NEGATIVE
+    risk_profile: HIGH
+    description: False breakout rejects.
+    signals:
+      rsi_gte: 68
+      breakout_eq: false
+      falseBreakout_eq: true
+    parent_stage: DISTRIBUTION
+    parent_substage: FALSE_BREAKOUT
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 9
+      short_weight: 9
+      avoid_weight: 8
+      risk_penalty: 8
+      preferred_rank_bucket: SHORT_CANDIDATE
+  NO_FOLLOW_THROUGH:
+    family: TRAP
+    action_bias: AVOID_LONG
+    confidence_bias: NEGATIVE
+    risk_profile: HIGH
+    description: Breakout has no follow-through.
+    signals:
+      rsi_gte: 55
+      breakout_eq: false
+      priceAboveVwap_eq: false
+    parent_stage: DISTRIBUTION
+    parent_substage: FALSE_BREAKOUT
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 8
+      short_weight: 0
+      avoid_weight: 9
+      risk_penalty: 9
+      preferred_rank_bucket: AVOID_TRAP
+  FALSE_BREAKOUT_WAIT:
+    family: TRAP
+    action_bias: WAIT
+    confidence_bias: NEUTRAL
+    risk_profile: MEDIUM
+    description: False breakout needs downside confirmation.
+    signals:
+      rsi_gte: 55
+      breakout_eq: false
+      falseBreakout_eq: true
+    parent_stage: DISTRIBUTION
+    parent_substage: FALSE_BREAKOUT
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 8
+      short_weight: 0
+      avoid_weight: 9
+      risk_penalty: 9
+      preferred_rank_bucket: AVOID_TRAP
+  DEFAULT:
+    family: FALLBACK
+    action_bias: WATCH
+    confidence_bias: NEUTRAL
+    risk_profile: HIGH
+    description: Fallback child when no granular child rule reaches threshold.
+    signals:
+      always_true_eq: true
+    parent_stage: DISTRIBUTION
+    parent_substage: FALSE_BREAKOUT
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 8
+      short_weight: 0
+      avoid_weight: 9
+      risk_penalty: 9
+      preferred_rank_bucket: AVOID_TRAP
+LIQUIDITY_GRAB_HIGH:
+  HIGH_SWEEP_REVERSAL:
+    family: LIQUIDITY_SWEEP
+    action_bias: EXIT_LONG
+    confidence_bias: NEGATIVE
+    risk_profile: MEDIUM
+    description: High sweep reverses.
+    signals:
+      rsi_gte: 55
+      breakout_eq: false
+      liquidityGrabHigh_eq: true
+      priceReversal_eq: true
+    parent_stage: DISTRIBUTION
+    parent_substage: LIQUIDITY_GRAB_HIGH
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 8
+      short_weight: 0
+      avoid_weight: 9
+      risk_penalty: 9
+      preferred_rank_bucket: AVOID_TRAP
+  STOP_RUN_ABOVE_RESISTANCE:
+    family: LIQUIDITY_SWEEP
+    action_bias: WATCH_SHORT
+    confidence_bias: NEGATIVE
+    risk_profile: HIGH
+    description: Stop run above resistance.
+    signals:
+      rsi_gte: 68
+      breakout_eq: false
+      liquidityGrabHigh_eq: true
+    parent_stage: DISTRIBUTION
+    parent_substage: LIQUIDITY_GRAB_HIGH
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 9
+      short_weight: 9
+      avoid_weight: 8
+      risk_penalty: 8
+      preferred_rank_bucket: SHORT_CANDIDATE
+  HIGH_SWEEP_NO_CONFIRM:
+    family: LIQUIDITY_SWEEP
+    action_bias: WAIT
+    confidence_bias: NEUTRAL
+    risk_profile: MEDIUM
+    description: Sweep needs confirmation.
+    signals:
+      rsi_gte: 55
+      breakout_eq: false
+      liquidityGrabHigh_eq: true
+    parent_stage: DISTRIBUTION
+    parent_substage: LIQUIDITY_GRAB_HIGH
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 8
+      short_weight: 0
+      avoid_weight: 9
+      risk_penalty: 9
+      preferred_rank_bucket: AVOID_TRAP
+  DEFAULT:
+    family: FALLBACK
+    action_bias: WATCH
+    confidence_bias: NEUTRAL
+    risk_profile: HIGH
+    description: Fallback child when no granular child rule reaches threshold.
+    signals:
+      always_true_eq: true
+    parent_stage: DISTRIBUTION
+    parent_substage: LIQUIDITY_GRAB_HIGH
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 8
+      short_weight: 0
+      avoid_weight: 9
+      risk_penalty: 9
+      preferred_rank_bucket: AVOID_TRAP
+LOWER_HIGH_FORMATION:
+  FIRST_LOWER_HIGH:
+    family: STRUCTURE
+    action_bias: WATCH_SHORT
+    confidence_bias: NEGATIVE
+    risk_profile: HIGH
+    description: First lower high forms.
+    signals:
+      rsi_gte: 55
+      breakout_eq: false
+      lowerHigh_eq: true
+    parent_stage: DISTRIBUTION
+    parent_substage: LOWER_HIGH_FORMATION
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 9
+      short_weight: 9
+      avoid_weight: 8
+      risk_penalty: 8
+      preferred_rank_bucket: SHORT_CANDIDATE
+  LOWER_HIGH_REJECTION:
+    family: STRUCTURE
+    action_bias: SHORT_OR_EXIT
+    confidence_bias: NEGATIVE
+    risk_profile: HIGH
+    description: Lower high rejects.
+    signals:
+      rsi_gte: 55
+      breakout_eq: false
+      lowerHigh_eq: true
+      priceAboveVwap_eq: false
+    parent_stage: DISTRIBUTION
+    parent_substage: LOWER_HIGH_FORMATION
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 9
+      short_weight: 9
+      avoid_weight: 8
+      risk_penalty: 8
+      preferred_rank_bucket: SHORT_CANDIDATE
+  LOWER_HIGH_UNCONFIRMED:
+    family: STRUCTURE
+    action_bias: WAIT
+    confidence_bias: NEUTRAL
+    risk_profile: MEDIUM
+    description: Lower high needs confirmation.
+    signals:
+      rsi_gte: 55
+      breakout_eq: false
+      lowerHigh_eq: true
+    parent_stage: DISTRIBUTION
+    parent_substage: LOWER_HIGH_FORMATION
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 9
+      short_weight: 9
+      avoid_weight: 8
+      risk_penalty: 8
+      preferred_rank_bucket: SHORT_CANDIDATE
+  DEFAULT:
+    family: FALLBACK
+    action_bias: WATCH
+    confidence_bias: NEUTRAL
+    risk_profile: HIGH
+    description: Fallback child when no granular child rule reaches threshold.
+    signals:
+      always_true_eq: true
+    parent_stage: DISTRIBUTION
+    parent_substage: LOWER_HIGH_FORMATION
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 9
+      short_weight: 9
+      avoid_weight: 8
+      risk_penalty: 8
+      preferred_rank_bucket: SHORT_CANDIDATE
+MOMENTUM_LOSS:
+  ADX_DECAY:
+    family: MOMENTUM_LOSS
+    action_bias: AVOID_LONG
+    confidence_bias: NEGATIVE
+    risk_profile: HIGH
+    description: Momentum decays.
+    signals:
+      rsi_gte: 55
+      breakout_eq: false
+      momentumLoss_eq: true
+      adx_lte: 25
+    parent_stage: DISTRIBUTION
+    parent_substage: MOMENTUM_LOSS
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 8
+      short_weight: 0
+      avoid_weight: 9
+      risk_penalty: 9
+      preferred_rank_bucket: AVOID_TRAP
+  ROLLING_MOMENTUM:
+    family: MOMENTUM_LOSS
+    action_bias: WATCH_SHORT
+    confidence_bias: NEGATIVE
+    risk_profile: HIGH
+    description: Momentum rolls over.
+    signals:
+      rsi_gte: 55
+      breakout_eq: false
+      momentumLoss_eq: true
+      lowerHigh_eq: true
+    parent_stage: DISTRIBUTION
+    parent_substage: MOMENTUM_LOSS
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 9
+      short_weight: 9
+      avoid_weight: 8
+      risk_penalty: 8
+      preferred_rank_bucket: SHORT_CANDIDATE
+  PAUSE_NOT_LOSS:
+    family: MOMENTUM_LOSS
+    action_bias: WAIT
+    confidence_bias: NEUTRAL
+    risk_profile: MEDIUM
+    description: Could be pause rather than reversal.
+    signals:
+      rsi_gte: 55
+      breakout_eq: false
+      adx_lte: 25
+    parent_stage: DISTRIBUTION
+    parent_substage: MOMENTUM_LOSS
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 8
+      short_weight: 0
+      avoid_weight: 9
+      risk_penalty: 9
+      preferred_rank_bucket: AVOID_TRAP
+  DEFAULT:
+    family: FALLBACK
+    action_bias: WATCH
+    confidence_bias: NEUTRAL
+    risk_profile: HIGH
+    description: Fallback child when no granular child rule reaches threshold.
+    signals:
+      always_true_eq: true
+    parent_stage: DISTRIBUTION
+    parent_substage: MOMENTUM_LOSS
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 8
+      short_weight: 0
+      avoid_weight: 9
+      risk_penalty: 9
+      preferred_rank_bucket: AVOID_TRAP
+REVERSAL_SIGNAL:
+  BEARISH_REVERSAL_CANDLE:
+    family: REVERSAL
+    action_bias: SHORT_OR_EXIT
+    confidence_bias: NEGATIVE
+    risk_profile: HIGH
+    description: Bearish reversal signal.
+    signals:
+      rsi_gte: 55
+      breakout_eq: false
+      priceReversal_eq: true
+      priceAboveVwap_eq: false
+    parent_stage: DISTRIBUTION
+    parent_substage: REVERSAL_SIGNAL
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 9
+      short_weight: 9
+      avoid_weight: 8
+      risk_penalty: 8
+      preferred_rank_bucket: SHORT_CANDIDATE
+  REVERSAL_WITH_SUPPLY:
+    family: REVERSAL
+    action_bias: EXIT_LONG
+    confidence_bias: NEGATIVE
+    risk_profile: MEDIUM
+    description: Reversal has supply.
+    signals:
+      rsi_gte: 55
+      breakout_eq: false
+      priceReversal_eq: true
+      vol_gte: 1.1
+    parent_stage: DISTRIBUTION
+    parent_substage: REVERSAL_SIGNAL
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 8
+      short_weight: 0
+      avoid_weight: 9
+      risk_penalty: 9
+      preferred_rank_bucket: AVOID_TRAP
+  REVERSAL_UNCONFIRMED:
+    family: REVERSAL
+    action_bias: WAIT
+    confidence_bias: NEUTRAL
+    risk_profile: MEDIUM
+    description: Reversal needs confirmation.
+    signals:
+      rsi_gte: 55
+      breakout_eq: false
+      priceReversal_eq: true
+    parent_stage: DISTRIBUTION
+    parent_substage: REVERSAL_SIGNAL
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 8
+      short_weight: 0
+      avoid_weight: 9
+      risk_penalty: 9
+      preferred_rank_bucket: AVOID_TRAP
+  DEFAULT:
+    family: FALLBACK
+    action_bias: WATCH
+    confidence_bias: NEUTRAL
+    risk_profile: HIGH
+    description: Fallback child when no granular child rule reaches threshold.
+    signals:
+      always_true_eq: true
+    parent_stage: DISTRIBUTION
+    parent_substage: REVERSAL_SIGNAL
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 8
+      short_weight: 0
+      avoid_weight: 9
+      risk_penalty: 9
+      preferred_rank_bucket: AVOID_TRAP
+FAILED_BREAKOUT:
+  FAILED_BREAKOUT_CONFIRMED:
+    family: TRAP
+    action_bias: SHORT_OR_EXIT
+    confidence_bias: NEGATIVE
+    risk_profile: HIGH
+    description: Failed breakout confirmed.
+    signals:
+      rsi_gte: 55
+      breakout_eq: false
+      priceAboveVwap_eq: false
+    parent_stage: DISTRIBUTION
+    parent_substage: FAILED_BREAKOUT
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 9
+      short_weight: 9
+      avoid_weight: 8
+      risk_penalty: 8
+      preferred_rank_bucket: SHORT_CANDIDATE
+  FAILED_BREAKOUT_RETEST:
+    family: TRAP
+    action_bias: WATCH_SHORT
+    confidence_bias: NEGATIVE
+    risk_profile: HIGH
+    description: Failed breakout retest.
+    signals:
+      rsi_gte: 55
+      breakout_eq: false
+      failedBreakout_eq: true
+    parent_stage: DISTRIBUTION
+    parent_substage: FAILED_BREAKOUT
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 9
+      short_weight: 9
+      avoid_weight: 8
+      risk_penalty: 8
+      preferred_rank_bucket: SHORT_CANDIDATE
+  FAILED_BREAKOUT_UNCONFIRMED:
+    family: TRAP
+    action_bias: WAIT
+    confidence_bias: NEUTRAL
+    risk_profile: MEDIUM
+    description: Failure not confirmed.
+    signals:
+      rsi_gte: 55
+      breakout_eq: false
+    parent_stage: DISTRIBUTION
+    parent_substage: FAILED_BREAKOUT
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 8
+      short_weight: 0
+      avoid_weight: 9
+      risk_penalty: 9
+      preferred_rank_bucket: AVOID_TRAP
+  DEFAULT:
+    family: FALLBACK
+    action_bias: WATCH
+    confidence_bias: NEUTRAL
+    risk_profile: HIGH
+    description: Fallback child when no granular child rule reaches threshold.
+    signals:
+      always_true_eq: true
+    parent_stage: DISTRIBUTION
+    parent_substage: FAILED_BREAKOUT
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 8
+      short_weight: 0
+      avoid_weight: 9
+      risk_penalty: 9
+      preferred_rank_bucket: AVOID_TRAP
+TOPPING_STRUCTURE:
+  LOWER_HIGH_TOP:
+    family: TOPPING
+    action_bias: AVOID_LONG
+    confidence_bias: NEGATIVE
+    risk_profile: HIGH
+    description: Lower high topping structure.
+    signals:
+      rsi_gte: 55
+      breakout_eq: false
+      lowerHigh_eq: true
+    parent_stage: DISTRIBUTION
+    parent_substage: TOPPING_STRUCTURE
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 9
+      short_weight: 9
+      avoid_weight: 8
+      risk_penalty: 8
+      preferred_rank_bucket: SHORT_CANDIDATE
+  TOP_BREAKDOWN_SETUP:
+    family: TOPPING
+    action_bias: WATCH_SHORT
+    confidence_bias: NEGATIVE
+    risk_profile: HIGH
+    description: Breakdown setup from top.
+    signals:
+      rsi_gte: 55
+      breakout_eq: false
+      lowerHigh_eq: true
+      priceAboveVwap_eq: false
+    parent_stage: DISTRIBUTION
+    parent_substage: TOPPING_STRUCTURE
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 9
+      short_weight: 9
+      avoid_weight: 8
+      risk_penalty: 8
+      preferred_rank_bucket: SHORT_CANDIDATE
+  TOPPING_UNRESOLVED:
+    family: TOPPING
+    action_bias: WAIT
+    confidence_bias: NEUTRAL
+    risk_profile: MEDIUM
+    description: Top remains unresolved.
+    signals:
+      rsi_gte: 55
+      breakout_eq: false
+    parent_stage: DISTRIBUTION
+    parent_substage: TOPPING_STRUCTURE
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 8
+      short_weight: 0
+      avoid_weight: 9
+      risk_penalty: 9
+      preferred_rank_bucket: AVOID_TRAP
+  DEFAULT:
+    family: FALLBACK
+    action_bias: WATCH
+    confidence_bias: NEUTRAL
+    risk_profile: HIGH
+    description: Fallback child when no granular child rule reaches threshold.
+    signals:
+      always_true_eq: true
+    parent_stage: DISTRIBUTION
+    parent_substage: TOPPING_STRUCTURE
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 8
+      short_weight: 0
+      avoid_weight: 9
+      risk_penalty: 9
+      preferred_rank_bucket: AVOID_TRAP
+BREAKDOWN:
+  CLEAN_BREAKDOWN:
+    family: BREAKDOWN
+    action_bias: SHORT_OR_AVOID
+    confidence_bias: NEGATIVE
+    risk_profile: HIGH
+    description: Clean downside breakdown.
+    signals:
+      priceBelowVwap_eq: true
+      bearStack_eq: true
+      breakdown_eq: true
+      vol_gte: 1.1
+    parent_stage: MARKDOWN
+    parent_substage: BREAKDOWN
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 9
+      short_weight: 9
+      avoid_weight: 8
+      risk_penalty: 8
+      preferred_rank_bucket: SHORT_CANDIDATE
+  BREAKDOWN_RETEST:
+    family: BREAKDOWN
+    action_bias: SHORT_RETEST
+    confidence_bias: NEGATIVE
+    risk_profile: HIGH
+    description: Breakdown retest.
+    signals:
+      priceBelowVwap_eq: true
+      bearStack_eq: true
+      breakdown_eq: true
+    parent_stage: MARKDOWN
+    parent_substage: BREAKDOWN
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 9
+      short_weight: 9
+      avoid_weight: 8
+      risk_penalty: 8
+      preferred_rank_bucket: SHORT_CANDIDATE
+  LOW_VOLUME_BREAKDOWN:
+    family: BREAKDOWN
+    action_bias: WAIT
+    confidence_bias: NEUTRAL
+    risk_profile: MEDIUM
+    description: Breakdown lacks volume.
+    signals:
+      priceBelowVwap_eq: true
+      bearStack_eq: true
+      breakdown_eq: true
+      vol_lte: 1
+    parent_stage: MARKDOWN
+    parent_substage: BREAKDOWN
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 9
+      short_weight: 9
+      avoid_weight: 8
+      risk_penalty: 8
+      preferred_rank_bucket: SHORT_CANDIDATE
+  DEFAULT:
+    family: FALLBACK
+    action_bias: WATCH
+    confidence_bias: NEUTRAL
+    risk_profile: HIGH
+    description: Fallback child when no granular child rule reaches threshold.
+    signals:
+      always_true_eq: true
+    parent_stage: MARKDOWN
+    parent_substage: BREAKDOWN
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 9
+      short_weight: 9
+      avoid_weight: 8
+      risk_penalty: 8
+      preferred_rank_bucket: SHORT_CANDIDATE
+SUPPORT_FAILURE:
+  SUPPORT_LOST:
+    family: SUPPORT_FAILURE
+    action_bias: AVOID_LONG
+    confidence_bias: NEGATIVE
+    risk_profile: HIGH
+    description: Support fails.
+    signals:
+      priceBelowVwap_eq: true
+      bearStack_eq: true
+      supportFailure_eq: true
+    parent_stage: MARKDOWN
+    parent_substage: SUPPORT_FAILURE
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 9
+      short_weight: 9
+      avoid_weight: 8
+      risk_penalty: 8
+      preferred_rank_bucket: SHORT_CANDIDATE
+  SUPPORT_FAILURE_VOLUME:
+    family: SUPPORT_FAILURE
+    action_bias: SHORT_OR_EXIT
+    confidence_bias: NEGATIVE
+    risk_profile: HIGH
+    description: Support failure with volume.
+    signals:
+      priceBelowVwap_eq: true
+      bearStack_eq: true
+      supportFailure_eq: true
+      vol_gte: 1.2
+    parent_stage: MARKDOWN
+    parent_substage: SUPPORT_FAILURE
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 9
+      short_weight: 9
+      avoid_weight: 8
+      risk_penalty: 8
+      preferred_rank_bucket: SHORT_CANDIDATE
+  SUPPORT_TESTING:
+    family: SUPPORT_FAILURE
+    action_bias: WAIT
+    confidence_bias: NEUTRAL
+    risk_profile: MEDIUM
+    description: Support failure needs confirmation.
+    signals:
+      priceBelowVwap_eq: true
+      bearStack_eq: true
+      supportFailure_eq: true
+    parent_stage: MARKDOWN
+    parent_substage: SUPPORT_FAILURE
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 9
+      short_weight: 9
+      avoid_weight: 8
+      risk_penalty: 8
+      preferred_rank_bucket: SHORT_CANDIDATE
+  DEFAULT:
+    family: FALLBACK
+    action_bias: WATCH
+    confidence_bias: NEUTRAL
+    risk_profile: HIGH
+    description: Fallback child when no granular child rule reaches threshold.
+    signals:
+      always_true_eq: true
+    parent_stage: MARKDOWN
+    parent_substage: SUPPORT_FAILURE
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 9
+      short_weight: 9
+      avoid_weight: 8
+      risk_penalty: 8
+      preferred_rank_bucket: SHORT_CANDIDATE
+WEAK_BOUNCE:
+  LOW_VOLUME_BOUNCE:
+    family: BOUNCE
+    action_bias: AVOID_LONG
+    confidence_bias: NEGATIVE
+    risk_profile: HIGH
+    description: Weak low-volume bounce.
+    signals:
+      priceBelowVwap_eq: true
+      bearStack_eq: true
+      rsi_between:
+      - 28
+      - 45
+      vol_lte: 1
+    parent_stage: MARKDOWN
+    parent_substage: WEAK_BOUNCE
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 8
+      short_weight: 0
+      avoid_weight: 9
+      risk_penalty: 9
+      preferred_rank_bucket: AVOID_TRAP
+  VWAP_REJECTION_BOUNCE:
+    family: BOUNCE
+    action_bias: WATCH_SHORT
+    confidence_bias: NEGATIVE
+    risk_profile: HIGH
+    description: Bounce rejects below VWAP.
+    signals:
+      priceBelowVwap_eq: true
+      bearStack_eq: true
+      rsi_between:
+      - 28
+      - 45
+    parent_stage: MARKDOWN
+    parent_substage: WEAK_BOUNCE
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 9
+      short_weight: 9
+      avoid_weight: 8
+      risk_penalty: 8
+      preferred_rank_bucket: SHORT_CANDIDATE
+  BOUNCE_RECOVERY_ATTEMPT:
+    family: BOUNCE
+    action_bias: WAIT
+    confidence_bias: NEUTRAL
+    risk_profile: MEDIUM
+    description: Bounce may recover, wait.
+    signals:
+      priceBelowVwap_eq: true
+      bearStack_eq: true
+      rsi_between:
+      - 35
+      - 45
+    parent_stage: MARKDOWN
+    parent_substage: WEAK_BOUNCE
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 8
+      short_weight: 0
+      avoid_weight: 9
+      risk_penalty: 9
+      preferred_rank_bucket: AVOID_TRAP
+  DEFAULT:
+    family: FALLBACK
+    action_bias: WATCH
+    confidence_bias: NEUTRAL
+    risk_profile: HIGH
+    description: Fallback child when no granular child rule reaches threshold.
+    signals:
+      always_true_eq: true
+    parent_stage: MARKDOWN
+    parent_substage: WEAK_BOUNCE
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 8
+      short_weight: 0
+      avoid_weight: 9
+      risk_penalty: 9
+      preferred_rank_bucket: AVOID_TRAP
+LOWER_LOW:
+  CONFIRMED_LOWER_LOW:
+    family: STRUCTURE
+    action_bias: AVOID_LONG
+    confidence_bias: NEGATIVE
+    risk_profile: HIGH
+    description: Lower low confirms downtrend.
+    signals:
+      priceBelowVwap_eq: true
+      bearStack_eq: true
+      lowerLow_eq: true
+    parent_stage: MARKDOWN
+    parent_substage: LOWER_LOW
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 9
+      short_weight: 9
+      avoid_weight: 8
+      risk_penalty: 8
+      preferred_rank_bucket: SHORT_CANDIDATE
+  LOWER_LOW_VOLUME:
+    family: STRUCTURE
+    action_bias: SHORT_OR_EXIT
+    confidence_bias: NEGATIVE
+    risk_profile: HIGH
+    description: Lower low has selling volume.
+    signals:
+      priceBelowVwap_eq: true
+      bearStack_eq: true
+      lowerLow_eq: true
+      vol_gte: 1.2
+    parent_stage: MARKDOWN
+    parent_substage: LOWER_LOW
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 9
+      short_weight: 9
+      avoid_weight: 8
+      risk_penalty: 8
+      preferred_rank_bucket: SHORT_CANDIDATE
+  LOWER_LOW_DIVERGENCE:
+    family: STRUCTURE
+    action_bias: WATCH_BOTTOM
+    confidence_bias: NEUTRAL
+    risk_profile: MEDIUM
+    description: Lower low may diverge.
+    signals:
+      priceBelowVwap_eq: true
+      bearStack_eq: true
+      lowerLow_eq: true
+      rsi_gte: 35
+    parent_stage: MARKDOWN
+    parent_substage: LOWER_LOW
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 9
+      short_weight: 9
+      avoid_weight: 8
+      risk_penalty: 8
+      preferred_rank_bucket: SHORT_CANDIDATE
+  DEFAULT:
+    family: FALLBACK
+    action_bias: WATCH
+    confidence_bias: NEUTRAL
+    risk_profile: HIGH
+    description: Fallback child when no granular child rule reaches threshold.
+    signals:
+      always_true_eq: true
+    parent_stage: MARKDOWN
+    parent_substage: LOWER_LOW
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 9
+      short_weight: 9
+      avoid_weight: 8
+      risk_penalty: 8
+      preferred_rank_bucket: SHORT_CANDIDATE
+LOWER_HIGH:
+  CONFIRMED_LOWER_HIGH:
+    family: STRUCTURE
+    action_bias: SHORT_RETEST
+    confidence_bias: NEGATIVE
+    risk_profile: HIGH
+    description: Lower high confirms downtrend.
+    signals:
+      priceBelowVwap_eq: true
+      bearStack_eq: true
+      lowerHigh_eq: true
+    parent_stage: MARKDOWN
+    parent_substage: LOWER_HIGH
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 9
+      short_weight: 9
+      avoid_weight: 8
+      risk_penalty: 8
+      preferred_rank_bucket: SHORT_CANDIDATE
+  LH_REJECTION:
+    family: STRUCTURE
+    action_bias: SHORT_OR_AVOID
+    confidence_bias: NEGATIVE
+    risk_profile: HIGH
+    description: Lower high rejection.
+    signals:
+      priceBelowVwap_eq: true
+      bearStack_eq: true
+      lowerHigh_eq: true
+      priceReversal_eq: true
+    parent_stage: MARKDOWN
+    parent_substage: LOWER_HIGH
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 9
+      short_weight: 9
+      avoid_weight: 8
+      risk_penalty: 8
+      preferred_rank_bucket: SHORT_CANDIDATE
+  LH_UNCONFIRMED:
+    family: STRUCTURE
+    action_bias: WAIT
+    confidence_bias: NEUTRAL
+    risk_profile: MEDIUM
+    description: Lower high needs confirmation.
+    signals:
+      priceBelowVwap_eq: true
+      bearStack_eq: true
+      lowerHigh_eq: true
+    parent_stage: MARKDOWN
+    parent_substage: LOWER_HIGH
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 9
+      short_weight: 9
+      avoid_weight: 8
+      risk_penalty: 8
+      preferred_rank_bucket: SHORT_CANDIDATE
+  DEFAULT:
+    family: FALLBACK
+    action_bias: WATCH
+    confidence_bias: NEUTRAL
+    risk_profile: HIGH
+    description: Fallback child when no granular child rule reaches threshold.
+    signals:
+      always_true_eq: true
+    parent_stage: MARKDOWN
+    parent_substage: LOWER_HIGH
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 9
+      short_weight: 9
+      avoid_weight: 8
+      risk_penalty: 8
+      preferred_rank_bucket: SHORT_CANDIDATE
+STRONG_DOWNTREND:
+  ORDERLY_DOWNTREND:
+    family: DOWNTREND
+    action_bias: AVOID_LONG
+    confidence_bias: NEGATIVE
+    risk_profile: HIGH
+    description: Strong downtrend.
+    signals:
+      priceBelowVwap_eq: true
+      bearStack_eq: true
+      adx_gte: 18
+      rsi_lte: 42
+    parent_stage: MARKDOWN
+    parent_substage: STRONG_DOWNTREND
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 9
+      short_weight: 9
+      avoid_weight: 8
+      risk_penalty: 8
+      preferred_rank_bucket: SHORT_CANDIDATE
+  DOWNTREND_ACCELERATION:
+    family: DOWNTREND
+    action_bias: SHORT_OR_EXIT
+    confidence_bias: NEGATIVE
+    risk_profile: HIGH
+    description: Downtrend accelerates.
+    signals:
+      priceBelowVwap_eq: true
+      bearStack_eq: true
+      adx_gte: 25
+    parent_stage: MARKDOWN
+    parent_substage: STRONG_DOWNTREND
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 9
+      short_weight: 9
+      avoid_weight: 8
+      risk_penalty: 8
+      preferred_rank_bucket: SHORT_CANDIDATE
+  OVERSOLD_DOWNTREND:
+    family: DOWNTREND
+    action_bias: WAIT_FOR_BOUNCE
+    confidence_bias: NEUTRAL
+    risk_profile: MEDIUM
+    description: Downtrend is oversold.
+    signals:
+      priceBelowVwap_eq: true
+      bearStack_eq: true
+      rsi_lte: 28
+    parent_stage: MARKDOWN
+    parent_substage: STRONG_DOWNTREND
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 9
+      short_weight: 9
+      avoid_weight: 8
+      risk_penalty: 8
+      preferred_rank_bucket: SHORT_CANDIDATE
+  DEFAULT:
+    family: FALLBACK
+    action_bias: WATCH
+    confidence_bias: NEUTRAL
+    risk_profile: HIGH
+    description: Fallback child when no granular child rule reaches threshold.
+    signals:
+      always_true_eq: true
+    parent_stage: MARKDOWN
+    parent_substage: STRONG_DOWNTREND
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 9
+      short_weight: 9
+      avoid_weight: 8
+      risk_penalty: 8
+      preferred_rank_bucket: SHORT_CANDIDATE
+MOMENTUM_DROP:
+  FAST_MOMENTUM_DROP:
+    family: MOMENTUM_DROP
+    action_bias: AVOID_LONG
+    confidence_bias: NEGATIVE
+    risk_profile: HIGH
+    description: Fast downside momentum.
+    signals:
+      priceBelowVwap_eq: true
+      bearStack_eq: true
+      momentumDrop_eq: true
+      vol_gte: 1.3
+    parent_stage: MARKDOWN
+    parent_substage: MOMENTUM_DROP
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 9
+      short_weight: 9
+      avoid_weight: 8
+      risk_penalty: 8
+      preferred_rank_bucket: SHORT_CANDIDATE
+  MOMENTUM_DROP_BREAKDOWN:
+    family: MOMENTUM_DROP
+    action_bias: SHORT_OR_EXIT
+    confidence_bias: NEGATIVE
+    risk_profile: HIGH
+    description: Momentum drop confirms breakdown.
+    signals:
+      priceBelowVwap_eq: true
+      bearStack_eq: true
+      momentumDrop_eq: true
+      breakdown_eq: true
+    parent_stage: MARKDOWN
+    parent_substage: MOMENTUM_DROP
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 9
+      short_weight: 9
+      avoid_weight: 8
+      risk_penalty: 8
+      preferred_rank_bucket: SHORT_CANDIDATE
+  MOMENTUM_DROP_OVERSOLD:
+    family: MOMENTUM_DROP
+    action_bias: WAIT
+    confidence_bias: NEUTRAL
+    risk_profile: MEDIUM
+    description: Momentum drop is oversold.
+    signals:
+      priceBelowVwap_eq: true
+      bearStack_eq: true
+      momentumDrop_eq: true
+      rsi_lte: 26
+    parent_stage: MARKDOWN
+    parent_substage: MOMENTUM_DROP
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 9
+      short_weight: 9
+      avoid_weight: 8
+      risk_penalty: 8
+      preferred_rank_bucket: SHORT_CANDIDATE
+  DEFAULT:
+    family: FALLBACK
+    action_bias: WATCH
+    confidence_bias: NEUTRAL
+    risk_profile: HIGH
+    description: Fallback child when no granular child rule reaches threshold.
+    signals:
+      always_true_eq: true
+    parent_stage: MARKDOWN
+    parent_substage: MOMENTUM_DROP
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 9
+      short_weight: 9
+      avoid_weight: 8
+      risk_penalty: 8
+      preferred_rank_bucket: SHORT_CANDIDATE
+PANIC_SELL:
+  PANIC_VOLUME:
+    family: PANIC
+    action_bias: AVOID_LONG
+    confidence_bias: NEGATIVE
+    risk_profile: HIGH
+    description: Panic selling.
+    signals:
+      priceBelowVwap_eq: true
+      bearStack_eq: true
+      rsi_lte: 26
+      vol_gte: 1.8
+    parent_stage: MARKDOWN
+    parent_substage: PANIC_SELL
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 0
+      short_weight: 0
+      avoid_weight: 0
+      risk_penalty: 0
+      preferred_rank_bucket: UNRANKED
+  PANIC_REVERSAL_WICK:
+    family: PANIC
+    action_bias: WATCH_REVERSAL
+    confidence_bias: NEUTRAL
+    risk_profile: MEDIUM
+    description: Panic may reverse.
+    signals:
+      priceBelowVwap_eq: true
+      bearStack_eq: true
+      rsi_lte: 26
+      priceReversal_eq: true
+    parent_stage: MARKDOWN
+    parent_substage: PANIC_SELL
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 0
+      short_weight: 0
+      avoid_weight: 0
+      risk_penalty: 0
+      preferred_rank_bucket: UNRANKED
+  PANIC_CONTINUATION:
+    family: PANIC
+    action_bias: NO_LONG
+    confidence_bias: NEGATIVE
+    risk_profile: MEDIUM
+    description: Panic continues.
+    signals:
+      priceBelowVwap_eq: true
+      bearStack_eq: true
+      rsi_lte: 24
+    parent_stage: MARKDOWN
+    parent_substage: PANIC_SELL
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 0
+      short_weight: 0
+      avoid_weight: 0
+      risk_penalty: 0
+      preferred_rank_bucket: UNRANKED
+  DEFAULT:
+    family: FALLBACK
+    action_bias: WATCH
+    confidence_bias: NEUTRAL
+    risk_profile: HIGH
+    description: Fallback child when no granular child rule reaches threshold.
+    signals:
+      always_true_eq: true
+    parent_stage: MARKDOWN
+    parent_substage: PANIC_SELL
+    institutional_trade_policy:
+      buy_weight: 2
+      sell_weight: 2
+      short_weight: 1
+      avoid_weight: 3
+      risk_penalty: 3
+      preferred_rank_bucket: WATCH
+CAPITULATION:
+  CAPITULATION_SPIKE:
+    family: CAPITULATION
+    action_bias: WATCH_BOTTOM
+    confidence_bias: NEUTRAL
+    risk_profile: MEDIUM
+    description: Capitulation spike.
+    signals:
+      priceBelowVwap_eq: true
+      bearStack_eq: true
+      rsi_lte: 24
+      vol_gte: 2
+    parent_stage: MARKDOWN
+    parent_substage: CAPITULATION
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 0
+      short_weight: 0
+      avoid_weight: 0
+      risk_penalty: 0
+      preferred_rank_bucket: UNRANKED
+  CAPITULATION_REVERSAL:
+    family: CAPITULATION
+    action_bias: SPECULATIVE_REVERSAL
+    confidence_bias: POSITIVE
+    risk_profile: MEDIUM
+    description: Capitulation reversal appears.
+    signals:
+      priceBelowVwap_eq: true
+      bearStack_eq: true
+      rsi_lte: 24
+      priceReversal_eq: true
+    parent_stage: MARKDOWN
+    parent_substage: CAPITULATION
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 0
+      short_weight: 0
+      avoid_weight: 0
+      risk_penalty: 0
+      preferred_rank_bucket: UNRANKED
+  CAPITULATION_NO_RECLAIM:
+    family: CAPITULATION
+    action_bias: WAIT
+    confidence_bias: NEGATIVE
+    risk_profile: MEDIUM
+    description: No reclaim after capitulation.
+    signals:
+      priceBelowVwap_eq: true
+      bearStack_eq: true
+      rsi_lte: 24
+    parent_stage: MARKDOWN
+    parent_substage: CAPITULATION
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 0
+      short_weight: 0
+      avoid_weight: 0
+      risk_penalty: 0
+      preferred_rank_bucket: UNRANKED
+  DEFAULT:
+    family: FALLBACK
+    action_bias: WATCH
+    confidence_bias: NEUTRAL
+    risk_profile: HIGH
+    description: Fallback child when no granular child rule reaches threshold.
+    signals:
+      always_true_eq: true
+    parent_stage: MARKDOWN
+    parent_substage: CAPITULATION
+    institutional_trade_policy:
+      buy_weight: 2
+      sell_weight: 2
+      short_weight: 1
+      avoid_weight: 3
+      risk_penalty: 3
+      preferred_rank_bucket: WATCH
+DEAD_CAT_BOUNCE:
+  WEAK_DEAD_CAT:
+    family: BOUNCE
+    action_bias: AVOID_LONG
+    confidence_bias: NEGATIVE
+    risk_profile: HIGH
+    description: Dead-cat bounce.
+    signals:
+      priceBelowVwap_eq: true
+      bearStack_eq: true
+      deadCatBounce_eq: true
+    parent_stage: MARKDOWN
+    parent_substage: DEAD_CAT_BOUNCE
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 8
+      short_weight: 0
+      avoid_weight: 9
+      risk_penalty: 9
+      preferred_rank_bucket: AVOID_TRAP
+  DEAD_CAT_REJECTION:
+    family: BOUNCE
+    action_bias: SHORT_RETEST
+    confidence_bias: NEGATIVE
+    risk_profile: HIGH
+    description: Dead-cat bounce rejects.
+    signals:
+      priceBelowVwap_eq: true
+      bearStack_eq: true
+      deadCatBounce_eq: true
+    parent_stage: MARKDOWN
+    parent_substage: DEAD_CAT_BOUNCE
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 9
+      short_weight: 9
+      avoid_weight: 8
+      risk_penalty: 8
+      preferred_rank_bucket: SHORT_CANDIDATE
+  DEAD_CAT_WITH_RECLAIM:
+    family: BOUNCE
+    action_bias: WAIT
+    confidence_bias: NEUTRAL
+    risk_profile: MEDIUM
+    description: Bounce may be stronger than expected.
+    signals:
+      priceBelowVwap_eq: true
+      bearStack_eq: true
+      deadCatBounce_eq: true
+      priceAboveVwap_eq: true
+    parent_stage: MARKDOWN
+    parent_substage: DEAD_CAT_BOUNCE
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 8
+      short_weight: 0
+      avoid_weight: 9
+      risk_penalty: 9
+      preferred_rank_bucket: AVOID_TRAP
+  DEFAULT:
+    family: FALLBACK
+    action_bias: WATCH
+    confidence_bias: NEUTRAL
+    risk_profile: HIGH
+    description: Fallback child when no granular child rule reaches threshold.
+    signals:
+      always_true_eq: true
+    parent_stage: MARKDOWN
+    parent_substage: DEAD_CAT_BOUNCE
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 8
+      short_weight: 0
+      avoid_weight: 9
+      risk_penalty: 9
+      preferred_rank_bucket: AVOID_TRAP
+BOTTOMING:
+  EARLY_BOTTOMING:
+    family: BOTTOMING
+    action_bias: WATCH_REVERSAL
+    confidence_bias: NEUTRAL
+    risk_profile: MEDIUM
+    description: Early bottoming signs.
+    signals:
+      priceBelowVwap_eq: true
+      bearStack_eq: true
+      bottoming_eq: true
+      rsi_between:
+      - 24
+      - 40
+    parent_stage: MARKDOWN
+    parent_substage: BOTTOMING
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 0
+      short_weight: 0
+      avoid_weight: 0
+      risk_penalty: 0
+      preferred_rank_bucket: UNRANKED
+  BOTTOMING_RECLAIM:
+    family: BOTTOMING
+    action_bias: BUY_SMALL
+    confidence_bias: POSITIVE
+    risk_profile: MEDIUM
+    description: Bottoming with reclaim.
+    signals:
+      priceBelowVwap_eq: true
+      bearStack_eq: true
+      bottoming_eq: true
+      priceAboveVwap_eq: true
+    parent_stage: MARKDOWN
+    parent_substage: BOTTOMING
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 0
+      short_weight: 0
+      avoid_weight: 0
+      risk_penalty: 0
+      preferred_rank_bucket: UNRANKED
+  BOTTOMING_UNCONFIRMED:
+    family: BOTTOMING
+    action_bias: WAIT
+    confidence_bias: NEUTRAL
+    risk_profile: MEDIUM
+    description: Bottoming needs confirmation.
+    signals:
+      priceBelowVwap_eq: true
+      bearStack_eq: true
+      bottoming_eq: true
+      breakout_eq: false
+    parent_stage: MARKDOWN
+    parent_substage: BOTTOMING
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 0
+      short_weight: 0
+      avoid_weight: 0
+      risk_penalty: 0
+      preferred_rank_bucket: UNRANKED
+  DEFAULT:
+    family: FALLBACK
+    action_bias: WATCH
+    confidence_bias: NEUTRAL
+    risk_profile: HIGH
+    description: Fallback child when no granular child rule reaches threshold.
+    signals:
+      always_true_eq: true
+    parent_stage: MARKDOWN
+    parent_substage: BOTTOMING
+    institutional_trade_policy:
+      buy_weight: 2
+      sell_weight: 2
+      short_weight: 1
+      avoid_weight: 3
+      risk_penalty: 3
+      preferred_rank_bucket: WATCH
+RANGE_FORMING:
+  NEW_BASE_FORMING:
+    family: BASE_FORMATION
+    action_bias: WATCH
+    confidence_bias: NEUTRAL
+    risk_profile: MEDIUM
+    description: New range/base forming.
+    signals:
+      priceBelowVwap_eq: true
+      bearStack_eq: true
+      range20_lte: 0.08
+      adx_lte: 18
+    parent_stage: MARKDOWN
+    parent_substage: RANGE_FORMING
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 0
+      short_weight: 0
+      avoid_weight: 0
+      risk_penalty: 0
+      preferred_rank_bucket: UNRANKED
+  RANGE_AFTER_SELLING:
+    family: BASE_FORMATION
+    action_bias: WATCH_BOTTOM
+    confidence_bias: NEUTRAL
+    risk_profile: MEDIUM
+    description: Range forms after markdown.
+    signals:
+      priceBelowVwap_eq: true
+      bearStack_eq: true
+      range20_lte: 0.08
+      rsi_between:
+      - 30
+      - 45
+    parent_stage: MARKDOWN
+    parent_substage: RANGE_FORMING
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 0
+      short_weight: 0
+      avoid_weight: 0
+      risk_penalty: 0
+      preferred_rank_bucket: UNRANKED
+  RANGE_NO_DEMAND:
+    family: BASE_FORMATION
+    action_bias: WAIT
+    confidence_bias: NEGATIVE
+    risk_profile: MEDIUM
+    description: Range lacks demand.
+    signals:
+      priceBelowVwap_eq: true
+      bearStack_eq: true
+      range20_lte: 0.08
+      vol_lte: 1
+    parent_stage: MARKDOWN
+    parent_substage: RANGE_FORMING
+    institutional_trade_policy:
+      buy_weight: 0
+      sell_weight: 0
+      short_weight: 0
+      avoid_weight: 0
+      risk_penalty: 0
+      preferred_rank_bucket: UNRANKED
+  DEFAULT:
+    family: FALLBACK
+    action_bias: WATCH
+    confidence_bias: NEUTRAL
+    risk_profile: HIGH
+    description: Fallback child when no granular child rule reaches threshold.
+    signals:
+      always_true_eq: true
+    parent_stage: MARKDOWN
+    parent_substage: RANGE_FORMING
+    institutional_trade_policy:
+      buy_weight: 2
+      sell_weight: 2
+      short_weight: 1
+      avoid_weight: 3
+      risk_penalty: 3
+      preferred_rank_bucket: WATCH
+_coverage:
+  total_stage_substage_pairs_from_substages_yml: 56
+  unique_parent_substage_keys: 53
+  duplicate_parent_substages_merged:
+    TREND_CONTINUATION:
+    - MARKUP
+    - MARKDOWN
+    ACCELERATION:
+    - MARKUP
+    - MARKDOWN
+    EXHAUSTION:
+    - MARKUP
+    - DISTRIBUTION
+  note: Duplicate parent substage names are merged because current StageEngine resolves children by substage only, not by stage+substage.
+_institutional_policy:
+  note: Additive metadata only. Existing parent/child nodes were preserved. Java can ignore this section unless explicitly wired.
+  best_buy_children:
+  - TIGHT_BASE
+  - SUPPORT_DEFENSE
+  - COILED_BREAKOUT_SETUP
+  - PRE_BREAKOUT_STRONG
+  - CLEAN_BREAKOUT
+  - SUCCESSFUL_RETEST
+  - PULLBACK_TO_TREND
+  - SHALLOW_PULLBACK
+  - HL_LOW_RISK_ENTRY
+  - TREND_ACCELERATION
+  best_sell_children:
+  - FAILED_BREAKOUT_REJECTION
+  - LOWER_HIGH_REJECTION
+  - CLEAN_BREAKDOWN
+  - SUPPORT_LOST
+  - VWAP_REJECTION_BOUNCE
+  - DEAD_CAT_REJECTION
+  - DISTRIBUTION_EXHAUSTION_REVERSAL
+  - RSI_OVEREXTENSION
+  ranking_buckets:
+  - SAFEST_BUY
+  - AGGRESSIVE_BUY
+  - SHORT_CANDIDATE
+  - HIDDEN_ACCUMULATION
+  - LIKELY_30PCT_UPSIDE
+  - AVOID_TRAP

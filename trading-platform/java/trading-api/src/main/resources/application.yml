@@ -1,0 +1,65 @@
+
+spring:
+  application:
+    name: trading-api
+  config:
+    import:
+      - classpath:config/trading-config.yml
+
+
+server:
+  port: 9090
+
+ml:
+  enabled: true
+  base-url: http://127.0.0.1:8000
+  connect-timeout-ms: 2000
+  read-timeout-ms: 5000
+  export-mode: historical
+  training-export-file: python/model_service/training/raw_feature_history.csv
+  training-export-symbol-dir: python/model_service/training/by_symbol
+  training-history:
+    min-warmup-days: 260
+    max-rows-per-symbol: 750
+
+app:
+  config:
+    directory: src/main/resources/config
+    main-config: src/main/resources/config/config.yml
+    trading-config-path: src/main/resources/config/trading-config.yml
+    indicators-path: src/main/resources/config/indicators.yml
+    rules-path: src/main/resources/config/business-rules.yml
+    columns-path: src/main/resources/config/col.yml
+    patterns-path: src/main/resources/config/patterns.yml
+    quant-path: src/main/resources/config/quant.yml
+    substages-path: src/main/resources/config/substages.yml
+
+alphavantage:
+  rate-limit:
+    min-delay-ms: 900
+
+logging:
+  level:
+    com.trading: DEBUG
+
+
+pipeline:
+  parallel:
+    enabled: true
+    threads: 12
+    timeout-minutes: 90
+
+ibkr:
+  ttl-minutes: 240
+  cache-dir: cache
+  host: 127.0.0.1
+  port: 7496
+  client-id: 103
+  history-years: 10
+  incremental-overlap-days: 10
+  min-candles-for-healthy-cache: 252
+
+alpha-vantage:
+  ttl-hours: 4
+  enrich-fundamentals: true
+  enrich-news-sentiment: true

@@ -1,0 +1,25 @@
+signal_score_penalties:
+  exhaustion_high: 0.12
+  exhaustion_low: 0.05
+  bear_stack: 0.2
+institutional_score_weights:
+  adx_component: 0.28
+  volume_component: 0.24
+  structure_component: 0.28
+  trigger_component: 0.2
+institutional_score_penalties:
+  exhaustion: 12.0
+  upthrust: 12.0
+  capitulation: 6.0
+  markdown_stage: 18.0
+confidence_score_penalties:
+  exhaustion: 15.0
+  upthrust: 12.0
+  failed_breakout: 8.0
+  markdown_stage: 20.0
+regime_quality_adjustments:
+  stack_bonus: 15.0
+  exhaustion_penalty: 12.0
+  upthrust_penalty: 12.0
+  markdown_penalty: 15.0
+  pre_breakout_bonus: 6.0
